@@ -1,0 +1,41 @@
+{
+    "people" : [
+        {
+            "id" : "123" ,
+            "longtitude" : -120 ,
+            "latitude" : 37.78
+        } ,
+        {
+            "id" : "124" ,
+            "longtitude" : -121 ,
+            "latitude" : 37
+        }
+    ] , 
+
+    "people_number" : {"people_number" :  23} , 
+
+    "chat_message" : [
+        {
+            "sender" : {"id" : "1" , "name" : "猫"} , 
+            "messageId" : "fsajkfjsa" , 
+            "sentDate" : 2313123.31 , 
+            "kind" : "text" , 
+            "message" : "にゃー"
+        } , 
+        {
+            "sender" : {"id" : "2" , "name" : "犬"} , 
+            "messageId" : "fsajkddffjsa" , 
+            "sentDate" : 23131231 , 
+            "kind" : "text" , 
+            "message" : "わんわん"
+        }, 
+        {
+            "sender" : {"id" : "any_unique_id" , "name" : "steven"} , 
+            "messageId" : "fsfds" , 
+            "sentDate" : 231312312 , 
+            "kind" : "text" , 
+            "message" : "僕です"
+        }
+
+    ]
+}
