@@ -9,24 +9,11 @@
 import Foundation
 
 class MapUseCase {
-    
-    func getNearPeople(latitude : Double , longitude : Double) -> [PeopleLocation] {
-        let dummydata = """
-            [
-            {
-                "id" : "123" ,
-                "longtitude" : -120 ,
-                "latitude" : 37.78
-            } ,
-            {
-                "id" : "124" ,
-                "longtitude" : -121 ,
-                "latitude" : 37
-            }]
-            """.data(using: .utf8)!
+    private let mapRep = MapRepository()
+    func getNearPeople(latitude : Double , longitude : Double , completion : @escaping ([PeopleLocation]) -> ()) {
         
-        let users = try? JSONDecoder().decode([PeopleLocation].self, from: dummydata)
-        return users ?? []
+        mapRep.getNearPeople(completion: completion)
+        
     }
     
 }

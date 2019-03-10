@@ -1,0 +1,14 @@
+{
+    "people" : [
+        {
+            "id" : "123" ,
+            "longtitude" : -120 ,
+            "latitude" : 37.78
+        } ,
+        {
+            "id" : "124" ,
+            "longtitude" : -121 ,
+            "latitude" : 37
+        }
+    ]
+}

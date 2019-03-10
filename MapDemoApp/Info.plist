@@ -43,5 +43,25 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    
+    <!-- ここから -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>localhost:3000</key><!-- ここにHTTP通信を許可するドメイン -->
+            <dict>
+                <!-- サブドメインも含める -->
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <!-- HTTP通信するの許してね-->
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+            </dict>
+        </dict>
+    </dict>
+    <!-- ここまで -->
 </dict>
 </plist>

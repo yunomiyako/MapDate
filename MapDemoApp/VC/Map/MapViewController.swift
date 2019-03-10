@@ -21,8 +21,11 @@ class MapViewController: UIViewController {
         
         //近くの人のデータを集める
         let userLocation = mapView.getUserLocation()
-        let peoples = mapUseCase.getNearPeople(latitude: Double(userLocation.latitude), longitude: Double(userLocation.longitude))
-        mapView.pinLocation(peoples : peoples)
+        mapUseCase.getNearPeople(latitude: Double(userLocation.latitude), longitude: Double(userLocation.longitude)) { peoples in
+            print("is it called here?")
+            self.mapView.pinLocation(peoples : peoples)
+        }
+        
     }
     
     override func viewDidLayoutSubviews() {
