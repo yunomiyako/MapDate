@@ -8,7 +8,7 @@ target 'MapDemoApp' do
   # Pods for MapDemoApp
   pod 'Alamofire'
   pod 'Cartography'
-  pod 'MessageKit'
+  pod 'MessageKit' , '~> 1.0.0'
 # 以下追加
 post_install do |installer|
     installer.pods_project.targets.each do |target|
