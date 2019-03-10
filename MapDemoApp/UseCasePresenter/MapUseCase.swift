@@ -10,10 +10,13 @@ import Foundation
 
 class MapUseCase {
     private let mapRep = MapRepository()
+    
     func getNearPeople(latitude : Double , longitude : Double , completion : @escaping ([PeopleLocation]) -> ()) {
-        
         mapRep.getNearPeople(completion: completion)
-        
+    }
+    
+    func getNearPeopleNumber(latitude : Double , longitude : Double , completion : @escaping (Int) -> ()) {
+        mapRep.getNearPeopleNumber(completion: completion)
     }
     
 }

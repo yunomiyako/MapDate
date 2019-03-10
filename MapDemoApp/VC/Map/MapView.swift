@@ -28,7 +28,6 @@ class MapView: UIView {
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()
-        
         self.addSubview(mapView)
     }
     

@@ -7,5 +7,6 @@ target 'MapDemoApp' do
 
   # Pods for MapDemoApp
   pod 'Alamofire'
-
+  pod 'Cartography'
+  pod 'MessageKit'
 end

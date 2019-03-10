@@ -7,3 +7,17 @@
 //
 
 import Foundation
+import UIKit
+extension UIFont {
+    static func normalFont() -> UIFont{
+        return UIFont.systemFont(ofSize: 18)
+    }
+    
+    static func bigFont() -> UIFont{
+        return UIFont.systemFont(ofSize: 24)
+    }
+    
+    static func bigBoldFont() -> UIFont{
+        return UIFont.boldSystemFont(ofSize: 24)
+    }
+}
