@@ -24,3 +24,11 @@ func LogDebug(_ message: String,
 func dispatch_after(_ delay_time:Double, block: @escaping () -> ()) {
     DispatchQueue.main.asyncAfter(deadline: .now() + delay_time, execute:block)
 }
+
+func getTimeStamp() {
+    
+}
+
+func convertTimeStampToDate(timestamp : Double) -> Date{
+    return Date(timeIntervalSince1970: TimeInterval(exactly: timestamp) ?? 0)
+}
