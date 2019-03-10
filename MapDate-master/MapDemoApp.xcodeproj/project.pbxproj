@@ -29,7 +29,6 @@
 		35AD2F84223432B600CD86EE /* MapUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AD2F83223432B600CD86EE /* MapUseCase.swift */; };
 		35AD2F87223433DB00CD86EE /* MapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AD2F86223433DB00CD86EE /* MapRepository.swift */; };
 		35AD2F8E22343D9100CD86EE /* FloatingRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AD2F8D22343D9100CD86EE /* FloatingRectangleView.swift */; };
-		9258091F22350B8500C9F6F9 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9258091E22350B8500C9F6F9 /* MyProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,7 +57,6 @@
 		35AD2F86223433DB00CD86EE /* MapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRepository.swift; sourceTree = "<group>"; };
 		35AD2F8D22343D9100CD86EE /* FloatingRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingRectangleView.swift; sourceTree = "<group>"; };
 		6DD4333B2CEFCA2ADBB60635 /* Pods_MapDemoApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapDemoApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9258091E22350B8500C9F6F9 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		EEB1E5F862D85A6C22AAC394 /* Pods-MapDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,7 +153,6 @@
 		35AD2F73223422C300CD86EE /* VC */ = {
 			isa = PBXGroup;
 			children = (
-				9258091D22350B8500C9F6F9 /* Profile */,
 				3583CEC82234F25600621F1F /* Chat */,
 				3583CEC52234EEFF00621F1F /* Match */,
 				35AD2F7D22342D1900CD86EE /* Home */,
@@ -248,14 +245,6 @@
 				6DD4333B2CEFCA2ADBB60635 /* Pods_MapDemoApp.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9258091D22350B8500C9F6F9 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				9258091E22350B8500C9F6F9 /* MyProfileViewController.swift */,
-			);
-			path = Profile;
 			sourceTree = "<group>";
 		};
 		E496487D896D7B5AF6C5E99C /* Pods */ = {
@@ -408,7 +397,6 @@
 				3583CED02234FBCA00621F1F /* ChatRepository.swift in Sources */,
 				35AD2F642234216000CD86EE /* HomeViewController.swift in Sources */,
 				35AD2F782234243F00CD86EE /* MapView.swift in Sources */,
-				9258091F22350B8500C9F6F9 /* MyProfileViewController.swift in Sources */,
 				3583CEC42234D57B00621F1F /* Font.swift in Sources */,
 				35AD2F76223423B800CD86EE /* MapViewController.swift in Sources */,
 				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
