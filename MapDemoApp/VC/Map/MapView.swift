@@ -12,6 +12,7 @@ class MapView: UIView {
     // MARK: - Properties -
     lazy private var mapView:MKMapView = self.createMapView()
     private var locationManager : CLLocationManager?
+    private var gatherHereAnnotation :MKPointAnnotation? = nil
     
     // MARK: - Life cycle events -
     required override init(frame: CGRect) {
@@ -44,7 +45,17 @@ class MapView: UIView {
         view.isZoomEnabled = true
         view.isScrollEnabled = true
         view.userTrackingMode = MKUserTrackingMode.followWithHeading
+        
+        
+        //タップリスナー
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapMapView) )
+        view.addGestureRecognizer(tapGesture)
+        
+        //ロングタップリスナー
+        let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(onLongTapMapView) )
+        view.addGestureRecognizer(longTapGesture)
         return view
+        
     }
     
     // MARK: - Layout subviews -
@@ -52,8 +63,56 @@ class MapView: UIView {
         mapView.frame = self.frame
     }
     
+    
+    // MARK : Listener
+    @objc private func onTapMapView(gestureRecognizer: UITapGestureRecognizer) {
+        // タップした位置（CGPoint）を指定してMkMapView上の緯度経度を取得する
+        let tapPoint = gestureRecognizer.location(in: mapView)
+        let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
+    }
+    
+    @objc private func onLongTapMapView(gestureRecognizer: UILongPressGestureRecognizer) {
+        // ロングタップ開始
+        if gestureRecognizer.state == .began {
+            //古いannotationを消す
+            if let anno = gatherHereAnnotation {
+                mapView.removeAnnotation(anno)
+            }
+        }
+        // ロングタップ終了（手を離した）
+        else if gestureRecognizer.state == .ended {
+            let tapPoint = gestureRecognizer.location(in: mapView)
+            let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
+            
+            let distance = MapUtils.calcDistance(mapView.userLocation.coordinate, center)
+            print("distance : " + distance.description)
+            addAnnotation(center: center)
+            
+        }
+    }
+    
+    private func addAnnotation(center : CLLocationCoordinate2D) {
+        let pointAno: MKPointAnnotation = MKPointAnnotation()
+        pointAno.coordinate = center // 座標（CLLocationCoordinate2D）
+        pointAno.title = "Gather Here"
+        mapView.addAnnotation(pointAno)
+        gatherHereAnnotation = pointAno
+    }
+    
+    
+    
     func zoomUpUserLocation() {
-        mapView.setCenter(mapView.userLocation.coordinate, animated: true)
+        // 縮尺を設定
+        var region:MKCoordinateRegion = mapView.region
+        region.span.latitudeDelta = 0.02
+        region.span.longitudeDelta = 0.02
+        mapView.setRegion(region,animated:true)
+        
+        LogDebug("zoomUp to " + region.center.latitude.description + " : " + region.center.longitude.description)
+        
+        // 現在位置表示の有効化
+        mapView.showsUserLocation = true
+        mapView.userTrackingMode = .follow
     }
     
     func getUserLocation() -> CLLocationCoordinate2D{
@@ -65,7 +124,6 @@ class MapView: UIView {
             let circle = MKCircle(center: people.getCLLocationCoordinate2D(), radius: 100)
             mapView.addOverlay(circle)
         }
-        
     }
     
     func startUpdatingLocation() {
@@ -77,6 +135,8 @@ class MapView: UIView {
 }
 
 extension MapView :CLLocationManagerDelegate {
+    
+    //authorization
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .notDetermined:
@@ -88,27 +148,10 @@ extension MapView :CLLocationManagerDelegate {
         }
     }
     
+    //ユーザの座標が更新されるたびに呼ばれる
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let newLocation = locations.last else {
             return
         }
-        
-        let location:CLLocationCoordinate2D
-            = CLLocationCoordinate2DMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude)
-        let latitude = "".appendingFormat("%.4f", location.latitude)
-        let longitude = "".appendingFormat("%.4f", location.longitude)
-        print(latitude + " : " + longitude)
-        
-        // update annotation
-        mapView.removeAnnotations(mapView.annotations)
-        
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = newLocation.coordinate
-        mapView.addAnnotation(annotation)
-        mapView.selectAnnotation(annotation, animated: true)
-        
-        // Showing annotation zooms the map automatically.
-        mapView.showAnnotations(mapView.annotations, animated: true)
-        
     }
 }

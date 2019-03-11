@@ -17,12 +17,8 @@ class HomeViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //let vc = MapViewController()
-        //self.present(vc, animated: true)
-        let vc = MyProfileViewController()
+        let vc = MapViewController()
         self.present(vc, animated: true)
-//        let vc = ChatViewController()
-//        self.present(vc, animated: true)
     }
 
 

@@ -14,6 +14,8 @@ class MapViewController: UIViewController {
     // MARK: - Properties -
     lazy private var mapView:MapView = self.createMapView()
     lazy private var bottomView : MapBottomView = self.createBottomView()
+    
+    
     private let mapUseCase = MapUseCase()
     
     // MARK: - Life cycle events -
@@ -22,14 +24,6 @@ class MapViewController: UIViewController {
         self.view.addSubview(mapView)
         self.view.addSubview(bottomView)
         self.view.bringSubviewToFront(bottomView)
-        
-        //近くの人のデータを集める
-        let userLocation = mapView.getUserLocation()
-        mapUseCase.getNearPeopleNumber(latitude: Double(userLocation.latitude), longitude: Double(userLocation.longitude)) { number in
-            
-            print("number is \(number)")
-        }
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -44,6 +38,7 @@ class MapViewController: UIViewController {
         return rect;
     }
     
+    // MARK: - Create subviews -
     private func createBottomView() -> MapBottomView {
         let view = MapBottomView()
         return view
