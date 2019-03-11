@@ -11,6 +11,8 @@ import MapKit
 class MapView: UIView {
     // MARK: - Properties -
     lazy private var mapView:MKMapView = self.createMapView()
+    lazy private var trackingButton : MKUserTrackingButton = self.createTrackingButton()
+    
     private var locationManager : CLLocationManager?
     private var gatherHereAnnotation :MKPointAnnotation? = nil
     
@@ -30,13 +32,13 @@ class MapView: UIView {
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()
         self.addSubview(mapView)
-        
-        
+        self.mapView.addSubview(trackingButton)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         self.layoutMapView()
+        self.layoutTrackingButton()
     }
     
     // MARK: - Create subviews -
@@ -48,7 +50,6 @@ class MapView: UIView {
         view.isScrollEnabled = true
         view.userTrackingMode = MKUserTrackingMode.followWithHeading
         
-        
         //タップリスナー
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapMapView) )
         view.addGestureRecognizer(tapGesture)
@@ -57,12 +58,26 @@ class MapView: UIView {
         let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(onLongTapMapView) )
         view.addGestureRecognizer(longTapGesture)
         return view
-        
+    }
+    
+    private func createTrackingButton() -> MKUserTrackingButton {
+        let btn = MKUserTrackingButton(mapView: mapView)
+        btn.setShadow()
+        btn.backgroundColor = UIColor.white
+        return btn
+
     }
     
     // MARK: - Layout subviews -
     private func layoutMapView() {
         mapView.frame = self.frame
+    }
+    
+    private func layoutTrackingButton() {
+        let x : CGFloat = mapView.frame.width - 50
+        let y : CGFloat = 100
+        trackingButton.setRound(cornerRadius: 5)
+        trackingButton.frame = CGRect(x: x, y: y, width: 40, height: 40)
     }
     
     

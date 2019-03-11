@@ -54,13 +54,9 @@ class RoundFloatingButton: UIView {
             button.frame.size = self.frame.size
             button.center = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
             button.backgroundColor = UIColor.mainRed()
-            button.layer.shadowColor = UIColor.black.cgColor
-            button.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-            button.layer.masksToBounds = false
-            button.layer.shadowRadius = 1.0
-            button.layer.shadowOpacity = 0.5
-            button.layer.cornerRadius = button.frame.height / 2
             button.titleLabel?.font = UIFont.bigBoldFont()
+            button.setShadow()
+            button.setRound()
         }
         
     }
@@ -88,7 +84,6 @@ class RoundFloatingButton: UIView {
                 indicator.startAnimating()
             }
         })
-        
     }
     
     func setText(text : String) {
