@@ -39,7 +39,6 @@
 		927B79EF22369FF3001F8A36 /* image04.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B79DA22369FF2001F8A36 /* image04.jpg */; };
 		927B79F022369FF3001F8A36 /* image09.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B79DB22369FF2001F8A36 /* image09.jpg */; };
 		927B79F122369FF3001F8A36 /* image08.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B79DC22369FF2001F8A36 /* image08.jpg */; };
-		927B79F222369FF3001F8A36 /* CreationPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79DD22369FF2001F8A36 /* CreationPanelViewController.swift */; };
 		927B79F322369FF3001F8A36 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79DE22369FF2001F8A36 /* Colors.swift */; };
 		927B79F422369FF3001F8A36 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79DF22369FF2001F8A36 /* MyProfileViewController.swift */; };
 		927B79F522369FF3001F8A36 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E122369FF2001F8A36 /* Data.swift */; };
@@ -48,6 +47,7 @@
 		927B79F822369FF3001F8A36 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E522369FF2001F8A36 /* Cell.swift */; };
 		927B79F922369FF3001F8A36 /* ItemCreationPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E622369FF2001F8A36 /* ItemCreationPanelView.swift */; };
 		927B79FA22369FF3001F8A36 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E722369FF2001F8A36 /* Header.swift */; };
+		927B79FE2236A4CE001F8A36 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79FD2236A4CE001F8A36 /* ProfileEditViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,7 +86,6 @@
 		927B79DA22369FF2001F8A36 /* image04.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image04.jpg; sourceTree = "<group>"; };
 		927B79DB22369FF2001F8A36 /* image09.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image09.jpg; sourceTree = "<group>"; };
 		927B79DC22369FF2001F8A36 /* image08.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image08.jpg; sourceTree = "<group>"; };
-		927B79DD22369FF2001F8A36 /* CreationPanelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreationPanelViewController.swift; sourceTree = "<group>"; };
 		927B79DE22369FF2001F8A36 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		927B79DF22369FF2001F8A36 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		927B79E122369FF2001F8A36 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -95,6 +94,7 @@
 		927B79E522369FF2001F8A36 /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		927B79E622369FF2001F8A36 /* ItemCreationPanelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCreationPanelView.swift; sourceTree = "<group>"; };
 		927B79E722369FF2001F8A36 /* Header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		927B79FD2236A4CE001F8A36 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileEditViewController.swift; path = MapDemoApp/VC/MyProfile/ProfileEditViewController.swift; sourceTree = SOURCE_ROOT; };
 		EEB1E5F862D85A6C22AAC394 /* Pods-MapDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -289,10 +289,10 @@
 		927B79D122369FF2001F8A36 /* MyProfile */ = {
 			isa = PBXGroup;
 			children = (
-				927B79D222369FF2001F8A36 /* resouce */,
-				927B79DD22369FF2001F8A36 /* CreationPanelViewController.swift */,
 				927B79DE22369FF2001F8A36 /* Colors.swift */,
 				927B79DF22369FF2001F8A36 /* MyProfileViewController.swift */,
+				927B79FD2236A4CE001F8A36 /* ProfileEditViewController.swift */,
+				927B79D222369FF2001F8A36 /* resouce */,
 				927B79E022369FF2001F8A36 /* Data */,
 				927B79E422369FF2001F8A36 /* Views */,
 			);
@@ -435,6 +435,7 @@
 				"${BUILT_PRODUCTS_DIR}/FlexiblePageControl/FlexiblePageControl.framework",
 				"${BUILT_PRODUCTS_DIR}/MagazineLayout/MagazineLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework",
+				"${BUILT_PRODUCTS_DIR}/TinyConstraints/TinyConstraints.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -443,6 +444,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FlexiblePageControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MagazineLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MessageKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TinyConstraints.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -482,6 +484,7 @@
 				927B79F822369FF3001F8A36 /* Cell.swift in Sources */,
 				3583CEBA2234C3B200621F1F /* Color.swift in Sources */,
 				3583CEBD2234C56B00621F1F /* MapBottomView.swift in Sources */,
+				927B79FE2236A4CE001F8A36 /* ProfileEditViewController.swift in Sources */,
 				3583CED22234FCB400621F1F /* ChatMessageViewModel.swift in Sources */,
 				3583CED02234FBCA00621F1F /* ChatRepository.swift in Sources */,
 				35AD2F642234216000CD86EE /* HomeViewController.swift in Sources */,
@@ -491,7 +494,6 @@
 				3583CEC42234D57B00621F1F /* Font.swift in Sources */,
 				927B79F522369FF3001F8A36 /* Data.swift in Sources */,
 				35AD2F76223423B800CD86EE /* MapViewController.swift in Sources */,
-				927B79F222369FF3001F8A36 /* CreationPanelViewController.swift in Sources */,
 				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
 				3583CEC72234EF1400621F1F /* MatchPopupViewController.swift in Sources */,
 				3583CEB72234C1D700621F1F /* RoundFloatingButton.swift in Sources */,

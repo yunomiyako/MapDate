@@ -24,6 +24,9 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         editBtn.setTitle("Edit", for:UIControl.State.normal)
         editBtn.backgroundColor = UIColor.blue
         editBtn.frame = CGRect(x: (self.view.frame.width - 100 ) , y: 50, width: 50, height: 50)
+        editBtn.addTarget(self,
+                         action: #selector(editProfile(sender:)),
+                         for: .touchUpInside)
         view.addSubview(editBtn)
         
         pageControl = FlexiblePageControl()
@@ -68,6 +71,11 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         
         loadDefaultData()
     }
+    @objc func editProfile(sender : AnyObject) {
+        let vc = EditProfileViewController()
+        self.present(vc, animated: true)
+    }
+    
     private lazy var collectionView: UICollectionView = {
         let layout = MagazineLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)

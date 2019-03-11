@@ -12,6 +12,7 @@ target 'MapDemoApp' do
   #####⬇︎TSUKASA⬇︎########
   pod 'FlexiblePageControl'
   pod 'MagazineLayout'
+  pod 'TinyConstraints'
   #####⬆︎TSUKASA⬆︎########
 # 以下追加
 post_install do |installer|
