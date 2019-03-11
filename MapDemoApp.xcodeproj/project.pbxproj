@@ -47,6 +47,7 @@
 		927B79CC223696B9001F8A36 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79BA223696B9001F8A36 /* Cell.swift */; };
 		927B79CD223696B9001F8A36 /* ItemCreationPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79BB223696B9001F8A36 /* ItemCreationPanelView.swift */; };
 		927B79CE223696B9001F8A36 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79BC223696B9001F8A36 /* Header.swift */; };
+		927B79D022369785001F8A36 /* CreationPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79CF22369785001F8A36 /* CreationPanelViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +94,7 @@
 		927B79BA223696B9001F8A36 /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		927B79BB223696B9001F8A36 /* ItemCreationPanelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCreationPanelView.swift; sourceTree = "<group>"; };
 		927B79BC223696B9001F8A36 /* Header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		927B79CF22369785001F8A36 /* CreationPanelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreationPanelViewController.swift; path = MapDemoApp/VC/Profile/CreationPanelViewController.swift; sourceTree = SOURCE_ROOT; };
 		EEB1E5F862D85A6C22AAC394 /* Pods-MapDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -287,10 +289,11 @@
 		927B79A7223696B9001F8A36 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				927B79A8223696B9001F8A36 /* resouce */,
+				927B79CF22369785001F8A36 /* CreationPanelViewController.swift */,
 				927B79B3223696B9001F8A36 /* Colors.swift */,
 				927B79B4223696B9001F8A36 /* MyProfileViewController.swift */,
 				927B79B5223696B9001F8A36 /* Data */,
+				927B79A8223696B9001F8A36 /* resouce */,
 				927B79B9223696B9001F8A36 /* Views */,
 			);
 			path = Profile;
@@ -491,6 +494,7 @@
 				927B79C7223696B9001F8A36 /* Colors.swift in Sources */,
 				35AD2F76223423B800CD86EE /* MapViewController.swift in Sources */,
 				927B79CB223696B9001F8A36 /* DataSource.swift in Sources */,
+				927B79D022369785001F8A36 /* CreationPanelViewController.swift in Sources */,
 				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
 				3583CEC72234EF1400621F1F /* MatchPopupViewController.swift in Sources */,
 				3583CEB72234C1D700621F1F /* RoundFloatingButton.swift in Sources */,
