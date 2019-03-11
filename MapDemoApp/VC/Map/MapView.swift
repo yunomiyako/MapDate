@@ -30,6 +30,8 @@ class MapView: UIView {
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()
         self.addSubview(mapView)
+        
+        
     }
     
     override func layoutSubviews() {
