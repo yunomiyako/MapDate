@@ -102,7 +102,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
                         widthMode: .fullWidth(respectsHorizontalInsets: true),
                         heightMode: .dynamic),
                     text: "ここにプロフィールを書いていく",
-                    color: Colors.red)
+                    color: Colors.blue)
                 ])
         
 
@@ -130,29 +130,57 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
 
 extension  MyProfileViewController: UICollectionViewDelegateMagazineLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeModeForItemAt indexPath: IndexPath) -> MagazineLayoutItemSizeMode {
-        let widthMode = MagazineLayoutItemWidthMode.halfWidth
-        let heightMode = MagazineLayoutItemHeightMode.dynamic
-        return MagazineLayoutItemSizeMode(widthMode: widthMode, heightMode: heightMode)
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeModeForItemAt indexPath: IndexPath)
+        -> MagazineLayoutItemSizeMode
+    {
+        return dataSource.sectionInfos[indexPath.section].itemInfos[indexPath.item].sizeMode
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, visibilityModeForHeaderInSectionAtIndex index: Int) -> MagazineLayoutHeaderVisibilityMode {
-        return .visible(heightMode: .dynamic)
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        visibilityModeForHeaderInSectionAtIndex index: Int)
+        -> MagazineLayoutHeaderVisibilityMode
+    {
+        return dataSource.sectionInfos[index].headerInfo.visibilityMode
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, visibilityModeForBackgroundInSectionAtIndex index: Int) -> MagazineLayoutBackgroundVisibilityMode {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        visibilityModeForBackgroundInSectionAtIndex index: Int)
+        -> MagazineLayoutBackgroundVisibilityMode
+    {
         return .hidden
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, horizontalSpacingForItemsInSectionAtIndex index: Int) -> CGFloat {
-        return  12
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        horizontalSpacingForItemsInSectionAtIndex index: Int)
+        -> CGFloat
+    {
+        return 12
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, verticalSpacingForElementsInSectionAtIndex index: Int) -> CGFloat {
-        return  12
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        verticalSpacingForElementsInSectionAtIndex index: Int)
+        -> CGFloat
+    {
+        return 12
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetsForItemsInSectionAtIndex index: Int) -> UIEdgeInsets {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetsForItemsInSectionAtIndex index: Int)
+        -> UIEdgeInsets
+    {
         return UIEdgeInsets(top: 24, left: 0, bottom: 24, right: 0)
     }
     
