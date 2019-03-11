@@ -29,6 +29,24 @@
 		35AD2F84223432B600CD86EE /* MapUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AD2F83223432B600CD86EE /* MapUseCase.swift */; };
 		35AD2F87223433DB00CD86EE /* MapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AD2F86223433DB00CD86EE /* MapRepository.swift */; };
 		35AD2F8E22343D9100CD86EE /* FloatingRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AD2F8D22343D9100CD86EE /* FloatingRectangleView.swift */; };
+		927B795722353257001F8A36 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B795622353257001F8A36 /* MyProfileViewController.swift */; };
+		927B7963223537D6001F8A36 /* image00.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B7959223537D6001F8A36 /* image00.jpg */; };
+		927B7964223537D6001F8A36 /* image01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B795A223537D6001F8A36 /* image01.jpg */; };
+		927B7965223537D6001F8A36 /* image03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B795B223537D6001F8A36 /* image03.jpg */; };
+		927B7966223537D6001F8A36 /* image02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B795C223537D6001F8A36 /* image02.jpg */; };
+		927B7967223537D6001F8A36 /* image06.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B795D223537D6001F8A36 /* image06.jpg */; };
+		927B7968223537D6001F8A36 /* image07.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B795E223537D6001F8A36 /* image07.jpg */; };
+		927B7969223537D6001F8A36 /* image05.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B795F223537D6001F8A36 /* image05.jpg */; };
+		927B796A223537D6001F8A36 /* image04.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B7960223537D6001F8A36 /* image04.jpg */; };
+		927B796B223537D6001F8A36 /* image09.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B7961223537D6001F8A36 /* image09.jpg */; };
+		927B796C223537D6001F8A36 /* image08.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B7962223537D6001F8A36 /* image08.jpg */; };
+		927B797322355ADD001F8A36 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B797022355ADC001F8A36 /* Data.swift */; };
+		927B797422355ADD001F8A36 /* DataSourceCountsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B797122355ADC001F8A36 /* DataSourceCountsProvider.swift */; };
+		927B797522355ADD001F8A36 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B797222355ADC001F8A36 /* DataSource.swift */; };
+		927B797A22355B72001F8A36 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B797722355B72001F8A36 /* Cell.swift */; };
+		927B797B22355B72001F8A36 /* ItemCreationPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B797822355B72001F8A36 /* ItemCreationPanelView.swift */; };
+		927B797C22355B72001F8A36 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B797922355B72001F8A36 /* Header.swift */; };
+		927B797E22355B8D001F8A36 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B797D22355B8D001F8A36 /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +75,24 @@
 		35AD2F86223433DB00CD86EE /* MapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRepository.swift; sourceTree = "<group>"; };
 		35AD2F8D22343D9100CD86EE /* FloatingRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingRectangleView.swift; sourceTree = "<group>"; };
 		6DD4333B2CEFCA2ADBB60635 /* Pods_MapDemoApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapDemoApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		927B795622353257001F8A36 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		927B7959223537D6001F8A36 /* image00.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image00.jpg; sourceTree = "<group>"; };
+		927B795A223537D6001F8A36 /* image01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image01.jpg; sourceTree = "<group>"; };
+		927B795B223537D6001F8A36 /* image03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image03.jpg; sourceTree = "<group>"; };
+		927B795C223537D6001F8A36 /* image02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image02.jpg; sourceTree = "<group>"; };
+		927B795D223537D6001F8A36 /* image06.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image06.jpg; sourceTree = "<group>"; };
+		927B795E223537D6001F8A36 /* image07.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image07.jpg; sourceTree = "<group>"; };
+		927B795F223537D6001F8A36 /* image05.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image05.jpg; sourceTree = "<group>"; };
+		927B7960223537D6001F8A36 /* image04.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image04.jpg; sourceTree = "<group>"; };
+		927B7961223537D6001F8A36 /* image09.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image09.jpg; sourceTree = "<group>"; };
+		927B7962223537D6001F8A36 /* image08.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image08.jpg; sourceTree = "<group>"; };
+		927B797022355ADC001F8A36 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		927B797122355ADC001F8A36 /* DataSourceCountsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourceCountsProvider.swift; sourceTree = "<group>"; };
+		927B797222355ADC001F8A36 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		927B797722355B72001F8A36 /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		927B797822355B72001F8A36 /* ItemCreationPanelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCreationPanelView.swift; sourceTree = "<group>"; };
+		927B797922355B72001F8A36 /* Header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		927B797D22355B8D001F8A36 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		EEB1E5F862D85A6C22AAC394 /* Pods-MapDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +189,7 @@
 		35AD2F73223422C300CD86EE /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				927B795522353257001F8A36 /* Profile */,
 				3583CEC82234F25600621F1F /* Chat */,
 				3583CEC52234EEFF00621F1F /* Match */,
 				35AD2F7D22342D1900CD86EE /* Home */,
@@ -247,6 +284,55 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		927B795522353257001F8A36 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				927B795622353257001F8A36 /* MyProfileViewController.swift */,
+				927B797D22355B8D001F8A36 /* Colors.swift */,
+				927B797622355B72001F8A36 /* Views */,
+				927B796F22355ADC001F8A36 /* Data */,
+				927B7958223537D6001F8A36 /* resouce */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		927B7958223537D6001F8A36 /* resouce */ = {
+			isa = PBXGroup;
+			children = (
+				927B7959223537D6001F8A36 /* image00.jpg */,
+				927B795A223537D6001F8A36 /* image01.jpg */,
+				927B795B223537D6001F8A36 /* image03.jpg */,
+				927B795C223537D6001F8A36 /* image02.jpg */,
+				927B795D223537D6001F8A36 /* image06.jpg */,
+				927B795E223537D6001F8A36 /* image07.jpg */,
+				927B795F223537D6001F8A36 /* image05.jpg */,
+				927B7960223537D6001F8A36 /* image04.jpg */,
+				927B7961223537D6001F8A36 /* image09.jpg */,
+				927B7962223537D6001F8A36 /* image08.jpg */,
+			);
+			path = resouce;
+			sourceTree = "<group>";
+		};
+		927B796F22355ADC001F8A36 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				927B797022355ADC001F8A36 /* Data.swift */,
+				927B797122355ADC001F8A36 /* DataSourceCountsProvider.swift */,
+				927B797222355ADC001F8A36 /* DataSource.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		927B797622355B72001F8A36 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				927B797722355B72001F8A36 /* Cell.swift */,
+				927B797822355B72001F8A36 /* ItemCreationPanelView.swift */,
+				927B797922355B72001F8A36 /* Header.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		E496487D896D7B5AF6C5E99C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,7 +354,6 @@
 				35AD2F5B2234216000CD86EE /* Frameworks */,
 				35AD2F5C2234216000CD86EE /* Resources */,
 				3C68C0C77209D7240B5D6F50 /* [CP] Embed Pods Frameworks */,
-				B7E651BB109C8F36C54D6B7A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -318,7 +403,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				35AD2F6C2234216300CD86EE /* LaunchScreen.storyboard in Resources */,
+				927B796A223537D6001F8A36 /* image04.jpg in Resources */,
 				35AD2F692234216300CD86EE /* Assets.xcassets in Resources */,
+				927B7969223537D6001F8A36 /* image05.jpg in Resources */,
+				927B7967223537D6001F8A36 /* image06.jpg in Resources */,
+				927B796C223537D6001F8A36 /* image08.jpg in Resources */,
+				927B7965223537D6001F8A36 /* image03.jpg in Resources */,
+				927B7968223537D6001F8A36 /* image07.jpg in Resources */,
+				927B7964223537D6001F8A36 /* image01.jpg in Resources */,
+				927B7963223537D6001F8A36 /* image00.jpg in Resources */,
+				927B7966223537D6001F8A36 /* image02.jpg in Resources */,
+				927B796B223537D6001F8A36 /* image09.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,20 +426,24 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cartography/Cartography.framework",
+				"${BUILT_PRODUCTS_DIR}/FlexiblePageControl/FlexiblePageControl.framework",
+				"${BUILT_PRODUCTS_DIR}/MagazineLayout/MagazineLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cartography.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FlexiblePageControl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MagazineLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MessageKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9DF932C31AD9870E7A5D21B8 /* [CP] Check Pods Manifest.lock */ = {
@@ -365,21 +464,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B7E651BB109C8F36C54D6B7A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -392,17 +476,25 @@
 				35AD2F8022342D9400CD86EE /* PeopleLocation.swift in Sources */,
 				35AD2F8E22343D9100CD86EE /* FloatingRectangleView.swift in Sources */,
 				3583CEBA2234C3B200621F1F /* Color.swift in Sources */,
+				927B797A22355B72001F8A36 /* Cell.swift in Sources */,
+				927B797522355ADD001F8A36 /* DataSource.swift in Sources */,
 				3583CEBD2234C56B00621F1F /* MapBottomView.swift in Sources */,
 				3583CED22234FCB400621F1F /* ChatMessageViewModel.swift in Sources */,
 				3583CED02234FBCA00621F1F /* ChatRepository.swift in Sources */,
+				927B797E22355B8D001F8A36 /* Colors.swift in Sources */,
 				35AD2F642234216000CD86EE /* HomeViewController.swift in Sources */,
 				35AD2F782234243F00CD86EE /* MapView.swift in Sources */,
+				927B795722353257001F8A36 /* MyProfileViewController.swift in Sources */,
 				3583CEC42234D57B00621F1F /* Font.swift in Sources */,
+				927B797C22355B72001F8A36 /* Header.swift in Sources */,
 				35AD2F76223423B800CD86EE /* MapViewController.swift in Sources */,
+				927B797B22355B72001F8A36 /* ItemCreationPanelView.swift in Sources */,
 				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
+				927B797322355ADD001F8A36 /* Data.swift in Sources */,
 				3583CEC72234EF1400621F1F /* MatchPopupViewController.swift in Sources */,
 				3583CEB72234C1D700621F1F /* RoundFloatingButton.swift in Sources */,
 				35AD2F87223433DB00CD86EE /* MapRepository.swift in Sources */,
+				927B797422355ADD001F8A36 /* DataSourceCountsProvider.swift in Sources */,
 				3583CEC02234C99F00621F1F /* CommonUtils.swift in Sources */,
 				3583CECA2234F26A00621F1F /* ChatViewController.swift in Sources */,
 				35AD2F622234216000CD86EE /* AppDelegate.swift in Sources */,
@@ -545,9 +637,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 54NDTXK5D8;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MapDemoApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = chen.MapDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -561,9 +656,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 54NDTXK5D8;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MapDemoApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = chen.MapDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

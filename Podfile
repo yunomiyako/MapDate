@@ -9,6 +9,10 @@ target 'MapDemoApp' do
   pod 'Alamofire'
   pod 'Cartography'
   pod 'MessageKit' , '~> 1.0.0'
+  #####⬇︎TSUKASA⬇︎########
+  pod 'FlexiblePageControl'
+  pod 'MagazineLayout'
+  #####⬆︎TSUKASA⬆︎########
 # 以下追加
 post_install do |installer|
     installer.pods_project.targets.each do |target|
