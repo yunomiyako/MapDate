@@ -4,6 +4,7 @@ PODS:
   - FlexiblePageControl (1.0.7)
   - MagazineLayout (1.2.1)
   - MessageKit (1.0.0)
+  - TinyConstraints (3.3.1)
 
 DEPENDENCIES:
   - Alamofire
@@ -11,6 +12,7 @@ DEPENDENCIES:
   - FlexiblePageControl
   - MagazineLayout
   - MessageKit (~> 1.0.0)
+  - TinyConstraints
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -19,6 +21,7 @@ SPEC REPOS:
     - FlexiblePageControl
     - MagazineLayout
     - MessageKit
+    - TinyConstraints
 
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
@@ -26,7 +29,8 @@ SPEC CHECKSUMS:
   FlexiblePageControl: 2ce8446da3d75df6432dbad7b9e19151629dae62
   MagazineLayout: cd9cb2174bcf1c349d8286390c7f9716e4ef40b9
   MessageKit: 16160036b16476b04bd0e9f2c7ce67e662e503e4
+  TinyConstraints: dbf7519aefc01ea59d62244300c7718aec68e280
 
-PODFILE CHECKSUM: 1c643b37e94f34b76ccce68db55aeeb60614641e
+PODFILE CHECKSUM: b95f9caafc4001e9c32c2b84c4b0504709b1b564
 
 COCOAPODS: 1.6.0
