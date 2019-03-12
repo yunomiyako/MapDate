@@ -24,7 +24,7 @@ class MapRepository {
         }
     }
     
-    //近くにいる人の位置情報を取得する
+    //近くにいる人数を取得する
     func getNearPeopleNumber(completion : @escaping (Int) -> ()) {
         let url = "http://localhost:3000/people_number"
         Alamofire.request(url).responseJSON { response in

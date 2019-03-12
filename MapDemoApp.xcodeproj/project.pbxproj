@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		177D807410357E319ADA1568 /* Pods_MapDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DD4333B2CEFCA2ADBB60635 /* Pods_MapDemoApp.framework */; };
+		353BEE6D2237E5E600F956D9 /* MapKit extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353BEE6C2237E5E600F956D9 /* MapKit extension.swift */; };
 		353D908B22367329004BB44C /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D908A22367329004BB44C /* MapState.swift */; };
 		353D908F22367453004BB44C /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D908E22367453004BB44C /* MapModel.swift */; };
 		353D909422368773004BB44C /* MapUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D909322368773004BB44C /* MapUtils.swift */; };
@@ -55,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		2F655C20A44D80BE930D676E /* Pods-MapDemoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.release.xcconfig"; sourceTree = "<group>"; };
+		353BEE6C2237E5E600F956D9 /* MapKit extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit extension.swift"; sourceTree = "<group>"; };
 		353D908A22367329004BB44C /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
 		353D908E22367453004BB44C /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		353D909322368773004BB44C /* MapUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtils.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				3583CEC32234D57B00621F1F /* Font.swift */,
 				353D909322368773004BB44C /* MapUtils.swift */,
 				353D909522369613004BB44C /* UIView extension.swift */,
+				353BEE6C2237E5E600F956D9 /* MapKit extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -519,6 +522,7 @@
 				927B797C22355B72001F8A36 /* Header.swift in Sources */,
 				35AD2F76223423B800CD86EE /* MapViewController.swift in Sources */,
 				353D909422368773004BB44C /* MapUtils.swift in Sources */,
+				353BEE6D2237E5E600F956D9 /* MapKit extension.swift in Sources */,
 				927B797B22355B72001F8A36 /* ItemCreationPanelView.swift in Sources */,
 				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
 				927B797322355ADD001F8A36 /* Data.swift in Sources */,

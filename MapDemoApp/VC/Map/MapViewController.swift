@@ -26,6 +26,10 @@ class MapViewController: UIViewController {
         self.view.bringSubviewToFront(bottomView)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.mapView.showCircleAroundUser(radius : 500)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.layoutMapView()
@@ -41,6 +45,7 @@ class MapViewController: UIViewController {
     // MARK: - Create subviews -
     private func createBottomView() -> MapBottomView {
         let view = MapBottomView()
+        
         return view
     }
     
@@ -56,10 +61,6 @@ class MapViewController: UIViewController {
             view.right == view.superview!.right
             view.height == 200
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        mapView.zoomUpUserLocation()
     }
 
 }

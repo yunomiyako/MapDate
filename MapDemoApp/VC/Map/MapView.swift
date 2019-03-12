@@ -14,7 +14,7 @@ class MapView: UIView {
     lazy private var trackingButton : MKUserTrackingButton = self.createTrackingButton()
     
     private var locationManager : CLLocationManager?
-    private var gatherHereAnnotation :MKPointAnnotation? = nil
+    private var mapModel : MapModel? = nil
     
     // MARK: - Life cycle events -
     required override init(frame: CGRect) {
@@ -28,11 +28,20 @@ class MapView: UIView {
     }
     
     private func childInit() {
+        self.mapModel = MapModel(mapView: mapView, state: .initial)
+        
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()
         self.addSubview(mapView)
         self.mapView.addSubview(trackingButton)
+        
+    }
+    
+    //自分の近くを円で描く
+    func showCircleAroundUser(radius : Double) {
+        self.mapModel?.showCircleAroundUser(radius: radius)
+        //self.mapModel?.zoomCircleAroundUser(radius: radius)
     }
     
     override func layoutSubviews() {
@@ -48,7 +57,10 @@ class MapView: UIView {
         view.mapType = MKMapType.standard
         view.isZoomEnabled = true
         view.isScrollEnabled = true
-        view.userTrackingMode = MKUserTrackingMode.followWithHeading
+        view.showsCompass = false
+        
+        //set delegate to render views such as line
+        view.delegate = self
         
         //タップリスナー
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapMapView) )
@@ -75,7 +87,7 @@ class MapView: UIView {
     
     private func layoutTrackingButton() {
         let x : CGFloat = mapView.frame.width - 50
-        let y : CGFloat = 100
+        let y : CGFloat = 50
         trackingButton.setRound(cornerRadius: 5)
         trackingButton.frame = CGRect(x: x, y: y, width: 40, height: 40)
     }
@@ -91,56 +103,29 @@ class MapView: UIView {
     @objc private func onLongTapMapView(gestureRecognizer: UILongPressGestureRecognizer) {
         // ロングタップ開始
         if gestureRecognizer.state == .began {
-            //古いannotationを消す
-            if let anno = gatherHereAnnotation {
-                mapView.removeAnnotation(anno)
-            }
+            self.mapModel?.removeGatherHere()
         }
         // ロングタップ終了（手を離した）
         else if gestureRecognizer.state == .ended {
             let tapPoint = gestureRecognizer.location(in: mapView)
             let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
+            self.mapModel?.addAnnotation(center: center , title : "Gather Here")
             
-            let distance = MapUtils.calcDistance(mapView.userLocation.coordinate, center)
-            print("distance : " + distance.description)
-            addAnnotation(center: center)
-            
+            // 現在地と目的地のMKPlacemarkを生成
+            let fromPlacemark = MKPlacemark(coordinate:mapView.userLocation.coordinate, addressDictionary:nil)
+            let toPlacemark   = MKPlacemark(coordinate:center, addressDictionary:nil)
+            showRoute(from: fromPlacemark, to: toPlacemark)
         }
     }
     
-    private func addAnnotation(center : CLLocationCoordinate2D) {
-        let pointAno: MKPointAnnotation = MKPointAnnotation()
-        pointAno.coordinate = center // 座標（CLLocationCoordinate2D）
-        pointAno.title = "Gather Here"
-        mapView.addAnnotation(pointAno)
-        gatherHereAnnotation = pointAno
-    }
-    
-    
-    
-    func zoomUpUserLocation() {
-        // 縮尺を設定
-        var region:MKCoordinateRegion = mapView.region
-        region.span.latitudeDelta = 0.02
-        region.span.longitudeDelta = 0.02
-        mapView.setRegion(region,animated:true)
-        
-        LogDebug("zoomUp to " + region.center.latitude.description + " : " + region.center.longitude.description)
-        
-        // 現在位置表示の有効化
-        mapView.showsUserLocation = true
-        mapView.userTrackingMode = .follow
+
+    /*from to のrouteを表示*/
+    private func showRoute(from : MKPlacemark, to : MKPlacemark) {
+        self.mapModel?.showRoute(from: from, to: to)
     }
     
     func getUserLocation() -> CLLocationCoordinate2D{
         return mapView.userLocation.coordinate
-    }
-    
-    func pinLocation(peoples : [PeopleLocation]) {
-        for people in peoples {
-            let circle = MKCircle(center: people.getCLLocationCoordinate2D(), radius: 100)
-            mapView.addOverlay(circle)
-        }
     }
     
     func startUpdatingLocation() {
@@ -149,6 +134,16 @@ class MapView: UIView {
         }
     }
     
+}
+
+extension MapView : MKMapViewDelegate {
+    //MARK:- MapKit delegates
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.mainBlue()
+        renderer.lineWidth = 3.0
+        return renderer
+    }
 }
 
 extension MapView :CLLocationManagerDelegate {
