@@ -14,15 +14,6 @@ DEPENDENCIES:
   - MessageKit (~> 1.0.0)
   - TinyConstraints
 
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - Alamofire
-    - Cartography
-    - FlexiblePageControl
-    - MagazineLayout
-    - MessageKit
-    - TinyConstraints
-
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   Cartography: 1988b7578871a56c036e7af17195cb2190edf18c
@@ -33,4 +24,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b95f9caafc4001e9c32c2b84c4b0504709b1b564
 
-COCOAPODS: 1.6.0
+COCOAPODS: 1.4.0

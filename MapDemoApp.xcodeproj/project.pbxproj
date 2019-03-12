@@ -388,6 +388,7 @@
 				35AD2F5B2234216000CD86EE /* Frameworks */,
 				35AD2F5C2234216000CD86EE /* Resources */,
 				3C68C0C77209D7240B5D6F50 /* [CP] Embed Pods Frameworks */,
+				057513A32A33172E3E8C2D8A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -454,13 +455,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		057513A32A33172E3E8C2D8A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3C68C0C77209D7240B5D6F50 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cartography/Cartography.framework",
 				"${BUILT_PRODUCTS_DIR}/FlexiblePageControl/FlexiblePageControl.framework",
@@ -479,7 +495,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9DF932C31AD9870E7A5D21B8 /* [CP] Check Pods Manifest.lock */ = {
@@ -521,7 +537,6 @@
 				3583CED02234FBCA00621F1F /* ChatRepository.swift in Sources */,
 				35AD2F642234216000CD86EE /* HomeViewController.swift in Sources */,
 				35AD2F782234243F00CD86EE /* MapView.swift in Sources */,
-				927B795722353257001F8A36 /* MyProfileViewController.swift in Sources */,
 				353D908F22367453004BB44C /* MapModel.swift in Sources */,
 				927B79F622369FF3001F8A36 /* DataSourceCountsProvider.swift in Sources */,
 				927B79F322369FF3001F8A36 /* Colors.swift in Sources */,
@@ -530,9 +545,7 @@
 				35AD2F76223423B800CD86EE /* MapViewController.swift in Sources */,
 				353D909422368773004BB44C /* MapUtils.swift in Sources */,
 				353BEE6D2237E5E600F956D9 /* MapKit extension.swift in Sources */,
-				927B797B22355B72001F8A36 /* ItemCreationPanelView.swift in Sources */,
 				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
-				927B797322355ADD001F8A36 /* Data.swift in Sources */,
 				353D908B22367329004BB44C /* MapState.swift in Sources */,
 				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
 				3583CEC72234EF1400621F1F /* MatchPopupViewController.swift in Sources */,
@@ -685,10 +698,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 54NDTXK5D8;
 				INFOPLIST_FILE = MapDemoApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = chen.MapDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -704,10 +714,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 54NDTXK5D8;
 				INFOPLIST_FILE = MapDemoApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = chen.MapDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
