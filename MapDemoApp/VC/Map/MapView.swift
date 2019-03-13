@@ -28,6 +28,7 @@ class MapView: UIView {
     }
     
     private func childInit() {
+        LogDebug("MapView childInit")
         self.mapModel = MapModel(mapView: mapView, state: .initial)
         
         locationManager = CLLocationManager()
@@ -35,13 +36,13 @@ class MapView: UIView {
         locationManager?.requestWhenInUseAuthorization()
         self.addSubview(mapView)
         self.mapView.addSubview(trackingButton)
-        
     }
     
     //自分の近くを円で描く
     func showCircleAroundUser(radius : Double) {
+        LogDebug("showCircleAroundUser")
         self.mapModel?.showCircleAroundUser(radius: radius)
-        //self.mapModel?.zoomCircleAroundUser(radius: radius)
+        self.mapModel?.zoomCircleAroundUser(radius: radius)
     }
     
     override func layoutSubviews() {
@@ -139,10 +140,25 @@ class MapView: UIView {
 extension MapView : MKMapViewDelegate {
     //MARK:- MapKit delegates
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.mainBlue()
-        renderer.lineWidth = 3.0
-        return renderer
+        if(overlay.isKind(of: MKCircle.self)) {
+            //円の時
+            let renderer = MKCircleRenderer(overlay: overlay)
+            renderer.fillColor = UIColor.mainGreen()
+            renderer.strokeColor = UIColor.black
+            renderer.alpha = 0.2
+            renderer.lineWidth = 1
+            return renderer
+            
+        } else if (overlay.isKind(of: MKPolyline.self)) {
+            //線の時
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = UIColor.mainBlue()
+            renderer.lineWidth = 3.0
+            return renderer
+        } else {
+            let renderer = MKOverlayRenderer(overlay: overlay)
+            return renderer
+        }
     }
 }
 

@@ -14,6 +14,7 @@ class MapViewController: UIViewController {
     // MARK: - Properties -
     lazy private var mapView:MapView = self.createMapView()
     lazy private var bottomView : MapBottomView = self.createBottomView()
+    lazy private var topTextView : FloatingRectangleView = self.createTopTextView()
     
     
     private let mapUseCase = MapUseCase()
@@ -23,17 +24,22 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         self.view.addSubview(mapView)
         self.view.addSubview(bottomView)
-        self.view.bringSubviewToFront(bottomView)
+        self.view.addSubview(topTextView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.mapView.showCircleAroundUser(radius : 500)
+        self.mapView.showCircleAroundUser(radius : 2000)
+        dispatch_after(1, block: {
+            self.topTextView.setText(text: "5 people wait you nearby")
+            self.topTextView.showUpAnimation()
+        })
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.layoutMapView()
         self.layoutBottomView()
+        self.layoutTopTextView()
     }
     
     // MARK: - Create subviews -
@@ -42,10 +48,13 @@ class MapViewController: UIViewController {
         return rect;
     }
     
-    // MARK: - Create subviews -
     private func createBottomView() -> MapBottomView {
         let view = MapBottomView()
-        
+        return view
+    }
+    
+    private func createTopTextView() -> FloatingRectangleView {
+        let view = FloatingRectangleView()
         return view
     }
     
@@ -55,12 +64,14 @@ class MapViewController: UIViewController {
     }
     
     private func layoutBottomView() {
-        constrain(bottomView) { view in
-            view.bottom == view.superview!.bottom
-            view.left == view.superview!.left
-            view.right == view.superview!.right
-            view.height == 200
-        }
+        let height : CGFloat = 200
+        let y = self.view.frame.height
+        bottomView.frame = CGRect(x: 0, y: y - height, width: self.view.frame.width, height: height)
+    }
+    
+    private func layoutTopTextView() {
+        let height : CGFloat = 120
+        topTextView.frame = CGRect(x: 0, y: 50 , width: self.view.frame.width, height: height)
     }
 
 }
