@@ -15,7 +15,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     
     let scrollSize: CGFloat = 350
     let numberOfPage: Int = 100
-    var pageControl:FlexiblePageControl!
+    let pageControl = FlexiblePageControl()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -23,13 +23,12 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         editBtn = UIButton()
         editBtn.setTitle("Edit", for:UIControl.State.normal)
         editBtn.backgroundColor = UIColor.blue
-        editBtn.frame = CGRect(x: (self.view.frame.width - 100 ) , y: 50, width: 50, height: 50)
+        
         editBtn.addTarget(self,
                          action: #selector(editProfile(sender:)),
                          for: .touchUpInside)
         view.addSubview(editBtn)
         
-        pageControl = FlexiblePageControl()
         let scrollView = UIScrollView()
         scrollView.delegate = self
         scrollView.frame = CGRect(x: (self.view.frame.width - scrollSize ) * 0.5, y: 100, width: scrollSize, height: scrollSize)
@@ -51,26 +50,26 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         view.addSubview(scrollView)
         view.addSubview(pageControl)
         
-    
         
         view.addSubview(collectionView)
         
         
         
-        
-        
         collectionView.frame = CGRect(x: 0, y: self.view.frame.height - 400, width: self.view.frame.width, height: 400)
         
-        //collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-//            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-//            ])
+
         
         loadDefaultData()
     }
+    
+    
+    override func viewDidLayoutSubviews(){
+        super.viewDidLayoutSubviews()
+    editBtn.frame = CGRect(x: (self.view.frame.width - 100 ) , y: 50, width: 50, height: 50)
+    
+    }
+    
+    
     @objc func editProfile(sender : AnyObject) {
         let vc = EditProfileViewController()
         self.present(vc, animated: true)

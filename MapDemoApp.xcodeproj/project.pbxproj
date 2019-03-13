@@ -48,6 +48,7 @@
 		927B79F922369FF3001F8A36 /* ItemCreationPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E622369FF2001F8A36 /* ItemCreationPanelView.swift */; };
 		927B79FA22369FF3001F8A36 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E722369FF2001F8A36 /* Header.swift */; };
 		927B79FE2236A4CE001F8A36 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79FD2236A4CE001F8A36 /* ProfileEditViewController.swift */; };
+		D8B68BAE22389BAF00501D7E /* commonFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B68BAD22389BAF00501D7E /* commonFuncs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +96,7 @@
 		927B79E622369FF2001F8A36 /* ItemCreationPanelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCreationPanelView.swift; sourceTree = "<group>"; };
 		927B79E722369FF2001F8A36 /* Header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		927B79FD2236A4CE001F8A36 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileEditViewController.swift; path = MapDemoApp/VC/MyProfile/ProfileEditViewController.swift; sourceTree = SOURCE_ROOT; };
+		D8B68BAD22389BAF00501D7E /* commonFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = commonFuncs.swift; path = /Users/tmsmac/MapDate/MapDemoApp/UtilsTM/commonFuncs.swift; sourceTree = "<absolute>"; };
 		EEB1E5F862D85A6C22AAC394 /* Pods-MapDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,6 +183,7 @@
 				35AD2F7B2234290500CD86EE /* UseCasePresenter */,
 				35AD2F7A223428EC00CD86EE /* API */,
 				35AD2F79223428DE00CD86EE /* DataModel */,
+				D8B68BAC22389A3700501D7E /* UtilsTM */,
 				3583CEB82234C39700621F1F /* Utils */,
 				35AD2F8C22343D5D00CD86EE /* CommonView */,
 				35AD2F73223422C300CD86EE /* VC */,
@@ -289,12 +292,8 @@
 		927B79D122369FF2001F8A36 /* MyProfile */ = {
 			isa = PBXGroup;
 			children = (
-				927B79DE22369FF2001F8A36 /* Colors.swift */,
 				927B79DF22369FF2001F8A36 /* MyProfileViewController.swift */,
 				927B79FD2236A4CE001F8A36 /* ProfileEditViewController.swift */,
-				927B79D222369FF2001F8A36 /* resouce */,
-				927B79E022369FF2001F8A36 /* Data */,
-				927B79E422369FF2001F8A36 /* Views */,
 			);
 			path = MyProfile;
 			sourceTree = "<group>";
@@ -334,6 +333,18 @@
 				927B79E722369FF2001F8A36 /* Header.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D8B68BAC22389A3700501D7E /* UtilsTM */ = {
+			isa = PBXGroup;
+			children = (
+				D8B68BAD22389BAF00501D7E /* commonFuncs.swift */,
+				927B79DE22369FF2001F8A36 /* Colors.swift */,
+				927B79E022369FF2001F8A36 /* Data */,
+				927B79E422369FF2001F8A36 /* Views */,
+				927B79D222369FF2001F8A36 /* resouce */,
+			);
+			path = UtilsTM;
 			sourceTree = "<group>";
 		};
 		E496487D896D7B5AF6C5E99C /* Pods */ = {
@@ -429,7 +440,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cartography/Cartography.framework",
 				"${BUILT_PRODUCTS_DIR}/FlexiblePageControl/FlexiblePageControl.framework",
@@ -448,7 +459,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9DF932C31AD9870E7A5D21B8 /* [CP] Check Pods Manifest.lock */ = {
@@ -480,6 +491,7 @@
 				3583CECD2234F7CA00621F1F /* ChatMessage.swift in Sources */,
 				35AD2F8022342D9400CD86EE /* PeopleLocation.swift in Sources */,
 				35AD2F8E22343D9100CD86EE /* FloatingRectangleView.swift in Sources */,
+				D8B68BAE22389BAF00501D7E /* commonFuncs.swift in Sources */,
 				927B79F422369FF3001F8A36 /* MyProfileViewController.swift in Sources */,
 				927B79F822369FF3001F8A36 /* Cell.swift in Sources */,
 				3583CEBA2234C3B200621F1F /* Color.swift in Sources */,
