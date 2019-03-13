@@ -54,13 +54,9 @@ class RoundFloatingButton: UIView {
             button.frame.size = self.frame.size
             button.center = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
             button.backgroundColor = UIColor.mainRed()
-            button.layer.shadowColor = UIColor.black.cgColor
-            button.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-            button.layer.masksToBounds = false
-            button.layer.shadowRadius = 1.0
-            button.layer.shadowOpacity = 0.5
-            button.layer.cornerRadius = button.frame.height / 2
             button.titleLabel?.font = UIFont.bigBoldFont()
+            button.setShadow()
+            button.setRound()
         }
         
     }
@@ -68,24 +64,26 @@ class RoundFloatingButton: UIView {
     func setLoading(bool : Bool) {
         let tag = 808404
         loading = bool
-        if bool {
-            button.titleLabel?.alpha = 0
-            let indicator = UIActivityIndicatorView()
-            indicator.tag = tag
-            button.addSubview(indicator)
-            indicator.center = CGPoint(x : 25, y : 25)
-            indicator.startAnimating()
-        } else {
-            button.titleLabel?.alpha = 1
-            if let indicator = button.viewWithTag(tag) as? UIActivityIndicatorView {
+        if !bool {
+            self.button.titleLabel?.alpha = 1
+            if let indicator = self.button.viewWithTag(tag) as? UIActivityIndicatorView {
                 indicator.stopAnimating()
                 indicator.removeFromSuperview()
             }
         }
-        
-        UIView.animate(withDuration: 0.8) {
+
+        UIView.animate(withDuration: 0.8, animations: {
             self.layoutButton()
-        }
+        }, completion: { _ in
+            if bool {
+                self.button.titleLabel?.alpha = 0
+                let indicator = UIActivityIndicatorView()
+                indicator.tag = tag
+                self.button.addSubview(indicator)
+                indicator.center = CGPoint(x : 25, y : 25)
+                indicator.startAnimating()
+            }
+        })
     }
     
     func setText(text : String) {

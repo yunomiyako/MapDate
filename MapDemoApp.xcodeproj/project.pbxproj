@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		177D807410357E319ADA1568 /* Pods_MapDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DD4333B2CEFCA2ADBB60635 /* Pods_MapDemoApp.framework */; };
+		353BEE6D2237E5E600F956D9 /* MapKit extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353BEE6C2237E5E600F956D9 /* MapKit extension.swift */; };
+		353D908B22367329004BB44C /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D908A22367329004BB44C /* MapState.swift */; };
+		353D908F22367453004BB44C /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D908E22367453004BB44C /* MapModel.swift */; };
+		353D909422368773004BB44C /* MapUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D909322368773004BB44C /* MapUtils.swift */; };
+		353D909622369613004BB44C /* UIView extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D909522369613004BB44C /* UIView extension.swift */; };
 		3583CEB72234C1D700621F1F /* RoundFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3583CEB62234C1D700621F1F /* RoundFloatingButton.swift */; };
 		3583CEBA2234C3B200621F1F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3583CEB92234C3B200621F1F /* Color.swift */; };
 		3583CEBD2234C56B00621F1F /* MapBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3583CEBC2234C56B00621F1F /* MapBottomView.swift */; };
@@ -53,6 +58,11 @@
 
 /* Begin PBXFileReference section */
 		2F655C20A44D80BE930D676E /* Pods-MapDemoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.release.xcconfig"; sourceTree = "<group>"; };
+		353BEE6C2237E5E600F956D9 /* MapKit extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit extension.swift"; sourceTree = "<group>"; };
+		353D908A22367329004BB44C /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
+		353D908E22367453004BB44C /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
+		353D909322368773004BB44C /* MapUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtils.swift; sourceTree = "<group>"; };
+		353D909522369613004BB44C /* UIView extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView extension.swift"; sourceTree = "<group>"; };
 		3583CEB62234C1D700621F1F /* RoundFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundFloatingButton.swift; sourceTree = "<group>"; };
 		3583CEB92234C3B200621F1F /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		3583CEBC2234C56B00621F1F /* MapBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBottomView.swift; sourceTree = "<group>"; };
@@ -112,12 +122,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		353D908C22367430004BB44C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				353D908D2236743E004BB44C /* Map */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		353D908D2236743E004BB44C /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				353D908E22367453004BB44C /* MapModel.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		3583CEB82234C39700621F1F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				3583CEB92234C3B200621F1F /* Color.swift */,
 				3583CEBF2234C99F00621F1F /* CommonUtils.swift */,
 				3583CEC32234D57B00621F1F /* Font.swift */,
+				353D909322368773004BB44C /* MapUtils.swift */,
+				353D909522369613004BB44C /* UIView extension.swift */,
+				353BEE6C2237E5E600F956D9 /* MapKit extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -186,6 +215,7 @@
 				D8B68BAC22389A3700501D7E /* UtilsTM */,
 				3583CEB82234C39700621F1F /* Utils */,
 				35AD2F8C22343D5D00CD86EE /* CommonView */,
+				353D908C22367430004BB44C /* Model */,
 				35AD2F73223422C300CD86EE /* VC */,
 			);
 			path = MapDemoApp;
@@ -252,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				35AD2F7F22342D9400CD86EE /* PeopleLocation.swift */,
+				353D908A22367329004BB44C /* MapState.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -489,6 +520,7 @@
 			files = (
 				35AD2F84223432B600CD86EE /* MapUseCase.swift in Sources */,
 				3583CECD2234F7CA00621F1F /* ChatMessage.swift in Sources */,
+				353D909622369613004BB44C /* UIView extension.swift in Sources */,
 				35AD2F8022342D9400CD86EE /* PeopleLocation.swift in Sources */,
 				35AD2F8E22343D9100CD86EE /* FloatingRectangleView.swift in Sources */,
 				D8B68BAE22389BAF00501D7E /* commonFuncs.swift in Sources */,
@@ -501,11 +533,16 @@
 				3583CED02234FBCA00621F1F /* ChatRepository.swift in Sources */,
 				35AD2F642234216000CD86EE /* HomeViewController.swift in Sources */,
 				35AD2F782234243F00CD86EE /* MapView.swift in Sources */,
+				353D908F22367453004BB44C /* MapModel.swift in Sources */,
 				927B79F622369FF3001F8A36 /* DataSourceCountsProvider.swift in Sources */,
 				927B79F322369FF3001F8A36 /* Colors.swift in Sources */,
 				3583CEC42234D57B00621F1F /* Font.swift in Sources */,
 				927B79F522369FF3001F8A36 /* Data.swift in Sources */,
 				35AD2F76223423B800CD86EE /* MapViewController.swift in Sources */,
+				353D909422368773004BB44C /* MapUtils.swift in Sources */,
+				353BEE6D2237E5E600F956D9 /* MapKit extension.swift in Sources */,
+				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
+				353D908B22367329004BB44C /* MapState.swift in Sources */,
 				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
 				3583CEC72234EF1400621F1F /* MatchPopupViewController.swift in Sources */,
 				3583CEB72234C1D700621F1F /* RoundFloatingButton.swift in Sources */,
@@ -655,7 +692,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 54NDTXK5D8;
 				INFOPLIST_FILE = MapDemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -674,7 +711,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 54NDTXK5D8;
 				INFOPLIST_FILE = MapDemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
