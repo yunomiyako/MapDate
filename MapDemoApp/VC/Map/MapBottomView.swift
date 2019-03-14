@@ -54,7 +54,7 @@ extension MapBottomView : RoundFloatingButtonDelegate {
     func onClickButton() {
         //popup TextView and
         button.setLoading(bool: true)
-        dispatch_after(7.0) {
+        dispatch_after(5.0) {
             self.button.setLoading(bool: false)
         }
     }

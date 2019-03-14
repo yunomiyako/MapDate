@@ -28,11 +28,8 @@ class MapViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.mapView.showCircleAroundUser(radius : 2000)
-        dispatch_after(1, block: {
-            self.topTextView.setText(text: "5 people wait you nearby")
-            self.topTextView.showUpAnimation()
-        })
+        //radiusを設定からとる
+        self.changedCircleRange(radius : 2000)
     }
     
     override func viewDidLayoutSubviews() {
@@ -74,4 +71,15 @@ class MapViewController: UIViewController {
         topTextView.frame = CGRect(x: 0, y: 50 , width: self.view.frame.width, height: height)
     }
 
+    private func changedCircleRange(radius : Double) {
+        //初期読み込み時はuserLocationはまともにとれないのでは？
+        let userLocation = self.mapView.getUserLocation()
+        self.mapView.showCircleAroundUser(radius : radius)
+        self.mapUseCase.getNearPeopleNumber(location: userLocation, radius: radius, completion: { number in
+            dispatch_after(1, block: {
+                self.topTextView.setText(text: "\(number) people wait you nearby")
+                self.topTextView.showUpAnimation()
+            })
+        })
+    }
 }
