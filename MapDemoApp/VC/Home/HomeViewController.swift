@@ -17,7 +17,7 @@ class HomeViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        let vc = MapViewController()
+        let vc = MyProfileViewController()
         self.present(vc, animated: true)
     }
 
