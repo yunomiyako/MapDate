@@ -17,19 +17,25 @@ final class EditProfileViewController: UIViewController {
     let navItem = UINavigationItem(title: "プロフィール編集")
     let navigationView = UIView()
     var state = ""
+    var profimgs = [UIImageView]()
     
     var doneButtonTapHandler: ((String) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-     
+    
 
         
         scrview.contentSize = CGSize(width: 300, height: 1400)
         scrview.indicatorStyle = .black
         scrview.backgroundColor = UIColor.white.dark()
         self.view.addSubview(scrview)
+        
+        for i in 0..<1{
+            profimgs.append(UIImageView(frame: CGRect(x:30 , y: 30, width: 60, height: 100)))
+            profimgs[i].image = UIImage(named: "frame.png")
+            scrview.addSubview(profimgs[i])
+        }
         
         textEditer.backgroundColor = UIColor.white
         textEditer.text = state
