@@ -78,7 +78,6 @@ class MapView: UIView {
         btn.setShadow()
         btn.backgroundColor = UIColor.white
         return btn
-
     }
     
     // MARK: - Layout subviews -
@@ -116,9 +115,18 @@ class MapView: UIView {
             let fromPlacemark = MKPlacemark(coordinate:mapView.userLocation.coordinate, addressDictionary:nil)
             let toPlacemark   = MKPlacemark(coordinate:center, addressDictionary:nil)
             showRoute(from: fromPlacemark, to: toPlacemark)
+            
+            //test by kitahara
+            self.showAnotherUserLocation(id : "test user" , location : center)
         }
     }
     
+    //別のユーザを表示させる
+    private func showAnotherUserLocation(id : String , location : CLLocationCoordinate2D) {
+        let imageNamed = "image01.jpg"
+        let image = UIImage(named: imageNamed )
+        self.mapModel?.showAnotherUserLocation(id : id , location : location , image : image)
+    }
 
     /*from to のrouteを表示*/
     private func showRoute(from : MKPlacemark, to : MKPlacemark) {
@@ -158,6 +166,30 @@ extension MapView : MKMapViewDelegate {
         } else {
             let renderer = MKOverlayRenderer(overlay: overlay)
             return renderer
+        }
+    }
+    
+    //カスタムアノテーション
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
+    {
+        if let annot = annotation as? CustomAnnotation {
+            let dequeView = mapView.dequeueReusableAnnotationView(withIdentifier: annot.id)
+            if dequeView == nil {
+                //TODO : ここが呼ばれ続けている？
+                LogDebug("dequeView was not prepared")
+                let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annot.id)
+                annotationView.image = annot.image?.resize(size: CGSize(width: 45, height: 45))
+                annotationView.layer.cornerRadius = annotationView.frame.size.height/2
+                annotationView.layer.masksToBounds = true
+                annotationView.layer.borderColor = UIColor.white.cgColor
+                annotationView.layer.borderWidth = 5
+                annotationView.setShadow()
+                return annotationView
+            }
+            return dequeView
+        } else {
+            //それ以外はデフォルトを使用する
+            return nil
         }
     }
 }
