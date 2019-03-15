@@ -41,6 +41,7 @@ class MapView: UIView {
     //自分の近くを円で描く
     func showCircleAroundUser(radius : Double) {
         LogDebug("showCircleAroundUser")
+        self.mapModel?.removeAllOverlays()
         self.mapModel?.showCircleAroundUser(radius: radius)
         self.mapModel?.zoomCircleAroundUser(radius: radius)
     }

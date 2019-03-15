@@ -37,7 +37,7 @@ class FloatingRectangleView: UIView {
         label.textColor = UIColor.black
         label.font = UIFont.normalFont()
         self.baseView.addSubview(label)
-        constrain(label) { view in
+        Cartography.constrain(label) { view in
             view.top == view.superview!.top + 10
             view.left == view.superview!.left + 20
             view.right == view.superview!.right - 20

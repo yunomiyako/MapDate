@@ -16,8 +16,10 @@ class MapViewController: UIViewController {
     lazy private var bottomView : MapBottomView = self.createBottomView()
     lazy private var topTextView : FloatingRectangleView = self.createTopTextView()
     
-    
+    private let userDefaults = UserDefaultsUseCase.sharedInstance
     private let mapUseCase = MapUseCase()
+    
+    private var radius : Float = 3000
     
     // MARK: - Life cycle events -
     override func viewDidLoad() {
@@ -28,8 +30,7 @@ class MapViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //radiusを設定からとる
-        self.changedCircleRange(radius : 2000)
+        self.circleRange()
     }
     
     override func viewDidLayoutSubviews() {
@@ -47,6 +48,7 @@ class MapViewController: UIViewController {
     
     private func createBottomView() -> MapBottomView {
         let view = MapBottomView()
+        view.delegate = self
         return view
     }
     
@@ -82,4 +84,37 @@ class MapViewController: UIViewController {
             })
         })
     }
+    
+    private func openDiscoverySettingPage() {
+        let vc = DiscoverySettingViewController()
+        vc.delegate = self
+        let nc = UINavigationController(rootViewController: vc)
+        self.present(nc, animated: true, completion: nil)
+    }
+    
+    fileprivate func circleRange() {
+        //radiusを設定からとる
+        if let radius = userDefaults.get(forKey: userDefaults.discoveryDistanceKey) as? CGFloat {
+            self.radius = Float(radius * 1000)
+        }
+        self.changedCircleRange(radius : Double(self.radius ))
+    }
+}
+
+extension MapViewController : DiscoverySettingViewControllerDelegate {
+    func willDismiss() {
+        self.circleRange()
+    }
+}
+
+extension MapViewController : MapBottomViewDelegate {
+    func onClickSettingButton() {
+        self.openDiscoverySettingPage()
+    }
+    
+    func onClickButton() {
+        LogDebug("something will happen")
+    }
+    
+    
 }
