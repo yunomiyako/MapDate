@@ -9,12 +9,18 @@ target 'MapDemoApp' do
   pod 'Alamofire'
   pod 'Cartography'
   pod 'MessageKit' , '~> 1.0.0'
+  pod 'MultiSlider'
   #####⬇︎TSUKASA⬇︎########
   pod 'FlexiblePageControl'
   pod 'MagazineLayout'
   pod 'TinyConstraints'
   #####⬆︎TSUKASA⬆︎########
-  pod 'MultiSlider'
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'FirebaseUI'
+
+
+
 # 以下追加
 post_install do |installer|
     installer.pods_project.targets.each do |target|

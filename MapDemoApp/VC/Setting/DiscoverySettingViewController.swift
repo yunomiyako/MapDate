@@ -38,7 +38,9 @@ class DiscoverySettingViewController: UIViewController {
     }
     
     @objc private func clickCloseButton() {
+        //設定した値を保存
         mapUseCase.setSyncDiscoveryDistance(distance: self.distance)
+        mapUseCase.setSyncDiscoveryAge(age: self.age)
         self.dismiss(animated: true) {
             self.delegate?.willDismiss()
         }

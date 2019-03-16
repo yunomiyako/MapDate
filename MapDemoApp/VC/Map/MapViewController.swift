@@ -62,7 +62,7 @@ class MapViewController: UIViewController {
     }
     
     private func layoutBottomView() {
-        let height : CGFloat = 200
+        let height : CGFloat = 100
         let y = self.view.frame.height
         bottomView.frame = CGRect(x: 0, y: y - height, width: self.view.frame.width, height: height)
     }

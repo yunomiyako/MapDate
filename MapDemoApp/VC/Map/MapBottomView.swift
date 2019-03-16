@@ -35,6 +35,7 @@ class MapBottomView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        self.layoutSelf()
         self.layoutButton()
         self.layoutSettingButton()
     }
@@ -75,6 +76,12 @@ class MapBottomView: UIView {
         let x = self.frame.width - width - 30
         let y = self.frame.height - height - 40
         settingButton.frame = CGRect(x: x, y: y, width: width, height: height)
+    }
+    
+    private func layoutSelf() {
+        let top = UIColor(red: 0, green: 0, blue: 9, alpha: 0)
+        let bottom = UIColor(red: 255, green: 255, blue: 255, alpha: 0.8)
+        self.gradation(topColor: top, bottomColor: bottom)
     }
 }
 
