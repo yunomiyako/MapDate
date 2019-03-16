@@ -21,6 +21,7 @@ final class EditProfileViewController: UIViewController {
     var profimgBtns = [UIButton]()
     var tmp = false
     var doneButtonTapHandler: ((String) -> Void)?
+    var selectedFrame:Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,10 @@ final class EditProfileViewController: UIViewController {
             profimgBtns.append(UIButton())
             profimgBtns[i].setImage(UIImage(named:"addimg.png"), for: UIControl.State.normal)
             scrview.addSubview(profimgBtns[i])
+            profimgBtns[i].addTarget(self,
+                                     action: #selector(photoPick(sender:)),
+                                     for: .touchUpInside)
+            profimgBtns[i].tag = i
         }
 
         
@@ -94,6 +99,28 @@ final class EditProfileViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    @objc func photoPick(sender : UIButton) {
+        selectedFrame = sender.tag
+        let imgpicker = UIImagePickerController()
+        imgpicker.delegate = self
+        present(imgpicker, animated: true)
+    }
+    
+    @objc func deleteimg(sender : UIButton) {
+       
+        selectedFrame = sender.tag
+        profimgs[selectedFrame].image = UIImage(named: "frame.png")
+        profimgBtns[selectedFrame].setImage(UIImage(named:"addimg.png"), for: UIControl.State.normal)
+        profimgBtns[selectedFrame].removeTarget(self,
+                                                action: #selector(deleteimg(sender:)),
+                                                for: .touchUpInside)
+        
+        profimgBtns[selectedFrame].addTarget(self,
+                                             action: #selector(photoPick(sender:)),
+                                             for: .touchUpInside)
+        
+    }
+    
     func addNavigationBar(){
       
         self.view.addSubview(navBar)
@@ -130,5 +157,28 @@ final class EditProfileViewController: UIViewController {
             navigationView.frame.origin = self.view.frame.origin
             navigationView.frame.size = CGSize(width: self.view.frame.width, height: navBar.frame.origin.y + navBar.frame.height)
         }
+    }
+}
+extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        // キャンセルボタンを押された時に呼ばれる
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // 写真が選択された時に呼ばれる
+        // 選択した写真を取得する
+        let image = info[.originalImage] as! UIImage
+        self.profimgs[selectedFrame].image = image
+        self.dismiss(animated: true)
+        profimgBtns[selectedFrame].setImage(UIImage(named:"delete.png"), for: UIControl.State.normal)
+        profimgBtns[selectedFrame].removeTarget(self,
+                                                action: #selector(photoPick(sender:)),
+                                                for: .touchUpInside)
+
+        profimgBtns[selectedFrame].addTarget(self,
+                       action: #selector(deleteimg(sender:)),
+                       for: .touchUpInside)
+        
     }
 }

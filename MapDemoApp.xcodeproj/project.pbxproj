@@ -56,6 +56,7 @@
 		D8B68BAE22389BAF00501D7E /* commonFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B68BAD22389BAF00501D7E /* commonFuncs.swift */; };
 		D8B68BB0223A0D9200501D7E /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BAF223A0D9100501D7E /* frame.png */; };
 		D8B68BB2223B570300501D7E /* addimg.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BB1223B570300501D7E /* addimg.png */; };
+		D8B68BB4223CE35B00501D7E /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BB3223CE35B00501D7E /* delete.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +112,7 @@
 		D8B68BAD22389BAF00501D7E /* commonFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = commonFuncs.swift; path = /Users/tmsmac/MapDate/MapDemoApp/UtilsTM/commonFuncs.swift; sourceTree = "<absolute>"; };
 		D8B68BAF223A0D9100501D7E /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		D8B68BB1223B570300501D7E /* addimg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addimg.png; sourceTree = "<group>"; };
+		D8B68BB3223CE35B00501D7E /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		EEB1E5F862D85A6C22AAC394 /* Pods-MapDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -337,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				D8B68BB1223B570300501D7E /* addimg.png */,
+				D8B68BB3223CE35B00501D7E /* delete.png */,
 				D8B68BAF223A0D9100501D7E /* frame.png */,
 				927B79D322369FF2001F8A36 /* image00.jpg */,
 				927B79D422369FF2001F8A36 /* image01.jpg */,
@@ -456,6 +459,7 @@
 				35AD2F6C2234216300CD86EE /* LaunchScreen.storyboard in Resources */,
 				927B79EF22369FF3001F8A36 /* image04.jpg in Resources */,
 				35AD2F692234216300CD86EE /* Assets.xcassets in Resources */,
+				D8B68BB4223CE35B00501D7E /* delete.png in Resources */,
 				927B79EE22369FF3001F8A36 /* image05.jpg in Resources */,
 				927B79EC22369FF3001F8A36 /* image06.jpg in Resources */,
 				927B79F122369FF3001F8A36 /* image08.jpg in Resources */,
