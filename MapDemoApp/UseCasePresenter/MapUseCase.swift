@@ -37,4 +37,6 @@ class MapUseCase {
     func setSyncDiscoveryAge(age : [CGFloat]) {
         userDefaultsRepository.set(age, forKey: "DiscoveryAge")
     }
+    
+    
 }
