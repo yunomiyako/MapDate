@@ -9,56 +9,76 @@
 import UIKit
 import FlexiblePageControl
 import MagazineLayout
-
+import TinyConstraints
 
 
 class MyProfileViewController: UIViewController , UIScrollViewDelegate{
-   var editBtn:UIButton!
-    
+    var editBtn:UIButton!
+    var backBtn:UIButton!
+    let scrollView = UIScrollView()
     let scrollSize: CGFloat = 350
-    let numberOfPage: Int = 100
+    let numberOfPage: Int = 6
     let pageControl = FlexiblePageControl()
+    let baceScrview = UIScrollView()
     var state = "ここにプロフィールを書いていく"
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white.dark()
         
+        baceScrview.indicatorStyle = .black
+        baceScrview.backgroundColor = UIColor.white.dark()
+        baceScrview.scrollIndicatorInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        baceScrview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - self.view.frame.height * 0.1)
+        baceScrview.contentSize = CGSize(width:0, height: baceScrview.frame.height * 1.5)
+        self.view.addSubview(baceScrview)
+        
         editBtn = UIButton()
         editBtn.setTitle("Edit", for:UIControl.State.normal)
-        editBtn.backgroundColor = UIColor.blue
-        
+        editBtn.layer.borderWidth = 2.0 // 枠線の幅
+        editBtn.layer.borderColor = UIColor.white.cgColor // 枠線の色
+        editBtn.setTitleColor(UIColor.red,for: UIControl.State.normal)
+        editBtn.layer.cornerRadius = 10.0 // 角丸のサイズ
+        editBtn.backgroundColor = UIColor.white
         editBtn.addTarget(self,
                          action: #selector(editProfile(sender:)),
                          for: .touchUpInside)
-        view.addSubview(editBtn)
+        self.view.addSubview(editBtn)
         
-        let scrollView = UIScrollView()
+        
+        
         scrollView.delegate = self
-        scrollView.frame = CGRect(x: (self.view.frame.width - scrollSize ) * 0.5, y: 100, width: scrollSize, height: scrollSize)
-        //scrollView.center = view.center
-        scrollView.contentSize = CGSize(width: scrollSize * CGFloat(numberOfPage), height: scrollSize)
+        scrollView.frame = CGRect(x: 0, y: 0, width:self.view.frame.width, height: scrollSize)
+        scrollView.contentSize = CGSize(width:self.view.frame.width * CGFloat(numberOfPage), height: scrollSize)
         scrollView.isPagingEnabled = true
-        
-        pageControl.center = CGPoint(x: scrollView.center.x, y: scrollView.frame.maxY + 16)
+        //pageControl.center = CGPoint(x: scrollView.center.x, y: scrollView.frame.maxY + 16)
         pageControl.numberOfPages = numberOfPage
         
         for index in  0..<numberOfPage {
-            let view = UIImageView(frame: CGRect(x: CGFloat(index) * scrollSize, y: 0, width: scrollSize, height: scrollSize))
             let _index = index % 10
             let imageNamed = NSString(format: "image%02d.jpg", _index)
-            view.image = UIImage(named: imageNamed as String)
+            var img = UIImage(named: imageNamed as String)
+            img = resize(image: img!, width: Double(self.view.frame.width))
+            let view = UIImageView(frame: CGRect(x: CGFloat(index) * (self.view.frame.width), y: 0, width: self.view.frame.width, height: (img?.size.height)!))
+            view.image = img
             scrollView.addSubview(view)
         }
 
-        view.addSubview(scrollView)
+        baceScrview.addSubview(scrollView)
         
-        view.addSubview(pageControl)
+        baceScrview.addSubview(pageControl)
         
-        view.addSubview(collectionView)
+        baceScrview.addSubview(collectionView)
+        
+        backBtn = UIButton()
+        backBtn.setImage(UIImage(named:"back.png"), for: UIControl.State.normal)
+        backBtn.addTarget(self,
+                          action: #selector(back(sender:)),
+                          for: .touchUpInside)
+        baceScrview.addSubview(backBtn)
         
         collectionView.backgroundColor = UIColor.white.dark()
         
-        collectionView.frame = CGRect(x: 0, y: self.view.frame.height - 400, width: self.view.frame.width, height: 400)
+        collectionView.frame = CGRect(x: 0, y: scrollView.frame.maxY, width: self.view.frame.width, height: 400)
         
 
         
@@ -68,8 +88,13 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     
     override func viewDidLayoutSubviews(){
         super.viewDidLayoutSubviews()
-    editBtn.frame = CGRect(x: (self.view.frame.width - 100 ) , y: 50, width: 50, height: 50)
+        
+        editBtn.width(self.view.frame.width * 0.25)
+        editBtn.bottomToSuperview(usingSafeArea:true)
+        editBtn.centerXToSuperview()
+        let backBtnsize = self.view.frame.width * 0.3
     
+        backBtn.frame = CGRect(x: self.view.frame.width * 0.77, y:scrollView.frame.maxY - (backBtnsize * 0.5) , width: backBtnsize, height: backBtnsize)
     }
     
     
@@ -84,6 +109,11 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         
         self.present(vc, animated: true)
         
+    }
+    
+    @objc func back(sender : AnyObject) {
+     
+            self.dismiss(animated: true, completion: nil)
     }
     
     private lazy var collectionView: UICollectionView = {
@@ -141,6 +171,23 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         
         pageControl.setProgress(contentOffsetX: scrollView.contentOffset.x, pageWidth: scrollView.bounds.width)
         
+    }
+
+    func resize(image: UIImage, width: Double) -> UIImage {
+        
+        // オリジナル画像のサイズからアスペクト比を計算
+        let aspectScale = image.size.height / image.size.width
+        
+        // widthからアスペクト比を元にリサイズ後のサイズを取得
+        let resizedSize = CGSize(width: width, height: width * Double(aspectScale))
+        
+        // リサイズ後のUIImageを生成して返却
+        UIGraphicsBeginImageContext(resizedSize)
+        image.draw(in: CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return resizedImage!
     }
 
 
