@@ -7,10 +7,15 @@
 //
 
 import UIKit
-
+protocol MapBottomViewDelegate : class {
+    func onClickSettingButton()
+    func onClickButton()
+}
 class MapBottomView: UIView {
     // MARK: - Properties -
     lazy private var button:RoundFloatingButton = self.createButton()
+    lazy private var settingButton : UIButton = self.createSettingButton()
+    weak var delegate : MapBottomViewDelegate? = nil
 
     // MARK: - Life cycle events -
     required override init(frame: CGRect) {
@@ -25,11 +30,13 @@ class MapBottomView: UIView {
     
     private func childInit() {
         self.addSubview(button)
+        self.addSubview(settingButton)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         self.layoutButton()
+        self.layoutSettingButton()
     }
     
     // MARK: - Create subviews -
@@ -40,6 +47,19 @@ class MapBottomView: UIView {
         return view
     }
     
+    private func createSettingButton() -> UIButton {
+        let view = UIButton()
+        let image = UIImage(named: "setting2.png")
+        view.setImage(image, for: .normal)
+        view.setRound()
+        view.addTarget(self, action: #selector(self.onClickSettingButton(_:)), for: UIControl.Event.touchUpInside)
+        return view
+    }
+    
+    @objc private func onClickSettingButton(_ sender : Any) {
+        self.delegate?.onClickSettingButton()
+    }
+    
     // MARK: - Layout subviews -
     private func layoutButton() {
         let height : CGFloat = 40
@@ -48,13 +68,22 @@ class MapBottomView: UIView {
         let y = self.frame.height - height - 40
         button.frame = CGRect(x: x, y: y, width: width, height: height)
     }
+    
+    private func layoutSettingButton() {
+        let height : CGFloat = 40
+        let width : CGFloat = 40
+        let x = self.frame.width - width - 30
+        let y = self.frame.height - height - 40
+        settingButton.frame = CGRect(x: x, y: y, width: width, height: height)
+    }
 }
 
 extension MapBottomView : RoundFloatingButtonDelegate {
     func onClickButton() {
         //popup TextView and
+        self.delegate?.onClickButton()
         button.setLoading(bool: true)
-        dispatch_after(7.0) {
+        dispatch_after(5.0) {
             self.button.setLoading(bool: false)
         }
     }

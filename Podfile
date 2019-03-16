@@ -14,6 +14,7 @@ target 'MapDemoApp' do
   pod 'MagazineLayout'
   pod 'TinyConstraints'
   #####⬆︎TSUKASA⬆︎########
+  pod 'MultiSlider'
 # 以下追加
 post_install do |installer|
     installer.pods_project.targets.each do |target|

@@ -118,4 +118,10 @@ class MapModel {
     func removeAllOverlays() {
         self.mapView.removeOverlays(self.mapView.overlays)
     }
+    
+    //他のユーザを表示する
+    func showAnotherUserLocation(id : String , location : CLLocationCoordinate2D , image : UIImage?) {
+        let customAnno = CustomAnnotation(coor: location , image : image , id : id)
+        self.mapView.addAnnotation(customAnno)
+    }
 }

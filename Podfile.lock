@@ -1,9 +1,14 @@
 PODS:
   - Alamofire (4.8.1)
+  - AvailableHapticFeedback (1.0.0)
   - Cartography (3.1.0)
   - FlexiblePageControl (1.0.7)
   - MagazineLayout (1.2.1)
   - MessageKit (1.0.0)
+  - MiniLayout (1.4.0)
+  - MultiSlider (1.9.0):
+    - AvailableHapticFeedback
+    - MiniLayout
   - TinyConstraints (3.3.1)
 
 DEPENDENCIES:
@@ -12,25 +17,20 @@ DEPENDENCIES:
   - FlexiblePageControl
   - MagazineLayout
   - MessageKit (~> 1.0.0)
+  - MultiSlider
   - TinyConstraints
-
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - Alamofire
-    - Cartography
-    - FlexiblePageControl
-    - MagazineLayout
-    - MessageKit
-    - TinyConstraints
 
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  AvailableHapticFeedback: dbd483684e693281b85e671d95ac3593dfbad34f
   Cartography: 1988b7578871a56c036e7af17195cb2190edf18c
   FlexiblePageControl: 2ce8446da3d75df6432dbad7b9e19151629dae62
   MagazineLayout: cd9cb2174bcf1c349d8286390c7f9716e4ef40b9
   MessageKit: 16160036b16476b04bd0e9f2c7ce67e662e503e4
+  MiniLayout: e35331ce9ab50a4111c3f91deca158834f86d9e7
+  MultiSlider: e3b9a9318eaae0e5a4542c544300d3397eecd6b2
   TinyConstraints: dbf7519aefc01ea59d62244300c7718aec68e280
 
-PODFILE CHECKSUM: b95f9caafc4001e9c32c2b84c4b0504709b1b564
+PODFILE CHECKSUM: 9d4095f316da33e42136463bb6357a86b1e37fe6
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.4.0
