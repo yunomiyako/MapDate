@@ -16,19 +16,29 @@ class DiscoverySettingViewController: UIViewController {
 
     lazy var tableView : UITableView = self.createTableView()
     weak var delegate : DiscoverySettingViewControllerDelegate? = nil
-    let userDefaultsUseCase = UserDefaultsUseCase.sharedInstance
+    
+    private var distance : CGFloat = 3000 //単位[m]
+    private var age : [CGFloat] = [20 ,30]
+    private let mapUseCase = MapUseCase()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(tableView)
         
+        //ナビゲーションバーの右側に閉じるボタン付与
         let closeButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(self.clickCloseButton))
-        
-        //ナビゲーションバーの右側にボタン付与
         self.navigationItem.setRightBarButton(closeButton, animated: false)
+        
+        self.initValue()
+    }
+    
+    private func initValue() {
+        self.distance = self.mapUseCase.getSyncDiscoveryDistance()
+        self.age = self.mapUseCase.getSyncDiscoveryAge()
     }
     
     @objc private func clickCloseButton() {
+        mapUseCase.setSyncDiscoveryDistance(distance: self.distance)
         self.dismiss(animated: true) {
             self.delegate?.willDismiss()
         }
@@ -73,17 +83,16 @@ extension DiscoverySettingViewController : UITableViewDataSource {
         let row = indexPath.row
         switch(row) {
         case 0 :
-            let radius = userDefaultsUseCase.get(forKey: userDefaultsUseCase.discoveryDistanceKey) as? CGFloat ?? 3000
             let cell = tableView.dequeueReusableCell(withIdentifier:"SliderCellTableViewCell" , for: indexPath as IndexPath) as! SliderCellTableViewCell
-            cell.setSliderConfig(min: 2, max: 50, by: 2 , key : userDefaultsUseCase.discoveryDistanceKey)
-            cell.setValue(value: [radius])
+            cell.setSliderConfig(min: 2, max: 50, by: 2 , delegate : self )
+            cell.setValue(value: [self.distance / 1000])
             cell.setText(leftText: "Search Distance:", rightTextUnit: "km")
             cell.selectionStyle = .none
             return cell
         case 1 :
             let cell = tableView.dequeueReusableCell(withIdentifier:"SliderCellTableViewCell" , for: indexPath as IndexPath) as! SliderCellTableViewCell
-            cell.setSliderConfig(min: 18, max: 50, by: 1, key : userDefaultsUseCase.discoveryAgeKey)
-            cell.setValue(value: [20 , 30])
+            cell.setSliderConfig(min: 18, max: 50, by: 1 , delegate : self)
+            cell.setValue(value: self.age)
             cell.setText(leftText: "Show Ages:", rightTextUnit: "-")
             cell.selectionStyle = .none
             return cell
@@ -93,4 +102,15 @@ extension DiscoverySettingViewController : UITableViewDataSource {
     }
     
     
+}
+
+extension DiscoverySettingViewController : SliderCellTableViewCellDelegate {
+    func onChangeValue(value: [CGFloat]) {
+        //あまりまともでないけどvalueの要素数で場合分けする
+        if value.count == 1 {
+            self.distance = value[0] * 1000
+        } else if value.count == 2 {
+            self.age = value
+        }
+    }
 }

@@ -9,12 +9,19 @@
 import UIKit
 import MultiSlider
 import Cartography
+
+protocol SliderCellTableViewCellDelegate : class {
+    func onChangeValue(value : [CGFloat])
+}
+
 class SliderCellTableViewCell: UITableViewCell {
     
     lazy private var sliderView: MultiSlider = createMultiSlider()
     @IBOutlet weak var leftLabel: UILabel!
     @IBOutlet weak var rightLabel: UILabel!
     @IBOutlet weak var bottomBaseView: UIView!
+    
+    weak var delegate : SliderCellTableViewCellDelegate? = nil
     
     private var rightTextUnit : String = ""
     private var by : Float = 0
@@ -34,9 +41,6 @@ class SliderCellTableViewCell: UITableViewCell {
     }
     
     private func createMultiSlider() -> MultiSlider {
-//        let view = MultiSlider()
-//        view.addTarget(self, action: #selector(sliderDidChangeValue(_:)), for: .valueChanged)
-
         let horizontalMultiSlider = MultiSlider()
         horizontalMultiSlider.orientation = .horizontal
         horizontalMultiSlider.showsThumbImageShadow = true
@@ -55,19 +59,12 @@ class SliderCellTableViewCell: UITableViewCell {
             rightLabel.text = "\(Int(value[0])) \(rightTextUnit) \(Int(value[1]))"
         }
         
-        //user defaultsに保存
-        if value.count == 1 {
-            UserDefaultsUseCase.sharedInstance.set(value[0], forKey: self.key)
-        } else {
-            UserDefaultsUseCase.sharedInstance.set(value, forKey: self.key)
-        }
-        
+        self.delegate?.onChangeValue(value: value)
     }
     
     func setValue(value : [CGFloat]) {
         sliderView.thumbCount = value.count
         sliderView.value = value
-        LogDebug(sliderView.value.debugDescription)
     }
     
     func setText(leftText : String , rightTextUnit : String) {
@@ -80,14 +77,13 @@ class SliderCellTableViewCell: UITableViewCell {
         } else {
             rightLabel.text = "\(Int(value[0])) \(rightTextUnit) \(Int(value[1]))"
         }
-        LogDebug("setText : " + sliderView.value.debugDescription)
     }
     
-    func setSliderConfig(min : CGFloat , max: CGFloat , by : CGFloat , key : String) {
+    func setSliderConfig(min : CGFloat , max: CGFloat , by : CGFloat , delegate : SliderCellTableViewCellDelegate ) {
         self.sliderView.maximumValue = max
         self.sliderView.minimumValue = min
         self.sliderView.snapStepSize = by
-        self.key = key
+        self.delegate = delegate
     }
     
     func getValue() -> [CGFloat]? {

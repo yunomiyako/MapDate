@@ -16,7 +16,6 @@ class MapViewController: UIViewController {
     lazy private var bottomView : MapBottomView = self.createBottomView()
     lazy private var topTextView : FloatingRectangleView = self.createTopTextView()
     
-    private let userDefaults = UserDefaultsUseCase.sharedInstance
     private let mapUseCase = MapUseCase()
     
     private var radius : Float = 3000
@@ -93,11 +92,9 @@ class MapViewController: UIViewController {
     }
     
     fileprivate func circleRange() {
-        //radiusを設定からとる
-        if let radius = userDefaults.get(forKey: userDefaults.discoveryDistanceKey) as? CGFloat {
-            self.radius = Float(radius * 1000)
-        }
-        self.changedCircleRange(radius : Double(self.radius ))
+        //radiusを設定からとってきている
+        let radius = mapUseCase.getSyncDiscoveryDistance()
+        self.changedCircleRange(radius : Double( radius ))
     }
 }
 

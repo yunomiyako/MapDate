@@ -30,7 +30,6 @@ class MapView: UIView {
     private func childInit() {
         LogDebug("MapView childInit")
         self.mapModel = MapModel(mapView: mapView, state: .initial)
-        
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()

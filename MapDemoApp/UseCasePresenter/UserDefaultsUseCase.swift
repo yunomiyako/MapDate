@@ -10,10 +10,10 @@ import Foundation
 /**
  * NSUserDefaultsを用いる実装を管理
  */
-class UserDefaultsUseCase {
+class UserDefaultsRepository {
     
     //シングルトン
-    static let sharedInstance = UserDefaultsUseCase()
+    static let sharedInstance = UserDefaultsRepository()
     private init() {
     }
     
@@ -33,9 +33,5 @@ class UserDefaultsUseCase {
     final func clear(forKey:String) {
         UserDefaults.standard.removeObject(forKey: forKey)
     }
-    
-    //興味のある範囲
-    let discoveryDistanceKey = "discoveryDistanceKey"
-    let discoveryAgeKey = "discoveryAgeKey"
     
 }
