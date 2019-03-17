@@ -19,13 +19,11 @@ class HomeViewController: UIViewController {
         LogDebug("HomeViewControlle appear")
         firebaseUseCase.checkSignIn(
             whenSignIn: {user in
-                LogDebug("signed in")
                 //ログイン済み
-                let vc = MyProfileViewController()
+                let vc = MapViewController()
                 self.present(vc, animated: true)
             },
             whenNot: {
-                LogDebug("not signed in")
                 //ログインしていないのでLoginViewControllerを表示
                 let vc = LoginViewController()
                 self.present(vc, animated: true) {

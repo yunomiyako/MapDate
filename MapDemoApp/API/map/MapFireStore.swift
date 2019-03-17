@@ -10,14 +10,13 @@ import Foundation
 import FirebaseFirestore
 
 class MapFireStore {
-    
-    //singleton
-    static var shared = MapFireStore()
-    
+
     let collectionName = "Map"
     let firestore = Firestore.firestore()
     let collection : CollectionReference
     typealias Ops = ([String : Any]) -> ()
+    
+    var lastWriteTime : Date? = nil
     
     init() {
         self.collection = self.firestore.collection(collectionName)
@@ -41,22 +40,23 @@ class MapFireStore {
     }
     
     func setLocation(transactionId : String , location : LocationLog) {
+        //書き込み時間制限
+        LogDebug("write will start")
+        if let lastTime = lastWriteTime {
+            let time_diff = location.createdAt.timeIntervalSince1970 - lastTime.timeIntervalSince1970
+            
+            if time_diff < 60 * 5 {
+                LogDebug("write skip")
+                return
+            }
+        }
+        
         self.addDocument(documentName : transactionId , data:[
             "id" : location.id ,
             "latitude": location.latitude ,
             "longitude" : location.longitude ,
             "createdAt" : location.createdAt ,
         ])
-    }
-    
-    func readMessage(message_list : [ChatMessage] ) {
-        addSnapshot(addOps: {data in
-            if let vm = ChatMessageViewModel.readData(data: data) {
-                let message = ChatMessage(vm: vm)
-                //message_list.append(message)
-                //この苦労して作ったメッセージはどうすればいいんだ・・・
-            }
-        }, modifyOps: nil, removeOps: nil)
     }
     
     /*Generalな関数はスーパークラスに投げたいけどswiftでの書き方がわからない*/

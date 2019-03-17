@@ -30,6 +30,9 @@ class MapViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         self.circleRange()
+        
+        //test by kitahara
+        self.startUpdatingLocation()
     }
     
     override func viewDidLayoutSubviews() {
@@ -95,6 +98,11 @@ class MapViewController: UIViewController {
         //radiusを設定からとってきている
         let radius = mapUseCase.getSyncDiscoveryDistance()
         self.changedCircleRange(radius : Double( radius ))
+    }
+    
+    //位置情報をリアルタイムに取得する
+    fileprivate func startUpdatingLocation() {
+        self.mapView.startUpdatingLocation()
     }
 }
 

@@ -15,11 +15,11 @@ class MapView: UIView {
     
     private var locationManager : CLLocationManager?
     private var mapModel : MapModel? = nil
-    fileprivate var mapFireStore = MapFireStore.shared
+    fileprivate var mapFireStore = MapFireStore()
     
     //test by kitahara
-    fileprivate var transactionId = "test"
-    fileprivate var user_id = "wow wow"
+    fileprivate var transactionId = "test_transactionId"
+    fileprivate var user_id = "test_user_id"
     
     // MARK: - Life cycle events -
     required override init(frame: CGRect) {
@@ -215,14 +215,12 @@ extension MapView :CLLocationManagerDelegate {
     
     //ユーザの座標が更新されるたびに呼ばれる
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        LogDebug("locationManager")
         guard let newLocation = locations.last else {
             return
         }
         
-        if(CommonUtils.runEveryNSeconds(n: 5)) {
-//            let log = LocationLog(location: newLocation.coordinate, id: self.user_id)
-//            self.mapFireStore.setLocation(transactionId: self.transactionId, location: log)
-            LogDebug("locationManager called")
-        }
+        let log = LocationLog(location: newLocation.coordinate, id: self.user_id)
+        self.mapFireStore.setLocation(transactionId: self.transactionId, location: log)
     }
 }
