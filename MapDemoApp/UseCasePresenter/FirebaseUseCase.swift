@@ -12,8 +12,15 @@ import Firebase
 class FirebaseUseCase {
     
     //signinしている時としていない時で処理を分ける
-    func checkSignIn(whenSignIn : (UserDataModel) -> () , whenNot : () -> ()) {
-        
+    func checkSignIn(whenSignIn : @escaping (UserDataModel) -> () , whenNot : @escaping () -> ()) {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                let user = UserDataModel(uid: user?.uid, displayName: user?.displayName)
+                whenSignIn(user)
+            } else {
+                whenNot()
+            }
+        }
     }
     
     //現在signinしているユーザの情報を取得する

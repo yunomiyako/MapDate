@@ -15,15 +15,17 @@ class HomeViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
-        
+
+        LogDebug("HomeViewControlle appear")
         firebaseUseCase.checkSignIn(
             whenSignIn: {user in
+                LogDebug("signed in")
                 //ログイン済み
                 let vc = MyProfileViewController()
                 self.present(vc, animated: true)
             },
             whenNot: {
+                LogDebug("not signed in")
                 //ログインしていないのでLoginViewControllerを表示
                 let vc = LoginViewController()
                 self.present(vc, animated: true) {

@@ -32,3 +32,12 @@ func getTimeStamp() {
 func convertTimeStampToDate(timestamp : Double) -> Date{
     return Date(timeIntervalSince1970: TimeInterval(exactly: timestamp) ?? 0)
 }
+
+class CommonUtils {
+    static func runEveryNSeconds(n : Int) -> Bool{
+        let date = Date()
+        let second = Int(date.timeIntervalSince1970)
+        if second % n == 0 { return true }
+        else { return false }
+    }
+}
