@@ -37,7 +37,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         self.view.addSubview(baceScrview)
         
         editBtn = UIButton()
-        editBtn.setTitle("Edit", for:UIControl.State.normal)
+        editBtn.setTitle("Edit Info", for:UIControl.State.normal)
         editBtn.layer.borderWidth = 2.0 // 枠線の幅
         editBtn.layer.borderColor = UIColor.white.dark().cgColor // 枠線の色
         editBtn.setTitleColor(UIColor.red,for: UIControl.State.normal)
