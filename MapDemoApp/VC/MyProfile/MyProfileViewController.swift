@@ -10,15 +10,18 @@ import UIKit
 import FlexiblePageControl
 import MagazineLayout
 
+
+
 class MyProfileViewController: UIViewController , UIScrollViewDelegate{
    var editBtn:UIButton!
     
     let scrollSize: CGFloat = 350
     let numberOfPage: Int = 100
     let pageControl = FlexiblePageControl()
+    var state = "ここにプロフィールを書いていく"
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor.white.dark()
         
         editBtn = UIButton()
         editBtn.setTitle("Edit", for:UIControl.State.normal)
@@ -48,12 +51,12 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         }
 
         view.addSubview(scrollView)
-        view.addSubview(pageControl)
         
+        view.addSubview(pageControl)
         
         view.addSubview(collectionView)
         
-        
+        collectionView.backgroundColor = UIColor.white.dark()
         
         collectionView.frame = CGRect(x: 0, y: self.view.frame.height - 400, width: self.view.frame.width, height: 400)
         
@@ -72,7 +75,15 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     
     @objc func editProfile(sender : AnyObject) {
         let vc = EditProfileViewController()
+        vc.state = self.state
+        vc.doneButtonTapHandler = { [weak self] state in
+            self!.state = state
+            self!.loadDefaultData()
+        }
+        
+        
         self.present(vc, animated: true)
+        
     }
     
     private lazy var collectionView: UICollectionView = {
@@ -94,18 +105,18 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     private var lastItemCreationPanelViewState: ItemCreationPanelViewState?
     private lazy var dataSource = DataSource()
     
-//    private func removeAllData() {
-//        for sectionIndex in (0..<dataSource.numberOfSections).reversed() {
-//            dataSource.removeSection(atSectionIndex: sectionIndex)
-//        }
-//
-//        collectionView.reloadData()
-//    }
+    private func removeAllData() {
+        for sectionIndex in (0..<dataSource.numberOfSections).reversed() {
+            dataSource.removeSection(atSectionIndex: sectionIndex)
+        }
+
+        collectionView.reloadData()
+    }
     
     private func loadDefaultData() {
-        //removeAllData()
+        removeAllData()
         
-        let section0 = SectionInfo(
+        let section = SectionInfo(
             headerInfo: HeaderInfo(
                 visibilityMode: .visible(heightMode: .dynamic),
                 title: "Tsukasa"),
@@ -114,21 +125,16 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
                     sizeMode: MagazineLayoutItemSizeMode(
                         widthMode: .fullWidth(respectsHorizontalInsets: true),
                         heightMode: .dynamic),
-                    text: "ここにプロフィールを書いていく",
-                    color: Colors.blue)
+                    text: state,
+                    color: UIColor.white)
                 ])
         
 
         
-        dataSource.insert(section0, atSectionIndex: 0)
+        dataSource.insert(section, atSectionIndex: 0)
      
         
         collectionView.reloadData()
-    }
-
-    @objc func backToMap(_ sender: UIButton) {
-        
-        //self.dismiss(animated: true, completion: nil)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
