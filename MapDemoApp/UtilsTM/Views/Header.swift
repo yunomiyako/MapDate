@@ -25,7 +25,7 @@ final class Header: MagazineLayoutCollectionReusableView {
 
     super.init(frame: frame)
 
-    backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0.95, alpha: 1)
+    backgroundColor = .white
 
     label.font = UIFont.systemFont(ofSize: 48)
     label.textColor = .black

@@ -27,7 +27,7 @@ final class EditProfileViewController: UIViewController {
         super.viewDidLoad()
         
         scrview.indicatorStyle = .black
-        scrview.backgroundColor = UIColor.white.dark()
+        scrview.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
         self.view.addSubview(scrview)
         
         for i in 0..<6{
@@ -45,7 +45,10 @@ final class EditProfileViewController: UIViewController {
 
         
         textEditer.backgroundColor = UIColor.white
+        textEditer.text = "@" //※ダミーテキストでフォントを設定させる
+        textEditer.text = ""
         textEditer.text = state
+        textEditer.font = textEditer.font?.withSize(20)
         self.scrview.addSubview(textEditer)
       
         

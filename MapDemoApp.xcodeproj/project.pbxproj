@@ -75,6 +75,7 @@
 		D8B68BB0223A0D9200501D7E /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BAF223A0D9100501D7E /* frame.png */; };
 		D8B68BB2223B570300501D7E /* addimg.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BB1223B570300501D7E /* addimg.png */; };
 		D8B68BB4223CE35B00501D7E /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BB3223CE35B00501D7E /* delete.png */; };
+		D8B68BB6223D284A00501D7E /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BB5223D284A00501D7E /* back.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -149,6 +150,7 @@
 		D8B68BAF223A0D9100501D7E /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		D8B68BB1223B570300501D7E /* addimg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addimg.png; sourceTree = "<group>"; };
 		D8B68BB3223CE35B00501D7E /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
+		D8B68BB5223D284A00501D7E /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		EEB1E5F862D85A6C22AAC394 /* Pods-MapDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -423,6 +425,7 @@
 		927B79D222369FF2001F8A36 /* resouce */ = {
 			isa = PBXGroup;
 			children = (
+				D8B68BB5223D284A00501D7E /* back.png */,
 				D8B68BB1223B570300501D7E /* addimg.png */,
 				D8B68BB3223CE35B00501D7E /* delete.png */,
 				D8B68BAF223A0D9100501D7E /* frame.png */,
@@ -558,6 +561,7 @@
 				927B79ED22369FF3001F8A36 /* image07.jpg in Resources */,
 				927B79E922369FF3001F8A36 /* image01.jpg in Resources */,
 				927B79E822369FF3001F8A36 /* image00.jpg in Resources */,
+				D8B68BB6223D284A00501D7E /* back.png in Resources */,
 				D8B68BB2223B570300501D7E /* addimg.png in Resources */,
 				927B79EB22369FF3001F8A36 /* image02.jpg in Resources */,
 				927B79F022369FF3001F8A36 /* image09.jpg in Resources */,
