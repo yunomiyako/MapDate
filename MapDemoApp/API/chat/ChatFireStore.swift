@@ -7,65 +7,50 @@
 //
 
 import FirebaseFirestore
-
 import Foundation
+
+class ChatFireStorePath {
+    func parent() -> String{
+        return "chat"
+    }
+    
+    func room(transactionId : String) -> String{
+        return self.parent() + "/" + "rooms/" +  transactionId
+    }
+}
+
 class ChatFireStore {
-    let collectionName = "chat"
     let firestore = Firestore.firestore()
-    let collection : CollectionReference
-    typealias Ops = ([String : Any]) -> ()
+    let pathlib = ChatFireStorePath()
     
-    init() {
-        self.collection = self.firestore.collection(collectionName)
+    func addChatMessage(transactionId : String , message : ChatMessageViewModel ) {
+        
+        let data : [String : Any] = [
+         "id" : message.sender.id ,
+         "name" : message.sender.name ,
+         "messageId" : message.messageId ,
+         "sentDate": message.sentDate ,
+         "kind" : message.kind ,
+         "message" : message.message
+         ]
+        firestore.collection(pathlib.room(transactionId: transactionId)).addDocument(data: data)
     }
     
-    func addChatMessage(message : ChatMessageViewModel) {
-        self.addDocument(data: [
-            "id" : message.sender.id ,
-            "name" : message.sender.name ,
-            "messageId" : message.messageId ,
-            "sentDate": message.sentDate ,
-            "kind" : message.kind ,
-            "message" : message.message
-            ])
-    }
-    
-    func readMessage(message_list : [ChatMessage] ) {
-        addSnapshot(addOps: {data in
-            if let vm = ChatMessageViewModel.readData(data: data) {
-                let message = ChatMessage(vm: vm)
-                //message_list.append(message)
-                //この苦労して作ったメッセージはどうすればいいんだ・・・
-            }
-        }, modifyOps: nil, removeOps: nil)
-    }
-    
-    /*Generalな関数はスーパークラスに投げたいけどswiftでの書き方がわからない*/
-    //documentを追加する
-    func addDocument(data : [String : Any]) {
-        collection.addDocument(data: data)
-    }
-    
-    //Snapshotリスナーをつける
-    func addSnapshot(addOps : Ops? , modifyOps : Ops?, removeOps : Ops? ) {
-        collection.addSnapshotListener { (query, error) in
-                guard let value = query else {return}
-                value.documentChanges.forEach{diff in
-                    switch(diff.type){
-                    case .added:
-                        if let op = addOps {
-                            op(diff.document.data())
-                        }
-                    case .modified:
-                        if let op = modifyOps {
-                            op(diff.document.data())
-                        }
-                    case .removed:
-                        if let op = removeOps {
-                            op(diff.document.data())
-                        }
-                    }
+    func readMessage(transactionId : String , handler : @escaping ([ChatMessage]) -> ()) {
+        firestore.collection(pathlib.room(transactionId: transactionId)).addSnapshotListener { (query, error) in
+            if let value = query {
+                let newValues = value.documentChanges.filter{change in
+                    return change.type == DocumentChangeType.added
                 }
+                let newMessages = newValues.map{x in x.document.data()}
+                LogDebug("newMessages count = \(newMessages.count)")
+                let newMessagesViewModel = newMessages.map{x in
+                    ChatMessageViewModel(data : x)}
+                let newChatMessages = newMessagesViewModel.map{x in
+                    ChatMessage(vm: x)
+                }
+                handler(newChatMessages)
+            }
         }
     }
 }

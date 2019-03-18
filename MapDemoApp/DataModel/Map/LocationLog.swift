@@ -14,10 +14,10 @@ struct LocationLog {
     let longitude: Double
     let createdAt: Date
     
-    init(location : CLLocationCoordinate2D , id : String) {
+    init(coordinate : CLLocationCoordinate2D , id : String) {
         self.id = id
-        self.latitude = location.latitude
-        self.longitude = location.longitude
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
         self.createdAt = Date()
     }
     

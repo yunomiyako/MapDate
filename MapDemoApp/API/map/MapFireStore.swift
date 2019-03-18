@@ -9,21 +9,24 @@
 import Foundation
 import FirebaseFirestore
 
-class MapFireStore {
-
-    let collectionName = "Map"
-    let firestore = Firestore.firestore()
-    let collection : CollectionReference
-    typealias Ops = ([String : Any]) -> ()
-    
-    var lastWriteTime : Date? = nil
-    
-    init() {
-        self.collection = self.firestore.collection(collectionName)
+class MapFireStorePath {
+    func parent() -> String{
+        return "map"
     }
     
-    func getLocation(transactionId : String , handler : @escaping (LocationLog) -> ()) {
-        self.collection.document(transactionId).addSnapshotListener { (snapshot, error) in
+    func partnerLocation(transactionId : String) -> String{
+        return self.parent() + "/" + "location/" +  transactionId
+    }
+}
+
+class MapFireStore {
+    let firestore = Firestore.firestore()
+    typealias Ops = ([String : Any]) -> ()
+    var lastWriteTime : Date? = nil
+    let pathlib = MapFireStorePath()
+    
+    func getLocation(transactionId : String , location_id : String , handler : @escaping (LocationLog) -> ()) {
+        self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId)).document(location_id).addSnapshotListener { (snapshot, error) in
             
             if let error = error {
                 LogDebug("Error getting documents: \(error)")
@@ -44,33 +47,29 @@ class MapFireStore {
         LogDebug("write will start")
         if let lastTime = lastWriteTime {
             let time_diff = location.createdAt.timeIntervalSince1970 - lastTime.timeIntervalSince1970
-            
-            if time_diff < 60 * 5 {
+            LogDebug("time_diff = " + time_diff.description)
+            if time_diff < 30 {
                 LogDebug("write skip")
                 return
             }
         }
         
-        self.addDocument(documentName : transactionId , data:[
-            "id" : location.id ,
-            "latitude": location.latitude ,
-            "longitude" : location.longitude ,
-            "createdAt" : location.createdAt ,
-        ])
+        let collection = self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId))
+        lastWriteTime = Date()
+        collection.document(location.id).setData(
+            [
+                "id" : location.id ,
+                "latitude": location.latitude ,
+                "longitude" : location.longitude ,
+                "createdAt" : location.createdAt ,
+            ]
+        )
+        
     }
     
-    /*Generalな関数はスーパークラスに投げたいけどswiftでの書き方がわからない*/
-    //documentを追加する
-    func addDocument(data : [String : Any]) {
-        collection.addDocument(data: data)
-    }
-    
-    func addDocument(documentName : String , data : [String : Any]) {
-        collection.document(documentName).setData(data)
-    }
-    
+
     //Snapshotリスナーをつける
-    func addSnapshot(addOps : Ops? , modifyOps : Ops?, removeOps : Ops? ) {
+    func addSnapshot(collection : CollectionReference , addOps : Ops? , modifyOps : Ops?, removeOps : Ops? ) {
         collection.addSnapshotListener { (query, error) in
             guard let value = query else {return}
             value.documentChanges.forEach{diff in

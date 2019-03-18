@@ -17,10 +17,6 @@ class MapView: UIView {
     private var mapModel : MapModel? = nil
     fileprivate var mapFireStore = MapFireStore()
     
-    //test by kitahara
-    fileprivate var transactionId = "test_transactionId"
-    fileprivate var user_id = "test_user_id"
-    
     // MARK: - Life cycle events -
     required override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,6 +36,12 @@ class MapView: UIView {
         locationManager?.requestWhenInUseAuthorization()
         self.addSubview(mapView)
         self.mapView.addSubview(trackingButton)
+        
+        self.mapModel?.receivePartnerLocation(handler: {log in
+            let id = log.id
+            let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
+            self.showAnotherUserLocation(id: id, location: location)
+        })
     }
     
     //自分の近くを円で描く
@@ -128,6 +130,7 @@ class MapView: UIView {
     
     //別のユーザを表示させる
     private func showAnotherUserLocation(id : String , location : CLLocationCoordinate2D) {
+        //test by kitahara
         let imageNamed = "image01.jpg"
         let image = UIImage(named: imageNamed )
         self.mapModel?.showAnotherUserLocation(id : id , location : location , image : image)
@@ -189,6 +192,7 @@ extension MapView : MKMapViewDelegate {
                 annotationView.layer.borderColor = UIColor.white.cgColor
                 annotationView.layer.borderWidth = 5
                 annotationView.setShadow()
+                mapView.register(MKAnnotationView.self , forAnnotationViewWithReuseIdentifier: annot.id)
                 return annotationView
             }
             return dequeView
@@ -220,7 +224,6 @@ extension MapView :CLLocationManagerDelegate {
             return
         }
         
-        let log = LocationLog(location: newLocation.coordinate, id: self.user_id)
-        self.mapFireStore.setLocation(transactionId: self.transactionId, location: log)
+        self.mapModel?.sendLocation(coordinate: newLocation.coordinate)
     }
 }

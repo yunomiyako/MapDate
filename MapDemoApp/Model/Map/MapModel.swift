@@ -13,6 +13,7 @@ class MapModel {
     private let mapView : MKMapView
     
     private var gatherHereAnnotation :MKPointAnnotation? = nil
+    fileprivate var mapFireStore = MapFireStore()
     
     init(mapView : MKMapView , state : MapState) {
         self.state = state
@@ -119,9 +120,44 @@ class MapModel {
         self.mapView.removeOverlays(self.mapView.overlays)
     }
     
+    func removeCustomAnnotation(id : String) {
+        for annot in self.mapView.annotations {
+            if let customAnno = annot as? CustomAnnotation {
+                if customAnno.id == id {
+                    self.mapView.removeAnnotation(customAnno)
+                }
+            }
+        }
+    }
+    
     //他のユーザを表示する
     func showAnotherUserLocation(id : String , location : CLLocationCoordinate2D , image : UIImage?) {
         let customAnno = CustomAnnotation(coor: location , image : image , id : id)
+        self.removeCustomAnnotation(id: id)
         self.mapView.addAnnotation(customAnno)
     }
+    
+    //自分の位置情報をfirestoreに送る
+    func sendLocation(coordinate : CLLocationCoordinate2D) {
+        //test by kitahara
+        let transactionId = "test_transactionId"
+        let user_location_id = "user_location_id"
+        //let user_location_id = "partner_location_id"
+        let log = LocationLog(coordinate: coordinate, id: user_location_id)
+        mapFireStore.setLocation(transactionId: transactionId, location: log)
+    }
+    
+    //相手の位置情報をfirestoreから受け取る
+    func receivePartnerLocation(handler : @escaping (LocationLog) -> ()) {
+        //test by kitahara
+        let transactionId = "test_transactionId"
+        let user_location_id = "partner_location_id"
+        //let user_location_id = "user_location_id"
+        
+        mapFireStore.getLocation(transactionId: transactionId, location_id: user_location_id, handler: {log in
+            handler(log)
+        })
+    }
+    
+    
 }

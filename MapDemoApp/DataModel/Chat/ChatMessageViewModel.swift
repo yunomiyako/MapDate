@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import MessageKit
+
 class SenderViewModel : Codable {
     var id : String
     var name : String
@@ -24,23 +26,36 @@ class ChatMessageViewModel : Codable{
     var kind: String
     var message : String
     
+    convenience init(message : ChatMessage) {
+        let id = message.sender.id
+        let name = message.sender.displayName
+        let messageId = message.messageId
+        let sentDate = CommonUtils.convertDateToTimeStamp(date: message.sentDate)
+        let kind = message.kind
+        if case let MessageKind.text(text) = kind {
+            self.init(id: id, name: name, messageId: messageId, sentDate: sentDate, kind:"text" , message: text)
+            return 
+        }
+        
+        self.init(data: [:])
+    }
+    
+    convenience init(data : [String : Any]) {
+        let id = data["id"] as? String ?? ""
+        let name = data["name"] as? String ?? ""
+        let messageId = data["messageId"] as? String ?? ""
+        let sentDate = data["sentDate"] as? Double ?? 0
+        let kind = data["kind"] as? String ?? ""
+        let message = data["message"] as? String ?? ""
+        self.init(id: id, name: name, messageId: messageId, sentDate: sentDate, kind: kind, message: message)
+    }
+    
     init(id : String , name : String , messageId : String , sentDate: Double , kind : String , message : String) {
         self.sender = SenderViewModel(id: id, name: name)
         self.messageId = messageId
         self.sentDate = sentDate
         self.kind = kind
         self.message = message
-    }
-    
-    static func readData(data : [String : Any]) -> ChatMessageViewModel? {
-        guard let id = data["id"] as? String else {return nil}
-        guard let name = data["name"] as? String else {return nil}
-        guard let messageId = data["messageId"] as? String else {return nil}
-        guard let sentDate = data["sentDate"] as? Double else {return nil}
-        guard let kind = data["kind"] as? String else {return nil}
-        guard let message = data["message"] as? String else {return nil}
-        
-        return ChatMessageViewModel(id: id, name: name, messageId: messageId, sentDate: sentDate, kind: kind, message: message)
     }
 }
 

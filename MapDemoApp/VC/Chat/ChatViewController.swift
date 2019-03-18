@@ -21,11 +21,9 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         
-        chatUseCase.fetchChatMessages() { messages in
+        chatUseCase.listenChatMessages() { messages in
             self.messages =  messages
             self.messagesCollectionView.reloadData()
-            
-            
         }
     }
     
