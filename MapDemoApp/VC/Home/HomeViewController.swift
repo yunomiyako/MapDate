@@ -21,6 +21,7 @@ class HomeViewController: UIViewController {
             whenSignIn: {user in
                 //ログイン済み
                 let vc = MyProfileViewController()
+                //let vc = MapViewController()
                 self.present(vc, animated: true)
             },
             whenNot: {
