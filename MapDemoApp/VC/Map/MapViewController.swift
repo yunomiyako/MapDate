@@ -17,6 +17,8 @@ class MapViewController: UIViewController {
     lazy private var topTextView : FloatingRectangleView = self.createTopTextView()
     
     private let mapUseCase = MapUseCase()
+    private let matchUseCase = MatchUseCase()
+    private let firebaseUseCase = FirebaseUseCase()
     
     private var radius : Float = 3000
     
@@ -118,8 +120,22 @@ extension MapViewController : MapBottomViewDelegate {
     }
     
     func onClickButton() {
-        LogDebug("something will happen")
+        //周りの人に通知を投げる
+        let coord = mapView.getUserLocation()
+        let user = firebaseUseCase.getCurrentUser()
+        if let uid = user.uid {
+            let location = LocationLog(coordinate: coord, id: uid)
+            self.matchUseCase.requestMatch(uid: uid, location: location) {response in
+                let result = response.result
+                if result == "success" {
+                    LogDebug("マッチしました！")
+                } else if result == "fail" {
+                    LogDebug("マッチしませんでした")
+                } else {
+                    LogDebug("レスポンスの形がおかしい")
+                }
+                
+            }
+        }
     }
-    
-    
 }
