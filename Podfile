@@ -10,6 +10,7 @@ target 'MapDemoApp' do
   pod 'Cartography'
   pod 'MessageKit' , '~> 1.0.0'
   pod 'MultiSlider'
+  pod 'RAMPaperSwitch' 
   #####⬇︎TSUKASA⬇︎########
   pod 'FlexiblePageControl'
   pod 'MagazineLayout'

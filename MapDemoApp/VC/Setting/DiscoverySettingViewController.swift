@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DiscoverySettingViewControllerDelegate : class {
-    func willDismiss()
+    func willDismissIfEdited()
 }
 
 class DiscoverySettingViewController: UIViewController {
@@ -20,6 +20,8 @@ class DiscoverySettingViewController: UIViewController {
     private var distance : CGFloat = 3000 //単位[m]
     private var age : [CGFloat] = [20 ,30]
     private let mapUseCase = MapUseCase()
+    private var isEdited : Bool = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +44,9 @@ class DiscoverySettingViewController: UIViewController {
         mapUseCase.setSyncDiscoveryDistance(distance: self.distance)
         mapUseCase.setSyncDiscoveryAge(age: self.age)
         self.dismiss(animated: true) {
-            self.delegate?.willDismiss()
+            if self.isEdited {
+                self.delegate?.willDismissIfEdited()
+            }
         }
     }
     
@@ -108,6 +112,7 @@ extension DiscoverySettingViewController : UITableViewDataSource {
 
 extension DiscoverySettingViewController : SliderCellTableViewCellDelegate {
     func onChangeValue(value: [CGFloat]) {
+        isEdited = true
         //あまりまともでないけどvalueの要素数で場合分けする
         if value.count == 1 {
             self.distance = value[0] * 1000

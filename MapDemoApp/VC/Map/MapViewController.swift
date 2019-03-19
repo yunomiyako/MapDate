@@ -14,6 +14,7 @@ class MapViewController: UIViewController {
     // MARK: - Properties -
     lazy private var mapView:MapView = self.createMapView()
     lazy private var bottomView : MapBottomView = self.createBottomView()
+    lazy private var bottomWhenMatchView : MapBottomWhenMatchedView = self.createBottomWhenMatchView()
     lazy private var topTextView : FloatingRectangleView = self.createTopTextView()
     
     private let mapUseCase = MapUseCase()
@@ -22,12 +23,16 @@ class MapViewController: UIViewController {
     
     private var radius : Float = 3000
     
+    //test by kitahara
+    private var state : MapState = .chatting
+    
     // MARK: - Life cycle events -
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(mapView)
         self.view.addSubview(bottomView)
         self.view.addSubview(topTextView)
+        self.view.addSubview(bottomWhenMatchView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,7 +45,19 @@ class MapViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.layoutMapView()
-        self.layoutBottomView()
+        
+        if self.state == .initial {
+            self.layoutBottomView()
+        } else {
+            bottomView.isHidden = true
+        }
+        
+        if self.state == .chatting {
+            self.layoutBottomWhenMatchView()
+        } else {
+            bottomWhenMatchView.isHidden = true
+        }
+        
         self.layoutTopTextView()
     }
     
@@ -53,6 +70,11 @@ class MapViewController: UIViewController {
     private func createBottomView() -> MapBottomView {
         let view = MapBottomView()
         view.delegate = self
+        return view
+    }
+    
+    private func createBottomWhenMatchView() -> MapBottomWhenMatchedView {
+        let view = MapBottomWhenMatchedView()
         return view
     }
     
@@ -71,6 +93,14 @@ class MapViewController: UIViewController {
         let y = self.view.frame.height
         bottomView.frame = CGRect(x: 0, y: y - height, width: self.view.frame.width, height: height)
     }
+    
+    private func layoutBottomWhenMatchView() {
+        let height : CGFloat = 150
+        let y = self.view.frame.height
+        bottomWhenMatchView.frame = CGRect(x: 0, y: y - height, width: self.view.frame.width, height: height)
+    }
+
+
     
     private func layoutTopTextView() {
         let height : CGFloat = 120
@@ -109,7 +139,7 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController : DiscoverySettingViewControllerDelegate {
-    func willDismiss() {
+    func willDismissIfEdited() {
         self.circleRange()
     }
 }
@@ -131,6 +161,7 @@ extension MapViewController : MapBottomViewDelegate {
                     LogDebug("マッチしました！")
                 } else if result == "fail" {
                     LogDebug("マッチしませんでした")
+                    self.bottomView.buttonLoading(bool : false)
                 } else {
                     LogDebug("レスポンスの形がおかしい")
                 }

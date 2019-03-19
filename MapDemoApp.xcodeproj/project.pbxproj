@@ -52,6 +52,7 @@
 		35BBB359223BE42D00C484AC /* SliderCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35BBB357223BE42D00C484AC /* SliderCellTableViewCell.xib */; };
 		35BBB35D223C0B0B00C484AC /* UserDefaultsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BBB35C223C0B0B00C484AC /* UserDefaultsUseCase.swift */; };
 		35BBB35F223C1BC400C484AC /* setting2.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BBB35E223C1BC400C484AC /* setting2.png */; };
+		35D32F4122412C5E00A83141 /* MapBottomWhenMatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D32F4022412C5E00A83141 /* MapBottomWhenMatchedView.swift */; };
 		35D6AA3222410BE0002DCD9F /* MatchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D6AA3122410BE0002DCD9F /* MatchUseCase.swift */; };
 		35D6AA3522410C08002DCD9F /* MatchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D6AA3422410C08002DCD9F /* MatchRepository.swift */; };
 		35D6AA3722411415002DCD9F /* RequestMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D6AA3622411415002DCD9F /* RequestMatch.swift */; };
@@ -128,6 +129,7 @@
 		35BBB357223BE42D00C484AC /* SliderCellTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCellTableViewCell.xib; sourceTree = "<group>"; };
 		35BBB35C223C0B0B00C484AC /* UserDefaultsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsUseCase.swift; sourceTree = "<group>"; };
 		35BBB35E223C1BC400C484AC /* setting2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting2.png; sourceTree = "<group>"; };
+		35D32F4022412C5E00A83141 /* MapBottomWhenMatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBottomWhenMatchedView.swift; sourceTree = "<group>"; };
 		35D6AA3122410BE0002DCD9F /* MatchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchUseCase.swift; sourceTree = "<group>"; };
 		35D6AA3422410C08002DCD9F /* MatchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchRepository.swift; sourceTree = "<group>"; };
 		35D6AA3622411415002DCD9F /* RequestMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMatch.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				35AD2F772234243F00CD86EE /* MapView.swift */,
 				3583CEBC2234C56B00621F1F /* MapBottomView.swift */,
 				35401887223A3E3F0002BCF2 /* CustomAnnotationView.swift */,
+				35D32F4022412C5E00A83141 /* MapBottomWhenMatchedView.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -643,6 +646,7 @@
 				"${BUILT_PRODUCTS_DIR}/MiniLayout/MiniLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/MultiSlider/MultiSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/RAMPaperSwitch/RAMPaperSwitch.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/TinyConstraints/TinyConstraints.framework",
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
@@ -670,6 +674,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MiniLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MultiSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RAMPaperSwitch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TinyConstraints.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
@@ -752,6 +757,7 @@
 				35AD2F87223433DB00CD86EE /* MapRepository.swift in Sources */,
 				3583CEC02234C99F00621F1F /* CommonUtils.swift in Sources */,
 				927B79F922369FF3001F8A36 /* ItemCreationPanelView.swift in Sources */,
+				35D32F4122412C5E00A83141 /* MapBottomWhenMatchedView.swift in Sources */,
 				927B79FA22369FF3001F8A36 /* Header.swift in Sources */,
 				3583CECA2234F26A00621F1F /* ChatViewController.swift in Sources */,
 				35401891223AA4DA0002BCF2 /* APIClient.swift in Sources */,
