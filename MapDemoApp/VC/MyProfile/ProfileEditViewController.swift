@@ -14,7 +14,7 @@ final class EditProfileViewController: UIViewController {
     let textEditer = UITextView()
     let scrview = UIScrollView()
     let navBar = UINavigationBar()
-    let navItem = UINavigationItem(title: "プロフィール編集")
+    let navItem = UINavigationItem(title: "Edit Info")
     let navigationView = UIView()
     var state = ""
     var profimgs = [UIImageView]()
@@ -22,13 +22,20 @@ final class EditProfileViewController: UIViewController {
     var tmp = false
     var doneButtonTapHandler: ((String) -> Void)?
     var selectedFrame:Int!
+    let photos = UILabel()
+    let abouMe = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scrview.indicatorStyle = .black
         scrview.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
         self.view.addSubview(scrview)
+        
+        photos.text = "PHOTOS"
+        scrview.addSubview(photos)
+        
+        abouMe.text = "ABOUT ME"
+        scrview.addSubview(abouMe)
         
         for i in 0..<6{
             profimgs.append(UIImageView())
@@ -48,6 +55,7 @@ final class EditProfileViewController: UIViewController {
         textEditer.text = "@" //※ダミーテキストでフォントを設定させる
         textEditer.text = ""
         textEditer.text = state
+        textEditer.textContainerInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         textEditer.font = textEditer.font?.withSize(20)
         self.scrview.addSubview(textEditer)
       
@@ -58,21 +66,26 @@ final class EditProfileViewController: UIViewController {
     override func viewDidLayoutSubviews(){
         super.viewDidLayoutSubviews()
 
-        scrview.scrollIndicatorInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        scrview.scrollIndicatorInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
         scrview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         scrview.contentSize = CGSize(width:0, height: scrview.frame.height * 1.5)
+    
+        
         let scrhalfY = self.scrview.frame.height * 0.5
         let scrhalfX = self.scrview.frame.width * 0.5
-        let prfpos1 = scrhalfY * 0.25
+        let prfpos1 = scrhalfY * 0.3
+        
+        photos.frame = CGRect(x: scrhalfX * 0.1, y: prfpos1 * 0.83, width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        photos.sizeToFit()
         
         for i in 0..<6{
             
             if i < 3{
                 profimgs[i].frame = CGRect(x: 0, y: prfpos1, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
-                profimgBtns[i].frame = CGRect(x: 0, y: prfpos1 * 2, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
+                profimgBtns[i].frame = CGRect(x: 0, y: prfpos1 * 1.8, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
             }else{
                 profimgs[i].frame = CGRect(x: 0, y: prfpos1 + (scrview.frame.width * 0.22)+prfpos1 * 0.5, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
-                profimgBtns[i].frame = CGRect(x: 0, y:prfpos1 * 2 + scrhalfY * 0.35, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
+                profimgBtns[i].frame = CGRect(x: 0, y:prfpos1 * 1.8 + scrhalfY * 0.35, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
             }
             switch (i+1)%3{
             case 1:
@@ -86,8 +99,12 @@ final class EditProfileViewController: UIViewController {
             profimgBtns[i].frame.origin.x = profimgs[i].frame.minX + profimgs[i].frame.width * 0.75
         }
         
+        let textEditerY = self.scrview.frame.height - (scrhalfY * 0.9)
         
-        textEditer.frame = CGRect(x: 0, y: self.scrview.frame.height - (scrhalfY), width: self.view.frame.width, height: (scrhalfY))
+        abouMe.frame = CGRect(x: scrhalfX * 0.1, y: textEditerY*0.95 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        abouMe.sizeToFit()
+        
+        textEditer.frame = CGRect(x: 0, y: textEditerY, width: self.view.frame.width, height: (scrhalfY))
 
         addNavBackView()
         addNavigationBar()

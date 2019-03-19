@@ -29,9 +29,8 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         
-        baceScrview.indicatorStyle = .black
         baceScrview.backgroundColor = UIColor.white
-        baceScrview.scrollIndicatorInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        baceScrview.scrollIndicatorInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
         baceScrview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/* - self.view.frame.height * 0.1*/)
         baceScrview.contentSize = CGSize(width:0, height: baceScrview.frame.height * 1.5)
         self.view.addSubview(baceScrview)
