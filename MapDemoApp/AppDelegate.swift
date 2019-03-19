@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import Firebase
+import FirebaseUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.rootViewController = homeViewController
         window!.makeKeyAndVisible()
         
+        /*firebase setup*/
+        FirebaseApp.configure()
         return true
     }
     
@@ -47,7 +51,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+    func application(_ app: UIApplication, open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+        let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String?
+        // GoogleもしくはFacebook認証の場合、trueを返す
+        if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
+            return true
+        }
+        // 電話番号認証の場合、trueを返す
+        if Auth.auth().canHandle(url) {
+            return true
+        }
+        
+        // other URL handling goes here.
+        return false
+    }
+    
+    // 電話番号認証の場合に通知をHandel出来るかチェックする関数
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification notification: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if Auth.auth().canHandleNotification(notification) {
+            completionHandler(.noData)
+            return
+        }
+        // エラーの時の処理を書く
+    }
 }
 
+extension AppDelegate : FUIAuthDelegate {
+    
+}

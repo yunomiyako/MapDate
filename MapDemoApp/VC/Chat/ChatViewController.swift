@@ -12,7 +12,7 @@ import MessageKit
 class ChatViewController: MessagesViewController {
     // Some global variables for the sake of the example. Using globals is not recommended!
     private let sender = Sender(id: "any_unique_id", displayName: "Steven")
-    private var messages: [MessageType] = []
+    private var messages: [ChatMessage] = []
     private let chatUseCase = ChatUseCase()
     
     override func viewDidLoad() {
@@ -20,15 +20,13 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messageInputBar.delegate = self
         
-        chatUseCase.fetchChatMessages() { messages in
-            self.messages =  messages
+        chatUseCase.listenChatMessages() { messages in
+            self.messages += messages
             self.messagesCollectionView.reloadData()
-            
-            
         }
     }
-    
 }
 
 extension ChatViewController: MessagesDataSource {
@@ -46,3 +44,16 @@ extension ChatViewController: MessagesDataSource {
 }
 
 extension ChatViewController: MessagesDisplayDelegate, MessagesLayoutDelegate {}
+
+extension ChatViewController: MessageInputBarDelegate {
+    // メッセージ送信ボタンをタップした時の挙動
+    func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
+        for component in inputBar.inputTextView.components {
+            if let text = component as? String {
+                self.chatUseCase.addChatMessage(text: text, sender: self.sender)
+            }
+        }
+        inputBar.inputTextView.text = String()
+        messagesCollectionView.scrollToBottom()
+    }
+}

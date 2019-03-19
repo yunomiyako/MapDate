@@ -25,10 +25,21 @@ func dispatch_after(_ delay_time:Double, block: @escaping () -> ()) {
     DispatchQueue.main.asyncAfter(deadline: .now() + delay_time, execute:block)
 }
 
-func getTimeStamp() {
-    
-}
 
-func convertTimeStampToDate(timestamp : Double) -> Date{
-    return Date(timeIntervalSince1970: TimeInterval(exactly: timestamp) ?? 0)
+class CommonUtils {
+    static func runEveryNSeconds(n : Int) -> Bool{
+        let date = Date()
+        let second = Int(date.timeIntervalSince1970)
+        if second % n == 0 { return true }
+        else { return false }
+    }
+    
+    static func convertDateToTimeStamp(date : Date) -> Double {
+        return date.timeIntervalSince1970
+    }
+    
+    static func convertTimeStampToDate(timestamp : Double) -> Date{
+        return Date(timeIntervalSince1970: TimeInterval(exactly: timestamp) ?? 0)
+    }
+
 }

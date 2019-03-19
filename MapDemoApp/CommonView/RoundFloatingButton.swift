@@ -65,18 +65,21 @@ class RoundFloatingButton: UIView {
         let tag = 808404
         loading = bool
         if !bool {
+            self.button.isUserInteractionEnabled = true
             self.button.titleLabel?.alpha = 1
             if let indicator = self.button.viewWithTag(tag) as? UIActivityIndicatorView {
                 indicator.stopAnimating()
                 indicator.removeFromSuperview()
             }
+        } else {
+            self.button.isUserInteractionEnabled = false
+            self.button.titleLabel?.alpha = 0
         }
 
         UIView.animate(withDuration: 0.8, animations: {
             self.layoutButton()
         }, completion: { _ in
             if bool {
-                self.button.titleLabel?.alpha = 0
                 let indicator = UIActivityIndicatorView()
                 indicator.tag = tag
                 self.button.addSubview(indicator)

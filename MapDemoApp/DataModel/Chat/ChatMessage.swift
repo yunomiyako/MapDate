@@ -25,7 +25,7 @@ class ChatMessage : MessageType{
         let type = vm.kind
         if type == "text" {
             let sender = Sender(id: vm.sender.id, displayName: vm.sender.name)
-            let date = convertTimeStampToDate(timestamp: vm.sentDate)
+            let date = CommonUtils.convertTimeStampToDate(timestamp: vm.sentDate)
             self.init(text: vm.message, sender: sender, messageId: vm.messageId, date: date)
             return
         }

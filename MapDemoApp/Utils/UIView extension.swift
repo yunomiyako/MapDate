@@ -21,5 +21,20 @@ extension UIView {
         self.layer.cornerRadius = cornerRadius ?? self.frame.height / 2
     }
     
-    
+    func gradation(topColor : UIColor , bottomColor : UIColor) {
+        //グラデーションの色を配列で管理
+        let gradientColors: [CGColor] = [topColor.cgColor, bottomColor.cgColor]
+        
+        //グラデーションレイヤーを作成
+        let gradientLayer: CAGradientLayer = CAGradientLayer()
+        
+        //グラデーションの色をレイヤーに割り当てる
+        gradientLayer.colors = gradientColors
+        //グラデーションレイヤーをスクリーンサイズにする
+        gradientLayer.frame = self.bounds
+        
+        //グラデーションレイヤーをビューの一番下に配置
+        self.layer.insertSublayer(gradientLayer, at: 0)
+
+    }
 }

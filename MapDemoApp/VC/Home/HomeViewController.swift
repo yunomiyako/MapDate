@@ -7,20 +7,29 @@
 //aaaa
 
 import UIKit
-
 class HomeViewController: UIViewController {
-
+    private let firebaseUseCase = FirebaseUseCase()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        let vc = MyProfileViewController()
-        self.present(vc, animated: true)
+
+        LogDebug("HomeViewControlle appear")
+        firebaseUseCase.checkSignIn(
+            whenSignIn: {user in
+                //ログイン済み
+                let vc = ChatViewController()
+                self.present(vc, animated: true)
+            },
+            whenNot: {
+                //ログインしていないのでLoginViewControllerを表示
+                let vc = LoginViewController()
+                self.present(vc, animated: true)
+            }
+        )
+        
     }
-
-
 }
 

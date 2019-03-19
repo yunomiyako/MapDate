@@ -15,6 +15,7 @@ class MapView: UIView {
     
     private var locationManager : CLLocationManager?
     private var mapModel : MapModel? = nil
+    fileprivate var mapFireStore = MapFireStore()
     
     // MARK: - Life cycle events -
     required override init(frame: CGRect) {
@@ -28,20 +29,27 @@ class MapView: UIView {
     }
     
     private func childInit() {
+        LogDebug("MapView childInit")
         self.mapModel = MapModel(mapView: mapView, state: .initial)
-        
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()
         self.addSubview(mapView)
         self.mapView.addSubview(trackingButton)
         
+        self.mapModel?.receivePartnerLocation(handler: {log in
+            let id = log.id
+            let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
+            self.showAnotherUserLocation(id: id, location: location)
+        })
     }
     
     //自分の近くを円で描く
     func showCircleAroundUser(radius : Double) {
+        LogDebug("showCircleAroundUser")
+        self.mapModel?.removeAllOverlays()
         self.mapModel?.showCircleAroundUser(radius: radius)
-        //self.mapModel?.zoomCircleAroundUser(radius: radius)
+        self.mapModel?.zoomCircleAroundUser(radius: radius)
     }
     
     override func layoutSubviews() {
@@ -77,7 +85,6 @@ class MapView: UIView {
         btn.setShadow()
         btn.backgroundColor = UIColor.white
         return btn
-
     }
     
     // MARK: - Layout subviews -
@@ -115,9 +122,19 @@ class MapView: UIView {
             let fromPlacemark = MKPlacemark(coordinate:mapView.userLocation.coordinate, addressDictionary:nil)
             let toPlacemark   = MKPlacemark(coordinate:center, addressDictionary:nil)
             showRoute(from: fromPlacemark, to: toPlacemark)
+            
+            //test by kitahara
+            self.showAnotherUserLocation(id : "test user" , location : center)
         }
     }
     
+    //別のユーザを表示させる
+    private func showAnotherUserLocation(id : String , location : CLLocationCoordinate2D) {
+        //test by kitahara
+        let imageNamed = "image01.jpg"
+        let image = UIImage(named: imageNamed )
+        self.mapModel?.showAnotherUserLocation(id : id , location : location , image : image)
+    }
 
     /*from to のrouteを表示*/
     private func showRoute(from : MKPlacemark, to : MKPlacemark) {
@@ -139,10 +156,50 @@ class MapView: UIView {
 extension MapView : MKMapViewDelegate {
     //MARK:- MapKit delegates
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.mainBlue()
-        renderer.lineWidth = 3.0
-        return renderer
+        if(overlay.isKind(of: MKCircle.self)) {
+            //円の時
+            let renderer = MKCircleRenderer(overlay: overlay)
+            renderer.fillColor = UIColor.mainGreen()
+            renderer.strokeColor = UIColor.black
+            renderer.alpha = 0.2
+            renderer.lineWidth = 1
+            return renderer
+            
+        } else if (overlay.isKind(of: MKPolyline.self)) {
+            //線の時
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = UIColor.mainBlue()
+            renderer.lineWidth = 3.0
+            return renderer
+        } else {
+            let renderer = MKOverlayRenderer(overlay: overlay)
+            return renderer
+        }
+    }
+    
+    //カスタムアノテーション
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
+    {
+        if let annot = annotation as? CustomAnnotation {
+            let dequeView = mapView.dequeueReusableAnnotationView(withIdentifier: annot.id)
+            if dequeView == nil {
+                //TODO : ここが呼ばれ続けている？
+                LogDebug("dequeView was not prepared")
+                let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annot.id)
+                annotationView.image = annot.image?.resize(size: CGSize(width: 45, height: 45))
+                annotationView.layer.cornerRadius = annotationView.frame.size.height/2
+                annotationView.layer.masksToBounds = true
+                annotationView.layer.borderColor = UIColor.white.cgColor
+                annotationView.layer.borderWidth = 5
+                annotationView.setShadow()
+                mapView.register(MKAnnotationView.self , forAnnotationViewWithReuseIdentifier: annot.id)
+                return annotationView
+            }
+            return dequeView
+        } else {
+            //それ以外はデフォルトを使用する
+            return nil
+        }
     }
 }
 
@@ -162,8 +219,11 @@ extension MapView :CLLocationManagerDelegate {
     
     //ユーザの座標が更新されるたびに呼ばれる
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        LogDebug("locationManager")
         guard let newLocation = locations.last else {
             return
         }
+        
+        self.mapModel?.sendLocation(coordinate: newLocation.coordinate)
     }
 }

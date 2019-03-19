@@ -37,11 +37,13 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         self.view.addSubview(baceScrview)
         
         editBtn = UIButton()
-        editBtn.setTitle("Edit Info", for:UIControl.State.normal)
+        editBtn.setTitle("EDIT INFO", for:UIControl.State.normal)
+        editBtn.setShadow()
+        editBtn.setRound(cornerRadius: 20.0)
         editBtn.layer.borderWidth = 2.0 // 枠線の幅
         editBtn.layer.borderColor = UIColor.white.dark().cgColor // 枠線の色
         editBtn.setTitleColor(UIColor.red,for: UIControl.State.normal)
-        editBtn.layer.cornerRadius = 10.0 // 角丸のサイズ
+        //editBtn.layer.cornerRadius = 10.0 // 角丸のサイズ
         editBtn.backgroundColor = UIColor.white
         editBtn.addTarget(self,
                          action: #selector(editProfile(sender:)),
@@ -75,6 +77,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         baceScrview.addSubview(pageControl)
         
         baceScrview.addSubview(collectionView)
+        baceScrview.addSubview(collectionView2)
         
         backBtn = UIButton()
         backBtn.setImage(UIImage(named:"back.png"), for: UIControl.State.normal)
@@ -85,7 +88,10 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         
         collectionView.backgroundColor = UIColor.white
         
-        collectionView.frame = CGRect(x: 0, y: scrollView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height * 0.7)
+        collectionView.frame = CGRect(x: 0, y: scrollView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height * 0.18)
+        collectionView2.backgroundColor = UIColor.white
+        
+        collectionView2.frame = CGRect(x:view.frame.width*0.025, y: scrollView.frame.maxY+view.frame.height * 0.18, width: view.frame.width*0.95, height: self.view.frame.height * 0.5)
         
 
         
@@ -96,7 +102,8 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     override func viewDidLayoutSubviews(){
         super.viewDidLayoutSubviews()
         
-        editBtn.width(self.view.frame.width * 0.25)
+        editBtn.width(self.view.frame.width * 0.3)
+        editBtn.height(self.view.frame.width * 0.3 * 0.4)
         editBtn.bottomToSuperview(usingSafeArea:true)
         editBtn.centerXToSuperview()
         let backBtnsize = self.view.frame.width * 0.13
@@ -138,10 +145,30 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         collectionView.delegate = self
         collectionView.backgroundColor = .white
         collectionView.contentInsetAdjustmentBehavior = .always
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 1, bottom: 24, right: 1)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
         return collectionView
     }()
+    private lazy var collectionView2: UICollectionView = {
+        let layout = MagazineLayout()
+        let collectionView2 = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView2.register(Cell.self, forCellWithReuseIdentifier: Cell.description())
+        collectionView2.register(
+            Header.self,
+            forSupplementaryViewOfKind: MagazineLayout.SupplementaryViewKind.sectionHeader,
+            withReuseIdentifier: Header.description())
+        collectionView2.isPrefetchingEnabled = false
+        collectionView2.dataSource = dataSource2
+        collectionView2.delegate = self
+        collectionView2.backgroundColor = .white
+        collectionView2.contentInsetAdjustmentBehavior = .always
+        collectionView2.contentInset = UIEdgeInsets(top: 0, left: 1, bottom: 24, right: 1)
+        return collectionView2
+    }()
+    
+  
+    
     private lazy var dataSource = DataSource()
+    private lazy var dataSource2 = DataSource()
     
     private func removeAllData() {
         for sectionIndex in (0..<dataSource.numberOfSections).reversed() {
@@ -211,18 +238,24 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
                         widthMode: .fullWidth(respectsHorizontalInsets: true),
                         heightMode: .static(height: 1)),
                         text: "",
-                        color: UIColor.gray),
+                        color: UIColor.gray)
+                ])
+        let section2 = SectionInfo(
+            headerInfo: HeaderInfo(
+                visibilityMode: .visible(heightMode: .dynamic),
+                title: ""),
+            itemInfos: [
                 ItemInfo(
                     sizeMode: MagazineLayoutItemSizeMode(
                         widthMode: .fullWidth(respectsHorizontalInsets: true),
                         heightMode: .dynamic),
                     text: state,
                     color: UIColor.white)
-                ])
-        
+            ])
 
         
         dataSource.insert(section, atSectionIndex: 0)
+        dataSource2.insert(section2, atSectionIndex: 0)
      
         
         collectionView.reloadData()
@@ -308,7 +341,7 @@ extension  MyProfileViewController: UICollectionViewDelegateMagazineLayout {
         insetsForItemsInSectionAtIndex index: Int)
         -> UIEdgeInsets
     {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 24, right: 0)
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
 }
