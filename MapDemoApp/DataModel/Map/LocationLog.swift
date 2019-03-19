@@ -8,8 +8,10 @@
 
 import Foundation
 import MapKit
+
+//FireStoreと通信する時の位置情報ログ
 struct LocationLog {
-    let id : String
+    let id : String //user_location_id
     let latitude: Double
     let longitude: Double
     let createdAt: Date

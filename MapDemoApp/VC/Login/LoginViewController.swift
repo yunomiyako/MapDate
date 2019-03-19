@@ -26,6 +26,10 @@ class LoginViewController: UIViewController , FUIAuthDelegate {
         self.authUI.delegate = self
         self.authUI.providers = providers
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.startAuthentificate()
+    }
         
     func startAuthentificate() {
         let authViewController = self.authUI.authViewController()

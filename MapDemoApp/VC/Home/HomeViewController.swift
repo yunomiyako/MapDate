@@ -20,15 +20,13 @@ class HomeViewController: UIViewController {
         firebaseUseCase.checkSignIn(
             whenSignIn: {user in
                 //ログイン済み
-                let vc = MyProfileViewController()
+                let vc = ChatViewController()
                 self.present(vc, animated: true)
             },
             whenNot: {
                 //ログインしていないのでLoginViewControllerを表示
                 let vc = LoginViewController()
-                self.present(vc, animated: true) {
-                    vc.startAuthentificate()
-                }
+                self.present(vc, animated: true)
             }
         )
         

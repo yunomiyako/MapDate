@@ -16,7 +16,6 @@ extension UIScrollView {
     
     override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.next?.touchesEnded(touches, with: event)
-    
     }
 }
 
