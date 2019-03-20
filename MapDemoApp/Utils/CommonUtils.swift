@@ -41,5 +41,45 @@ class CommonUtils {
     static func convertTimeStampToDate(timestamp : Double) -> Date{
         return Date(timeIntervalSince1970: TimeInterval(exactly: timestamp) ?? 0)
     }
+    
+    class func stringFromDate(date: Date, format: String) -> String {
+        let formatter = DateFormatter()
+        if let c = NSCalendar(calendarIdentifier:NSCalendar.Identifier.gregorian) as Calendar? {
+            formatter.calendar = c
+        }
+        formatter.locale = NSLocale.system
+        formatter.timeZone = NSTimeZone.system
+        formatter.dateFormat = format
+        return formatter.string(from: date)
+    }
+    
+    /**
+     今日の履歴ならHH:MM, 昨日以降ならyyyy-MM-ddを返す
+     */
+    class func createHistroyDateString(target: Date) -> String {
+        let now = Date()
+        let nowDayText = CommonUtils.stringFromDate(date: now, format: "yyyy-MM-dd")
+        let resultDayText = CommonUtils.stringFromDate(date: target, format: "yyyy-MM-dd")
+        let resultHourText = CommonUtils.stringFromDate(date: target, format: "HH:mm")
+        let text:String
+        
+        if nowDayText == resultDayText {
+            text = resultHourText
+        } else {
+            text = resultDayText
+        }
+        return text
+    }
+    
 
+    /**
+     名前の最初の1文字を取得
+     */
+    static func getNameFirstCharacter(_ name_user:String) -> String {
+        var n = name_user
+        if name_user.isEmpty {
+            n = "No name"
+        }
+        return String(n.prefix(1))
+    }
 }

@@ -11,6 +11,9 @@ target 'MapDemoApp' do
   pod 'MessageKit' , '~> 1.0.0'
   pod 'MultiSlider'
   pod 'RAMPaperSwitch' 
+  pod "PullToDismissTransition"
+  pod 'SwiftIcons', '~> 2.3.2'
+  pod 'Cosmos', '~> 18.0'
   #####⬇︎TSUKASA⬇︎########
   pod 'FlexiblePageControl'
   pod 'MagazineLayout'

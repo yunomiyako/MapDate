@@ -10,6 +10,7 @@ import UIKit
 protocol MapBottomViewDelegate : class {
     func onClickSettingButton()
     func onClickButton()
+    func onClickChatButton()
 }
 class MapBottomView: UIView {
     // MARK: - Properties -

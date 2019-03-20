@@ -59,6 +59,7 @@ class MapViewController: UIViewController {
         }
         
         self.layoutTopTextView()
+    
     }
     
     // MARK: - Create subviews -
@@ -75,6 +76,7 @@ class MapViewController: UIViewController {
     
     private func createBottomWhenMatchView() -> MapBottomWhenMatchedView {
         let view = MapBottomWhenMatchedView()
+        view.delegate = self
         return view
     }
     
@@ -95,7 +97,7 @@ class MapViewController: UIViewController {
     }
     
     private func layoutBottomWhenMatchView() {
-        let height : CGFloat = 150
+        let height : CGFloat = 200
         let y = self.view.frame.height
         bottomWhenMatchView.frame = CGRect(x: 0, y: y - height, width: self.view.frame.width, height: height)
     }
@@ -145,6 +147,14 @@ extension MapViewController : DiscoverySettingViewControllerDelegate {
 }
 
 extension MapViewController : MapBottomViewDelegate {
+    func onClickChatButton() {
+        //test by kitahara
+        let chatVC = ChatViewController()
+        let nc = UINavigationController(rootViewController: chatVC)
+        self.present(nc, animated: true)
+        //self.navigationController?.pushViewController(chatVC, animated: true)
+    }
+    
     func onClickSettingButton() {
         self.openDiscoverySettingPage()
     }

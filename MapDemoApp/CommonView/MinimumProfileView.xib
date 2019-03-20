@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MinimumProfileView" customModule="MapDemoApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="673" height="282"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_profile_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="97x-iX-dok">
+                    <rect key="frame" x="10" y="10" width="262" height="262"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="97x-iX-dok" secondAttribute="height" multiplier="1:1" id="yxU-tL-gJ8"/>
+                    </constraints>
+                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cXD-Hg-1ub">
+                    <rect key="frame" x="287" y="15" width="371" height="252"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3C-kU-NdH">
+                            <rect key="frame" x="0.0" y="0.0" width="371" height="126"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大谷雄平" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="buA-Jt-8AZ">
+                                    <rect key="frame" x="10" y="53" width="69.5" height="20.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="buA-Jt-8AZ" firstAttribute="centerY" secondItem="i3C-kU-NdH" secondAttribute="centerY" id="EnS-gk-w1i"/>
+                                <constraint firstItem="buA-Jt-8AZ" firstAttribute="leading" secondItem="i3C-kU-NdH" secondAttribute="leading" constant="10" id="Ryk-Mj-YcO"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AjJ-qg-7p0">
+                            <rect key="frame" x="0.0" y="126" width="371" height="126"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="i3C-kU-NdH" firstAttribute="height" secondItem="AjJ-qg-7p0" secondAttribute="height" id="qY1-37-ZOC"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="97x-iX-dok" secondAttribute="bottom" constant="10" id="Ax5-Kd-b9j"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cXD-Hg-1ub" secondAttribute="bottom" constant="15" id="CBN-uY-6Eg"/>
+                <constraint firstItem="97x-iX-dok" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="Ezf-eH-eeh"/>
+                <constraint firstItem="cXD-Hg-1ub" firstAttribute="leading" secondItem="97x-iX-dok" secondAttribute="trailing" constant="15" id="FQG-cf-aje"/>
+                <constraint firstItem="cXD-Hg-1ub" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="Gbv-wU-APy"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="cXD-Hg-1ub" secondAttribute="trailing" constant="15" id="Xlb-mt-mW4"/>
+                <constraint firstItem="97x-iX-dok" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="fsD-x2-Dcd"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="nameLabel" destination="buA-Jt-8AZ" id="cXm-tz-3Jt"/>
+                <outlet property="profileImageView" destination="97x-iX-dok" id="8se-BQ-dJE"/>
+                <outlet property="rateBaseView" destination="AjJ-qg-7p0" id="O0O-e6-XTw"/>
+            </connections>
+            <point key="canvasLocation" x="368.80000000000001" y="-56.671664167916049"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="default_profile_image.png" width="225" height="225"/>
+    </resources>
+</document>
