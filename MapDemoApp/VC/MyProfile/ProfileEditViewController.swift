@@ -9,7 +9,7 @@
 import UIKit
 import TinyConstraints
 
-final class EditProfileViewController: UIViewController {
+final class EditProfileViewController: UIViewController, UITextViewDelegate {
     
     let textEditer = UITextView()
     let scrview = UIScrollView()
@@ -24,6 +24,7 @@ final class EditProfileViewController: UIViewController {
     var selectedFrame:Int!
     let photos = UILabel()
     let abouMe = UILabel()
+    var charNumLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,9 +56,14 @@ final class EditProfileViewController: UIViewController {
         textEditer.text = "@" //※ダミーテキストでフォントを設定させる
         textEditer.text = ""
         textEditer.text = state
-        textEditer.textContainerInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        textEditer.textColor = UIColor.gray
+        textEditer.textContainerInset = UIEdgeInsets(top: 15, left: 10, bottom: 20, right: 10)
         textEditer.font = textEditer.font?.withSize(20)
+        textEditer.delegate = self
         self.scrview.addSubview(textEditer)
+        charNumLabel.text = String(500-state.count)
+        charNumLabel.textColor = UIColor.gray
+        self.textEditer.addSubview(charNumLabel)
       
         
 
@@ -68,7 +74,7 @@ final class EditProfileViewController: UIViewController {
 
         scrview.scrollIndicatorInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
         scrview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        scrview.contentSize = CGSize(width:0, height: scrview.frame.height * 1.5)
+        scrview.contentSize = CGSize(width:0, height: scrview.frame.height * 1.8)
     
         
         let scrhalfY = self.scrview.frame.height * 0.5
@@ -104,12 +110,32 @@ final class EditProfileViewController: UIViewController {
         abouMe.frame = CGRect(x: scrhalfX * 0.1, y: textEditerY*0.95 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         abouMe.sizeToFit()
         
-        textEditer.frame = CGRect(x: 0, y: textEditerY, width: self.view.frame.width, height: (scrhalfY))
-
+        textEditerSet()
         addNavBackView()
         addNavigationBar()
     }
     
+    func textViewDidChange(_ textView: UITextView) {
+        let charNum = textEditer.text.count
+        charNumLabel.text = String(500 - charNum)
+        textEditerSet()
+        let beforeStr = textEditer.text
+        if textEditer.text.count > 500 { // 500字を超えた時
+            // 以下，範囲指定する
+            let zero = beforeStr!.startIndex
+            let start = beforeStr!.index(zero, offsetBy: 0)
+            let end = beforeStr?.index(zero, offsetBy: 499)
+            textEditer.text = String(beforeStr![start..<end!])
+        }
+    }
+    
+    func textEditerSet(){
+        let TEheight = textEditer.sizeThatFits(CGSize(width: textEditer.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
+        textEditer.frame = CGRect(x: 0, y: self.scrview.frame.height - (self.scrview.frame.height * 0.5 * 0.9), width: self.view.frame.width, height: TEheight*1.2)
+        charNumLabel.frame = CGRect(x: textEditer.frame.width*0.9, y: TEheight, width: textEditer.frame.width*0.1, height: TEheight*0.2)
+        charNumLabel.sizeToFit()
+        
+    }
     
     @objc private func doneButtonTapped() {
         doneButtonTapHandler?(textEditer.text)
