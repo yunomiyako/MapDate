@@ -11,6 +11,9 @@ protocol MapBottomViewDelegate : class {
     func onClickSettingButton()
     func onClickButton()
     func onClickChatButton()
+    func onClickFinishButton()
+    func onTapUserIcon()
+    func onToggleShareLocation(on : Bool)
 }
 class MapBottomView: UIView {
     // MARK: - Properties -

@@ -9,7 +9,7 @@
 import UIKit
 import Cartography
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController , PopUpShowable {
 
     // MARK: - Properties -
     lazy private var mapView:MapView = self.createMapView()
@@ -24,7 +24,22 @@ class MapViewController: UIViewController {
     private var radius : Float = 3000
     
     //test by kitahara
-    private var state : MapState = .chatting
+    private var state : MapState = .initial  {
+        willSet {
+            //FIXME : もっと綺麗に書けそう
+            if state == .initial && newValue == .matched {
+                let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
+                AnimationUtils.transitionTwoViewAppearance(fromView: self.bottomView, toView: self.bottomWhenMatchView, whereGo: bottomPoint, afterLayout: {
+                    self.switchBottomViewLayout()
+                })
+            } else if state == .matched && newValue == .initial {
+                let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
+                AnimationUtils.transitionTwoViewAppearance(fromView: self.bottomWhenMatchView, toView: self.bottomView, whereGo: bottomPoint, afterLayout: {
+                    self.switchBottomViewLayout()
+                })
+            }
+        }
+    }
     
     // MARK: - Life cycle events -
     override func viewDidLoad() {
@@ -40,26 +55,29 @@ class MapViewController: UIViewController {
         
         //test by kitahara
         self.startUpdatingLocation()
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.layoutMapView()
-        
+        self.switchBottomViewLayout()
+        self.layoutTopTextView()
+    
+    }
+    
+    private func switchBottomViewLayout() {
         if self.state == .initial {
             self.layoutBottomView()
         } else {
             bottomView.isHidden = true
         }
         
-        if self.state == .chatting {
+        if self.state == .matched {
             self.layoutBottomWhenMatchView()
         } else {
             bottomWhenMatchView.isHidden = true
         }
-        
-        self.layoutTopTextView()
-    
     }
     
     // MARK: - Create subviews -
@@ -147,12 +165,26 @@ extension MapViewController : DiscoverySettingViewControllerDelegate {
 }
 
 extension MapViewController : MapBottomViewDelegate {
+    func onClickFinishButton() {
+        self.showOKCancelPopup(NSLocalizedString("FinishConfirm", tableName: "MapStrings", comment: "")) {
+            self.state = .initial
+        }
+    }
+    
+    func onTapUserIcon() {
+        LogDebug("onTapUserIcon")
+    }
+    
+    func onToggleShareLocation(on : Bool) {
+        if on {
+        self.showMessagePopup(NSLocalizedString("ShareLocationMessage", tableName: "MapStrings", comment: ""))
+        }
+    }
+    
     func onClickChatButton() {
-        //test by kitahara
         let chatVC = ChatViewController()
         let nc = UINavigationController(rootViewController: chatVC)
         self.present(nc, animated: true)
-        //self.navigationController?.pushViewController(chatVC, animated: true)
     }
     
     func onClickSettingButton() {
@@ -160,23 +192,29 @@ extension MapViewController : MapBottomViewDelegate {
     }
     
     func onClickButton() {
+        //test by kitahara
+        dispatch_after(3, block: {
+            self.bottomView.buttonLoading(bool : false)
+            self.state = .matched
+        })
+        
         //周りの人に通知を投げる
-        let coord = mapView.getUserLocation()
-        let user = firebaseUseCase.getCurrentUser()
-        if let uid = user.uid {
-            let location = LocationLog(coordinate: coord, id: uid)
-            self.matchUseCase.requestMatch(uid: uid, location: location) {response in
-                let result = response.result
-                if result == "success" {
-                    LogDebug("マッチしました！")
-                } else if result == "fail" {
-                    LogDebug("マッチしませんでした")
-                    self.bottomView.buttonLoading(bool : false)
-                } else {
-                    LogDebug("レスポンスの形がおかしい")
-                }
-                
-            }
-        }
+//        let coord = mapView.getUserLocation()
+//        let user = firebaseUseCase.getCurrentUser()
+//        if let uid = user.uid {
+//            let location = LocationLog(coordinate: coord, id: uid)
+//            self.matchUseCase.requestMatch(uid: uid, location: location) {response in
+//                let result = response.result
+//                if result == "success" {
+//                    LogDebug("マッチしました！")
+//                } else if result == "fail" {
+//                    LogDebug("マッチしませんでした")
+//                    self.bottomView.buttonLoading(bool : false)
+//                } else {
+//                    LogDebug("レスポンスの形がおかしい")
+//                }
+//
+//            }
+//        }
     }
 }

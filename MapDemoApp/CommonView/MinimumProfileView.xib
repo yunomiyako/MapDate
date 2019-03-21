@@ -17,16 +17,16 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_profile_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="97x-iX-dok">
-                    <rect key="frame" x="10" y="10" width="262" height="262"/>
+                    <rect key="frame" x="10" y="5" width="272" height="272"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="97x-iX-dok" secondAttribute="height" multiplier="1:1" id="yxU-tL-gJ8"/>
                     </constraints>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cXD-Hg-1ub">
-                    <rect key="frame" x="287" y="15" width="371" height="252"/>
+                    <rect key="frame" x="297" y="15" width="361" height="252"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3C-kU-NdH">
-                            <rect key="frame" x="0.0" y="0.0" width="371" height="126"/>
+                            <rect key="frame" x="0.0" y="0.0" width="361" height="126"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大谷雄平" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="buA-Jt-8AZ">
                                     <rect key="frame" x="10" y="53" width="69.5" height="20.5"/>
@@ -42,7 +42,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AjJ-qg-7p0">
-                            <rect key="frame" x="0.0" y="126" width="371" height="126"/>
+                            <rect key="frame" x="0.0" y="126" width="361" height="126"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                     </subviews>
@@ -53,13 +53,14 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="97x-iX-dok" secondAttribute="bottom" constant="10" id="Ax5-Kd-b9j"/>
+                <constraint firstItem="97x-iX-dok" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="9S3-90-DP6"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cXD-Hg-1ub" secondAttribute="bottom" constant="15" id="CBN-uY-6Eg"/>
-                <constraint firstItem="97x-iX-dok" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="Ezf-eH-eeh"/>
                 <constraint firstItem="cXD-Hg-1ub" firstAttribute="leading" secondItem="97x-iX-dok" secondAttribute="trailing" constant="15" id="FQG-cf-aje"/>
                 <constraint firstItem="cXD-Hg-1ub" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="Gbv-wU-APy"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="cXD-Hg-1ub" secondAttribute="trailing" constant="15" id="Xlb-mt-mW4"/>
                 <constraint firstItem="97x-iX-dok" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="fsD-x2-Dcd"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="97x-iX-dok" secondAttribute="bottom" priority="750" constant="5" id="upY-yV-rjD"/>
+                <constraint firstItem="97x-iX-dok" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="5" id="y3G-oZ-bok"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

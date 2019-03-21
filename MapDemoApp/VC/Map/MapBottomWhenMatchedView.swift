@@ -16,6 +16,9 @@ class MapBottomWhenMatchedView: UIView {
     lazy private var paperSwitch : RAMPaperSwitch = {
         let view = RAMPaperSwitch(view: self, color: UIColor.mainPink())
         view.tintColor = UIColor.mainPink()
+        view.animationDidStartClosure = { _ in
+            self.delegate?.onToggleShareLocation(on : view.isOn)
+        }
         return view
     }()
     lazy private var locationInfoDescriptionLabel : UILabel = {
@@ -44,6 +47,16 @@ class MapBottomWhenMatchedView: UIView {
         return view
     }()
     
+    lazy private var finishButton : UIButton = {
+        let view = UIButton()
+        // Icon with size and color
+        view.setIcon(icon: .fontAwesomeRegular(.timesCircle ), iconSize: 40, color: UIColor.mainRed(), forState: .normal)
+        view.clipsToBounds = true
+        view.setRound()
+        view.addTarget(self, action: #selector(self.onClickFinishButton(_:)), for: UIControl.Event.touchUpInside)
+        return view
+    }()
+    
     
     weak var delegate : MapBottomViewDelegate? = nil
     
@@ -64,6 +77,7 @@ class MapBottomWhenMatchedView: UIView {
         self.addSubview(locationInfoDescriptionLabel)
         self.addSubview(partitionView)
         self.addSubview(chatButton)
+        self.addSubview(finishButton)
         self.addSubview(miniProfileView)
     }
     
@@ -95,17 +109,20 @@ class MapBottomWhenMatchedView: UIView {
     }
     
     private func layoutChatButton() {
+        self.bringSubviewToFront(chatButton)
+        self.bringSubviewToFront(finishButton)
         //ちょっとごちゃごちゃしすぎ
         let miniProfileHeight : CGFloat = 100
         let chatButtonSideLength : CGFloat = 60
         
-        let x = self.frame.width  - chatButtonSideLength - 30
+        let x = self.frame.width  - chatButtonSideLength - 15
         let y = partitionView.frame.maxY + 20 + (miniProfileHeight - chatButtonSideLength) / 2
         chatButton.frame = CGRect(x: x, y: y, width: chatButtonSideLength, height: chatButtonSideLength)
+        finishButton.frame = CGRect(x: x - chatButtonSideLength - 5, y: y, width: chatButtonSideLength, height: chatButtonSideLength)
         
-        let x_2 : CGFloat = 30
+        let x_2 : CGFloat = 10
         let y_2 = partitionView.frame.maxY + 20
-        let width = self.frame.width - 100 - self.chatButton.frame.width
+        let width = self.frame.width - 140 - 2 * chatButtonSideLength
         miniProfileView.frame = CGRect(x: x_2, y: y_2, width: width, height: miniProfileHeight)
         
     }
@@ -116,4 +133,7 @@ class MapBottomWhenMatchedView: UIView {
         self.delegate?.onClickChatButton()
     }
 
+    @objc private func onClickFinishButton(_ sender : Any) {
+        self.delegate?.onClickFinishButton()
+    }
 }

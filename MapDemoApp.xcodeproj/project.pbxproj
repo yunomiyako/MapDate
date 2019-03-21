@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		177D807410357E319ADA1568 /* Pods_MapDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DD4333B2CEFCA2ADBB60635 /* Pods_MapDemoApp.framework */; };
-		35068EEC2242569E00DDC7D5 /* LocalizeStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35068EEB2242569E00DDC7D5 /* LocalizeStrings.strings */; };
 		35068EEF224257BC00DDC7D5 /* ChatStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35068EF1224257BC00DDC7D5 /* ChatStrings.strings */; };
 		35068EF322429F1D00DDC7D5 /* ChatContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35068EF222429F1D00DDC7D5 /* ChatContainerViewController.swift */; };
 		353BEE6D2237E5E600F956D9 /* MapKit extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353BEE6C2237E5E600F956D9 /* MapKit extension.swift */; };
@@ -55,6 +54,12 @@
 		35BBB359223BE42D00C484AC /* SliderCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35BBB357223BE42D00C484AC /* SliderCellTableViewCell.xib */; };
 		35BBB35D223C0B0B00C484AC /* UserDefaultsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BBB35C223C0B0B00C484AC /* UserDefaultsUseCase.swift */; };
 		35BBB35F223C1BC400C484AC /* setting2.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BBB35E223C1BC400C484AC /* setting2.png */; };
+		35CB411F2243605200D7F23C /* AnimationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CB411E2243605200D7F23C /* AnimationUtils.swift */; };
+		35CB4122224374C900D7F23C /* PopupShowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CB4121224374C900D7F23C /* PopupShowable.swift */; };
+		35CB41242243756000D7F23C /* PopupUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CB41232243756000D7F23C /* PopupUtils.swift */; };
+		35CB41262243777000D7F23C /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CB41252243776F00D7F23C /* AlertView.swift */; };
+		35CB412822437B5200D7F23C /* MapStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35CB412722437B5200D7F23C /* MapStrings.strings */; };
+		35CB412922437D4A00D7F23C /* Common.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35CB412B22437D4A00D7F23C /* Common.strings */; };
 		35D32F4122412C5E00A83141 /* MapBottomWhenMatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D32F4022412C5E00A83141 /* MapBottomWhenMatchedView.swift */; };
 		35D5D08A2242C24D0035E099 /* chat_icon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 35D5D0892242C24D0035E099 /* chat_icon.jpg */; };
 		35D5D08D2242D62B0035E099 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D08C2242D62B0035E099 /* RatingView.swift */; };
@@ -91,7 +96,6 @@
 
 /* Begin PBXFileReference section */
 		2F655C20A44D80BE930D676E /* Pods-MapDemoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.release.xcconfig"; sourceTree = "<group>"; };
-		35068EEB2242569E00DDC7D5 /* LocalizeStrings.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = LocalizeStrings.strings; sourceTree = "<group>"; };
 		35068EF0224257BC00DDC7D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ChatStrings.strings; sourceTree = "<group>"; };
 		35068EF222429F1D00DDC7D5 /* ChatContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatContainerViewController.swift; sourceTree = "<group>"; };
 		353BEE6C2237E5E600F956D9 /* MapKit extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit extension.swift"; sourceTree = "<group>"; };
@@ -140,6 +144,12 @@
 		35BBB357223BE42D00C484AC /* SliderCellTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCellTableViewCell.xib; sourceTree = "<group>"; };
 		35BBB35C223C0B0B00C484AC /* UserDefaultsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsUseCase.swift; sourceTree = "<group>"; };
 		35BBB35E223C1BC400C484AC /* setting2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting2.png; sourceTree = "<group>"; };
+		35CB411E2243605200D7F23C /* AnimationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationUtils.swift; sourceTree = "<group>"; };
+		35CB4121224374C900D7F23C /* PopupShowable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupShowable.swift; sourceTree = "<group>"; };
+		35CB41232243756000D7F23C /* PopupUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupUtils.swift; sourceTree = "<group>"; };
+		35CB41252243776F00D7F23C /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		35CB412722437B5200D7F23C /* MapStrings.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = MapStrings.strings; sourceTree = "<group>"; };
+		35CB412A22437D4A00D7F23C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Common.strings; sourceTree = "<group>"; };
 		35D32F4022412C5E00A83141 /* MapBottomWhenMatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBottomWhenMatchedView.swift; sourceTree = "<group>"; };
 		35D5D0892242C24D0035E099 /* chat_icon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = chat_icon.jpg; sourceTree = "<group>"; };
 		35D5D08C2242D62B0035E099 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
@@ -235,6 +245,8 @@
 				353BEE6C2237E5E600F956D9 /* MapKit extension.swift */,
 				3540188C223A46110002BCF2 /* UIImage extension.swift */,
 				35D5D0922242DDFD0035E099 /* NibHelper + extension.swift */,
+				35CB411E2243605200D7F23C /* AnimationUtils.swift */,
+				35CB41232243756000D7F23C /* PopupUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -293,8 +305,9 @@
 		35AD2F552234216000CD86EE = {
 			isa = PBXGroup;
 			children = (
+				35CB412722437B5200D7F23C /* MapStrings.strings */,
 				35068EF1224257BC00DDC7D5 /* ChatStrings.strings */,
-				35068EEB2242569E00DDC7D5 /* LocalizeStrings.strings */,
+				35CB412B22437D4A00D7F23C /* Common.strings */,
 				35AD2F602234216000CD86EE /* MapDemoApp */,
 				35AD2F5F2234216000CD86EE /* Products */,
 				E496487D896D7B5AF6C5E99C /* Pods */,
@@ -434,6 +447,8 @@
 				35D5D08C2242D62B0035E099 /* RatingView.swift */,
 				35D5D08E2242D8370035E099 /* MinimumProfileView.swift */,
 				35D5D0902242D8760035E099 /* MinimumProfileView.xib */,
+				35CB4121224374C900D7F23C /* PopupShowable.swift */,
+				35CB41252243776F00D7F23C /* AlertView.swift */,
 			);
 			path = CommonView;
 			sourceTree = "<group>";
@@ -588,7 +603,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				35D5D08A2242C24D0035E099 /* chat_icon.jpg in Resources */,
-				35068EEC2242569E00DDC7D5 /* LocalizeStrings.strings in Resources */,
+				35CB412922437D4A00D7F23C /* Common.strings in Resources */,
 				35BBB359223BE42D00C484AC /* SliderCellTableViewCell.xib in Resources */,
 				35AD2F6C2234216300CD86EE /* LaunchScreen.storyboard in Resources */,
 				3540188B223A45000002BCF2 /* default_profile_image.png in Resources */,
@@ -596,6 +611,7 @@
 				35AD2F692234216300CD86EE /* Assets.xcassets in Resources */,
 				35D5D0912242D8760035E099 /* MinimumProfileView.xib in Resources */,
 				D8B68BB4223CE35B00501D7E /* delete.png in Resources */,
+				35CB412822437B5200D7F23C /* MapStrings.strings in Resources */,
 				927B79EE22369FF3001F8A36 /* image05.jpg in Resources */,
 				35BBB35F223C1BC400C484AC /* setting2.png in Resources */,
 				927B79EC22369FF3001F8A36 /* image06.jpg in Resources */,
@@ -753,9 +769,11 @@
 				35401886223A22610002BCF2 /* DiscoverySettingViewController.swift in Sources */,
 				35AD2F84223432B600CD86EE /* MapUseCase.swift in Sources */,
 				35D5D08D2242D62B0035E099 /* RatingView.swift in Sources */,
+				35CB41262243777000D7F23C /* AlertView.swift in Sources */,
 				3583CECD2234F7CA00621F1F /* ChatMessage.swift in Sources */,
 				353D909622369613004BB44C /* UIView extension.swift in Sources */,
 				35AD2F8022342D9400CD86EE /* LocationLog.swift in Sources */,
+				35CB41242243756000D7F23C /* PopupUtils.swift in Sources */,
 				35AD2F8E22343D9100CD86EE /* FloatingRectangleView.swift in Sources */,
 				35BBB35D223C0B0B00C484AC /* UserDefaultsUseCase.swift in Sources */,
 				927B79F422369FF3001F8A36 /* MyProfileViewController.swift in Sources */,
@@ -765,6 +783,7 @@
 				3583CEBA2234C3B200621F1F /* Color.swift in Sources */,
 				3583CEBD2234C56B00621F1F /* MapBottomView.swift in Sources */,
 				35A40829223D046A007BDF06 /* UserDataModel.swift in Sources */,
+				35CB4122224374C900D7F23C /* PopupShowable.swift in Sources */,
 				35D6AA3522410C08002DCD9F /* MatchRepository.swift in Sources */,
 				927B79FE2236A4CE001F8A36 /* ProfileEditViewController.swift in Sources */,
 				3583CED22234FCB400621F1F /* ChatMessageViewModel.swift in Sources */,
@@ -792,6 +811,7 @@
 				3583CEC72234EF1400621F1F /* MatchPopupViewController.swift in Sources */,
 				3583CEB72234C1D700621F1F /* RoundFloatingButton.swift in Sources */,
 				35AD2F87223433DB00CD86EE /* MapRepository.swift in Sources */,
+				35CB411F2243605200D7F23C /* AnimationUtils.swift in Sources */,
 				3583CEC02234C99F00621F1F /* CommonUtils.swift in Sources */,
 				927B79F922369FF3001F8A36 /* ItemCreationPanelView.swift in Sources */,
 				35068EF322429F1D00DDC7D5 /* ChatContainerViewController.swift in Sources */,
@@ -824,6 +844,14 @@
 				35AD2F6B2234216300CD86EE /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		35CB412B22437D4A00D7F23C /* Common.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				35CB412A22437D4A00D7F23C /* en */,
+			);
+			name = Common.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

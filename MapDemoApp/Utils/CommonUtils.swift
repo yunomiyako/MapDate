@@ -25,6 +25,11 @@ func dispatch_after(_ delay_time:Double, block: @escaping () -> ()) {
     DispatchQueue.main.asyncAfter(deadline: .now() + delay_time, execute:block)
 }
 
+func dispatch_async_main(_ block: @escaping () -> ()) {
+    DispatchQueue.main.async(execute: block)
+}
+
+
 
 class CommonUtils {
     static func runEveryNSeconds(n : Int) -> Bool{
