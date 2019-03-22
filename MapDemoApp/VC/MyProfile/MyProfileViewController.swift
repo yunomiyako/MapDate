@@ -23,7 +23,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     let baceScrview = UIScrollView()
     let alphaView = UIView()
     let user = FirebaseUseCase().getCurrentUser()
-    var state = "ここにプロフィールを書いていくここにプロフィールを書いていくここにプロフィールを書いていくここにプロフィールを書いていくここにプロフ"
+    var state = "No Info"
     var job = "学生"
     var distance = "5"
     var age = "24"
@@ -124,6 +124,9 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     @objc func editProfile(sender : AnyObject) {
         let vc = EditProfileViewController()
         vc.state = self.state
+        vc.nameField.text = user.displayName!
+        vc.ageField.text = age
+        vc.jobTitleField.text = job
         vc.doneButtonTapHandler = { [weak self] state in
             self!.state = state
             self!.loadDefaultData()

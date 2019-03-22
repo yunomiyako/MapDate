@@ -23,8 +23,15 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
     var doneButtonTapHandler: ((String) -> Void)?
     var selectedFrame:Int!
     let photos = UILabel()
+    let name = UILabel()
+    let nameField = UITextField()
     let abouMe = UILabel()
+    let age = UILabel()
+    let ageField = UITextField()
+    let jobTilte = UILabel()
+    let jobTitleField = UITextField()
     var charNumLabel = UILabel()
+    var photoNum = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +45,15 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         abouMe.text = "ABOUT ME"
         scrview.addSubview(abouMe)
         
+        name.text = "NAME"
+        scrview.addSubview(name)
+        
+        age.text = "AGE"
+        scrview.addSubview(age)
+        
+        jobTilte.text = "JOB TITLE"
+        scrview.addSubview(jobTilte)
+        
         for i in 0..<6{
             profimgs.append(UIImageView())
             profimgs[i].image = UIImage(named: "frame.png")
@@ -50,9 +66,24 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
                                      for: .touchUpInside)
             profimgBtns[i].tag = i
         }
-
         
-        textEditer.backgroundColor = UIColor.white
+        nameField.backgroundColor = .white
+        nameField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.05, height: 0))
+        nameField.leftViewMode = UITextField.ViewMode.always
+        scrview.addSubview(nameField)
+        
+        ageField.backgroundColor = .white
+        ageField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.05, height: 0))
+        ageField.leftViewMode = UITextField.ViewMode.always
+        ageField.keyboardType = UIKeyboardType.numberPad
+        scrview.addSubview(ageField)
+        
+        jobTitleField.backgroundColor = .white
+        jobTitleField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.05, height: 0))
+        jobTitleField.leftViewMode = UITextField.ViewMode.always
+        scrview.addSubview(jobTitleField)
+        
+        textEditer.backgroundColor = .white
         textEditer.text = "@" //※ダミーテキストでフォントを設定させる
         textEditer.text = ""
         textEditer.text = state
@@ -81,17 +112,17 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         let scrhalfX = self.scrview.frame.width * 0.5
         let prfpos1 = scrhalfY * 0.3
         
-        photos.frame = CGRect(x: scrhalfX * 0.1, y: prfpos1 * 0.83, width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        photos.frame = CGRect(x: scrhalfX * 0.1, y: prfpos1 * 0.81, width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         photos.sizeToFit()
         
         for i in 0..<6{
             
             if i < 3{
                 profimgs[i].frame = CGRect(x: 0, y: prfpos1, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
-                profimgBtns[i].frame = CGRect(x: 0, y: prfpos1 * 1.8, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
+                profimgBtns[i].frame = CGRect(x: 0, y: prfpos1 * 1.85, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
             }else{
                 profimgs[i].frame = CGRect(x: 0, y: prfpos1 + (scrview.frame.width * 0.22)+prfpos1 * 0.5, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
-                profimgBtns[i].frame = CGRect(x: 0, y:prfpos1 * 1.8 + scrhalfY * 0.35, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
+                profimgBtns[i].frame = CGRect(x: 0, y:prfpos1 * 1.88 + scrhalfY * 0.35, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
             }
             switch (i+1)%3{
             case 1:
@@ -105,9 +136,23 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
             profimgBtns[i].frame.origin.x = profimgs[i].frame.minX + profimgs[i].frame.width * 0.75
         }
         
-        let textEditerY = self.scrview.frame.height - (scrhalfY * 0.9)
+        let nameFieldY = self.scrview.frame.height - (scrhalfY * 0.9)
         
-        abouMe.frame = CGRect(x: scrhalfX * 0.1, y: textEditerY*0.95 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        name.frame = CGRect(x: scrhalfX * 0.1, y: nameFieldY*0.94 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        name.sizeToFit()
+        
+        nameField.frame = CGRect(x: 0, y: nameFieldY, width: self.view.frame.width, height: scrhalfY*0.1)
+        
+        let ageFieldY = (nameFieldY + scrhalfY*0.1)*1.1
+        
+        age.frame = CGRect(x: scrhalfX * 0.1, y: ageFieldY*0.95 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        age.sizeToFit()
+        
+        ageField.frame = CGRect(x: 0, y: ageFieldY, width: self.view.frame.width, height: scrhalfY*0.1)
+        
+        let textEditerY = (ageFieldY + scrhalfY*0.1)*1.1
+        
+        abouMe.frame = CGRect(x: scrhalfX * 0.1, y: textEditerY*0.96 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         abouMe.sizeToFit()
         
         textEditerSet()
@@ -130,10 +175,24 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
     }
     
     func textEditerSet(){
+        let scrhalfX = self.scrview.frame.width * 0.5
+        let scrhalfY = self.scrview.frame.height * 0.5
+        let prfpos1 = scrhalfY * 0.3
+        let nameFieldY = self.scrview.frame.height - (scrhalfY * 0.9)
+        let ageFieldY = (nameFieldY + scrhalfY*0.1)*1.1
+        let textEditerY = (ageFieldY + scrhalfY*0.1)*1.1
         let TEheight = textEditer.sizeThatFits(CGSize(width: textEditer.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
-        textEditer.frame = CGRect(x: 0, y: self.scrview.frame.height - (self.scrview.frame.height * 0.5 * 0.9), width: self.view.frame.width, height: TEheight*1.2)
-        charNumLabel.frame = CGRect(x: textEditer.frame.width*0.9, y: TEheight, width: textEditer.frame.width*0.1, height: TEheight*0.2)
+        textEditer.frame = CGRect(x: 0, y: textEditerY, width: self.view.frame.width, height: TEheight*1.2)
+        charNumLabel.frame = CGRect(x: textEditer.frame.width*0.9, y: TEheight*0.9, width: textEditer.frame.width*0.1, height: TEheight*0.2)
         charNumLabel.sizeToFit()
+        
+        let jobTitleY = (textEditerY + TEheight*1.2)*1.08
+        
+        jobTilte.frame = CGRect(x: scrhalfX * 0.1, y: jobTitleY*0.97 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        jobTilte.sizeToFit()
+        
+        jobTitleField.frame = CGRect(x: 0, y: jobTitleY, width: self.view.frame.width, height: scrhalfY*0.1)
+
         
     }
     
@@ -146,25 +205,51 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func photoPick(sender : UIButton) {
-        selectedFrame = sender.tag
         let imgpicker = UIImagePickerController()
         imgpicker.delegate = self
         present(imgpicker, animated: true)
     }
     
     @objc func deleteimg(sender : UIButton) {
+        
+        let alert: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle:  .actionSheet)
+        
+        let defaultAction: UIAlertAction = UIAlertAction(title: "Delete", style: UIAlertAction.Style.destructive, handler:{
+            
+            (action: UIAlertAction!) -> Void in
+            
+            self.selectedFrame = sender.tag
+            
+            for i in self.selectedFrame ..< self.photoNum{
+                self.profimgs[i].image = self.profimgs[i+1].image
+            }
+            
+            self.profimgs[self.photoNum-1].image = UIImage(named: "frame.png")
+            self.profimgBtns[self.photoNum-1].setImage(UIImage(named:"addimg.png"), for: UIControl.State.normal)
+            self.profimgBtns[self.photoNum-1].removeTarget(self,
+                                                      action: #selector(self.deleteimg(sender:)),
+                                                 for: .touchUpInside)
+            
+            self.profimgBtns[self.photoNum-1].addTarget(self,
+                                              action: #selector(self.photoPick(sender:)),
+                                              for: .touchUpInside)
+            
+            self.photoNum -= 1
+        })
        
-        selectedFrame = sender.tag
-        profimgs[selectedFrame].image = UIImage(named: "frame.png")
-        profimgBtns[selectedFrame].setImage(UIImage(named:"addimg.png"), for: UIControl.State.normal)
-        profimgBtns[selectedFrame].removeTarget(self,
-                                                action: #selector(deleteimg(sender:)),
-                                                for: .touchUpInside)
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler:{
+            
+            (action: UIAlertAction!) -> Void in
+            
+        })
         
-        profimgBtns[selectedFrame].addTarget(self,
-                                             action: #selector(photoPick(sender:)),
-                                             for: .touchUpInside)
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
         
+  
+        present(alert, animated: true, completion: nil)
+       
+
     }
     
     func addNavigationBar(){
@@ -215,16 +300,18 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
         // 写真が選択された時に呼ばれる
         // 選択した写真を取得する
         let image = info[.originalImage] as! UIImage
-        self.profimgs[selectedFrame].image = image
+        self.profimgs[photoNum].image = image
         self.dismiss(animated: true)
-        profimgBtns[selectedFrame].setImage(UIImage(named:"delete.png"), for: UIControl.State.normal)
-        profimgBtns[selectedFrame].removeTarget(self,
+        profimgBtns[photoNum].setImage(UIImage(named:"delete.png"), for: UIControl.State.normal)
+        profimgBtns[photoNum].removeTarget(self,
                                                 action: #selector(photoPick(sender:)),
                                                 for: .touchUpInside)
 
-        profimgBtns[selectedFrame].addTarget(self,
+        profimgBtns[photoNum].addTarget(self,
                        action: #selector(deleteimg(sender:)),
                        for: .touchUpInside)
+        
+        photoNum += 1
         
     }
 }
