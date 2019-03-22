@@ -22,11 +22,13 @@ class HomeViewController: UIViewController {
                 //ログイン済み
                 //let vc = ChatViewController()
                 let vc = MyProfileViewController()
+                //let vc = MapViewController()
                 self.present(vc, animated: true)
             },
             whenNot: {
                 //ログインしていないのでLoginViewControllerを表示
-                let vc = LoginViewController()
+                //let vc = LoginViewController()
+                let vc = MyProfileViewController()
                 self.present(vc, animated: true)
             }
         )

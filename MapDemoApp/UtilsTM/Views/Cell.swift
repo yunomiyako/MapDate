@@ -25,7 +25,9 @@ final class Cell: MagazineLayoutCollectionViewCell {
 
     super.init(frame: frame)
 
-    label.font = UIFont.systemFont(ofSize: 24)
+    label.font = UIFont.systemFont(ofSize: 20)
+    //label.font = UIFont.systemFont(ofSize: 15)
+    label.sizeToFit()
     label.textColor = .gray
     label.numberOfLines = 0
     contentView.addSubview(label)

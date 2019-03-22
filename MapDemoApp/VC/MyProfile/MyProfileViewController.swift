@@ -17,12 +17,12 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     var backBtn:UIButton!
     let scrollView = UIScrollView()
     let textView = UITextView()
-    let scrollSize: CGFloat = 350
     let numberOfPage: Int = 6
     let pageControl = FlexiblePageControl()
     let baceScrview = UIScrollView()
     let alphaView = UIView()
     let user = FirebaseUseCase().getCurrentUser()
+    let cfuncs = CommonFuncs()
     var state = "No Info"
     var job = "学生"
     var distance = "5"
@@ -57,21 +57,12 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         
         
         scrollView.delegate = self
-        scrollView.frame = CGRect(x: 0, y: 0, width:self.view.frame.width, height: scrollSize)
-        scrollView.contentSize = CGSize(width:self.view.frame.width * CGFloat(numberOfPage), height: scrollSize)
+
         scrollView.isPagingEnabled = true
         pageControl.pageIndicatorTintColor = UIColor.clear
         pageControl.numberOfPages = numberOfPage
         
-        for index in  0..<numberOfPage {
-            let _index = index % 10
-            let imageNamed = NSString(format: "image%02d.jpg", _index)
-            var img = UIImage(named: imageNamed as String)
-            img = resize(image: img!, width: Double(self.view.frame.width))
-            let view = UIImageView(frame: CGRect(x: CGFloat(index) * (self.view.frame.width), y: 0, width: self.view.frame.width, height: (img?.size.height)!))
-            view.image = img
-            scrollView.addSubview(view)
-        }
+
 
         baceScrview.addSubview(scrollView)
         
@@ -89,12 +80,12 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         
         collectionView.backgroundColor = UIColor.white
         
-        collectionView.frame = CGRect(x: 0, y: scrollView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height * 0.18)
+        
         
         
         textView.backgroundColor = UIColor.white
         
-        textView.frame = CGRect(x:view.frame.width*0.025, y: scrollView.frame.maxY+view.frame.height * 0.18, width: view.frame.width*0.95, height: self.view.frame.height * 0.5)
+  
         textView.text = state
         textView.textColor = UIColor.gray
         textView.font = textView.font?.withSize(20)
@@ -109,8 +100,26 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     override func viewDidLayoutSubviews(){
         super.viewDidLayoutSubviews()
         
-        editBtn.width(self.view.frame.width * 0.3)
-        editBtn.height(self.view.frame.width * 0.3 * 0.4)
+        var scrollY:CGFloat!
+        for index in  0..<numberOfPage {
+            let _index = index % 10
+            let imageNamed = NSString(format: "image%02d.jpg", _index)
+            var img = UIImage(named: imageNamed as String)
+            img = cfuncs.resize(image: img!, width: Double(self.view.frame.width))
+            let view = UIImageView(frame: CGRect(x: CGFloat(index) * (self.view.frame.width), y: 0, width: self.view.frame.width, height: (img?.size.height)!))
+            view.image = img
+            scrollY = img?.size.height
+            scrollView.addSubview(view)
+        }
+        
+        scrollView.frame = CGRect(x: 0, y: 0, width:self.view.frame.width, height: scrollY)
+        scrollView.contentSize = CGSize(width:self.view.frame.width * CGFloat(numberOfPage), height: scrollY)
+        
+        collectionView.frame = CGRect(x: 0, y: scrollView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height * 0.18)
+        textView.frame = CGRect(x:view.frame.width*0.025, y: scrollView.frame.maxY+view.frame.height * 0.18, width: view.frame.width*0.95, height: self.view.frame.height * 0.5)
+        
+        editBtn.width(125)
+        editBtn.height(50)
         editBtn.bottomToSuperview(usingSafeArea:true)
         editBtn.centerXToSuperview()
         let backBtnsize = self.view.frame.width * 0.13
@@ -124,7 +133,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     @objc func editProfile(sender : AnyObject) {
         let vc = EditProfileViewController()
         vc.state = self.state
-        vc.nameField.text = user.displayName!
+        vc.nameField.text = "user.displayName!"
         vc.ageField.text = age
         vc.jobTitleField.text = job
         vc.doneButtonTapHandler = { [weak self] state in
@@ -223,7 +232,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         let section = SectionInfo(
             headerInfo: HeaderInfo(
                 visibilityMode: .visible(heightMode: .dynamic),
-                title: user.displayName!),
+                title: "user.displayName!"),
             itemInfos: [
                 ageSec,
                 jobSec,
@@ -252,24 +261,6 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         pageControl.setProgress(contentOffsetX: scrollView.contentOffset.x, pageWidth: scrollView.bounds.width)
         
     }
-
-    func resize(image: UIImage, width: Double) -> UIImage {
-        
-        // オリジナル画像のサイズからアスペクト比を計算
-        let aspectScale = image.size.height / image.size.width
-        
-        // widthからアスペクト比を元にリサイズ後のサイズを取得
-        let resizedSize = CGSize(width: width, height: width * Double(aspectScale))
-        
-        // リサイズ後のUIImageを生成して返却
-        UIGraphicsBeginImageContext(resizedSize)
-        image.draw(in: CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return resizedImage!
-    }
-
 
 
 }

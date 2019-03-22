@@ -114,15 +114,17 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         
         photos.frame = CGRect(x: scrhalfX * 0.1, y: prfpos1 * 0.81, width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         photos.sizeToFit()
-        
         for i in 0..<6{
             
             if i < 3{
                 profimgs[i].frame = CGRect(x: 0, y: prfpos1, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
-                profimgBtns[i].frame = CGRect(x: 0, y: prfpos1 * 1.85, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
+                profimgBtns[i].frame = CGRect(x: 0, y: 0, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
+                profimgBtns[i].frame.origin.y = profimgs[i].frame.maxY - profimgBtns[i].frame.height
+                
             }else{
                 profimgs[i].frame = CGRect(x: 0, y: prfpos1 + (scrview.frame.width * 0.22)+prfpos1 * 0.5, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
-                profimgBtns[i].frame = CGRect(x: 0, y:prfpos1 * 1.88 + scrhalfY * 0.35, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
+                profimgBtns[i].frame = CGRect(x: 0, y:0, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
+                profimgBtns[i].frame.origin.y = profimgs[i].frame.maxY - profimgBtns[i].frame.height
             }
             switch (i+1)%3{
             case 1:
@@ -135,8 +137,8 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
             }
             profimgBtns[i].frame.origin.x = profimgs[i].frame.minX + profimgs[i].frame.width * 0.75
         }
-        
-        let nameFieldY = self.scrview.frame.height - (scrhalfY * 0.9)
+        let photoButtom = profimgs[5].frame.maxY
+        let nameFieldY =  (photoButtom * 1.1)
         
         name.frame = CGRect(x: scrhalfX * 0.1, y: nameFieldY*0.94 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         name.sizeToFit()
@@ -150,7 +152,7 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         
         ageField.frame = CGRect(x: 0, y: ageFieldY, width: self.view.frame.width, height: scrhalfY*0.1)
         
-        let textEditerY = (ageFieldY + scrhalfY*0.1)*1.1
+        let textEditerY = ageField.frame.maxY*1.1
         
         abouMe.frame = CGRect(x: scrhalfX * 0.1, y: textEditerY*0.96 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         abouMe.sizeToFit()
@@ -178,9 +180,7 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         let scrhalfX = self.scrview.frame.width * 0.5
         let scrhalfY = self.scrview.frame.height * 0.5
         let prfpos1 = scrhalfY * 0.3
-        let nameFieldY = self.scrview.frame.height - (scrhalfY * 0.9)
-        let ageFieldY = (nameFieldY + scrhalfY*0.1)*1.1
-        let textEditerY = (ageFieldY + scrhalfY*0.1)*1.1
+        let textEditerY = ageField.frame.maxY*1.1
         let TEheight = textEditer.sizeThatFits(CGSize(width: textEditer.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
         textEditer.frame = CGRect(x: 0, y: textEditerY, width: self.view.frame.width, height: TEheight*1.2)
         charNumLabel.frame = CGRect(x: textEditer.frame.width*0.9, y: TEheight*0.9, width: textEditer.frame.width*0.1, height: TEheight*0.2)
