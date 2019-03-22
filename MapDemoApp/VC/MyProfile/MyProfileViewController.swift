@@ -29,7 +29,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     var age = "24"
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor.black
         
         baceScrview.backgroundColor = UIColor.white
         baceScrview.scrollIndicatorInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
