@@ -112,7 +112,7 @@ class MapBottomWhenMatchedView: UIView {
         self.bringSubviewToFront(chatButton)
         self.bringSubviewToFront(finishButton)
         //ちょっとごちゃごちゃしすぎ
-        let miniProfileHeight : CGFloat = 100
+        let miniProfileHeight : CGFloat = 70
         let chatButtonSideLength : CGFloat = 60
         
         let x = self.frame.width  - chatButtonSideLength - 15

@@ -21,11 +21,16 @@ class MapViewController: UIViewController , PopUpShowable {
     private let matchUseCase = MatchUseCase()
     private let firebaseUseCase = FirebaseUseCase()
     
-    private var radius : Float = 3000
+    private var discoveryRadius : Double = 3000
     
     //test by kitahara
     private var state : MapState = .initial  {
         willSet {
+            
+            if newValue == .initial {
+                self.circleRange()
+            }
+            
             //FIXME : もっと綺麗に書けそう
             if state == .initial && newValue == .matched {
                 let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
@@ -37,6 +42,12 @@ class MapViewController: UIViewController , PopUpShowable {
                 AnimationUtils.transitionTwoViewAppearance(fromView: self.bottomWhenMatchView, toView: self.bottomView, whereGo: bottomPoint, afterLayout: {
                     self.switchBottomViewLayout()
                 })
+            }
+        }
+        didSet {
+            if oldValue == .initial {
+                self.mapView.stopCircleAnimation()
+                self.mapView.removeCircleOverlay()
             }
         }
     }
@@ -63,7 +74,6 @@ class MapViewController: UIViewController , PopUpShowable {
         self.layoutMapView()
         self.switchBottomViewLayout()
         self.layoutTopTextView()
-    
     }
     
     private func switchBottomViewLayout() {
@@ -82,8 +92,9 @@ class MapViewController: UIViewController , PopUpShowable {
     
     // MARK: - Create subviews -
     private func createMapView() -> MapView {
-        let rect = MapView()
-        return rect;
+        let view = MapView()
+        view.delegate = self
+        return view;
     }
     
     private func createBottomView() -> MapBottomView {
@@ -115,29 +126,17 @@ class MapViewController: UIViewController , PopUpShowable {
     }
     
     private func layoutBottomWhenMatchView() {
-        let height : CGFloat = 200
+        let height : CGFloat = 170
         let y = self.view.frame.height
         bottomWhenMatchView.frame = CGRect(x: 0, y: y - height, width: self.view.frame.width, height: height)
     }
-
-
     
     private func layoutTopTextView() {
         let height : CGFloat = 120
         topTextView.frame = CGRect(x: 0, y: 50 , width: self.view.frame.width, height: height)
     }
 
-    private func changedCircleRange(radius : Double) {
-        //初期読み込み時はuserLocationはまともにとれないのでは？
-        let userLocation = self.mapView.getUserLocation()
-        self.mapView.showCircleAroundUser(radius : radius)
-        self.mapUseCase.getNearPeopleNumber(location: userLocation, radius: radius, completion: { number in
-            dispatch_after(1, block: {
-                self.topTextView.setText(text: "\(number) people wait you nearby")
-                self.topTextView.showUpAnimation()
-            })
-        })
-    }
+
     
     private func openDiscoverySettingPage() {
         let vc = DiscoverySettingViewController()
@@ -147,9 +146,16 @@ class MapViewController: UIViewController , PopUpShowable {
     }
     
     fileprivate func circleRange() {
-        //radiusを設定からとってきている
-        let radius = mapUseCase.getSyncDiscoveryDistance()
-        self.changedCircleRange(radius : Double( radius ))
+        //radiusを設定から取得して、自分を中心に円を描く
+        let radius = Double(mapUseCase.getSyncDiscoveryDistance())
+        let userLocation = self.mapView.getUserLocation()
+        self.mapView.showCircleAroundUser(radius : radius)
+        self.mapUseCase.getNearPeopleNumber(location: userLocation, radius: radius, completion: { number in
+            dispatch_after(1, block: {
+                self.topTextView.setText(text: "\(number) people wait you nearby")
+                self.topTextView.showUpAnimation()
+            })
+        })
     }
     
     //位置情報をリアルタイムに取得する
@@ -193,10 +199,12 @@ extension MapViewController : MapBottomViewDelegate {
     
     func onClickButton() {
         //test by kitahara
-        dispatch_after(3, block: {
+        dispatch_after(5, block: {
             self.bottomView.buttonLoading(bool : false)
             self.state = .matched
         })
+        let radius = Double(mapUseCase.getSyncDiscoveryDistance())
+        self.mapView.startSearchingAnimation(radius : radius)
         
         //周りの人に通知を投げる
 //        let coord = mapView.getUserLocation()
@@ -216,5 +224,43 @@ extension MapViewController : MapBottomViewDelegate {
 //
 //            }
 //        }
+    }
+}
+
+extension MapViewController : MapViewDelegate {
+    func canDrawPartnerLocation() -> Bool {
+        switch(self.state) {
+        case .initial:
+            return false
+        case .matched:
+            return true
+        }
+    }
+    
+    func canDrawGatherHere() -> Bool {
+        switch(self.state) {
+        case .initial:
+            return false
+        case .matched:
+            return true
+        }
+    }
+    
+    func canShowCircleAroundUser() -> Bool {
+        switch(self.state) {
+        case .initial:
+            return true
+        case .matched:
+            return false
+        }
+    }
+    
+    func canOnLongTapMapView() -> Bool {
+        switch self.state {
+        case .initial:
+            return false
+        case .matched:
+            return true
+        }
     }
 }

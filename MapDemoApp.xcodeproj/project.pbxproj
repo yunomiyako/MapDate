@@ -22,6 +22,7 @@
 		35401891223AA4DA0002BCF2 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401890223AA4DA0002BCF2 /* APIClient.swift */; };
 		35401893223AA50A0002BCF2 /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401892223AA50A0002BCF2 /* RequestProtocol.swift */; };
 		35401895223AA84A0002BCF2 /* GetNearPeopleNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401894223AA84A0002BCF2 /* GetNearPeopleNumber.swift */; };
+		356D38E2224535D60024F97E /* CustomMKCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356D38E1224535D60024F97E /* CustomMKCircle.swift */; };
 		3583CEB72234C1D700621F1F /* RoundFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3583CEB62234C1D700621F1F /* RoundFloatingButton.swift */; };
 		3583CEBA2234C3B200621F1F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3583CEB92234C3B200621F1F /* Color.swift */; };
 		3583CEBD2234C56B00621F1F /* MapBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3583CEBC2234C56B00621F1F /* MapBottomView.swift */; };
@@ -110,6 +111,7 @@
 		35401890223AA4DA0002BCF2 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		35401892223AA50A0002BCF2 /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
 		35401894223AA84A0002BCF2 /* GetNearPeopleNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNearPeopleNumber.swift; sourceTree = "<group>"; };
+		356D38E1224535D60024F97E /* CustomMKCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMKCircle.swift; sourceTree = "<group>"; };
 		3583CEB62234C1D700621F1F /* RoundFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundFloatingButton.swift; sourceTree = "<group>"; };
 		3583CEB92234C3B200621F1F /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		3583CEBC2234C56B00621F1F /* MapBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBottomView.swift; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 				35AD2F772234243F00CD86EE /* MapView.swift */,
 				3583CEBC2234C56B00621F1F /* MapBottomView.swift */,
 				35401887223A3E3F0002BCF2 /* CustomAnnotationView.swift */,
+				356D38E1224535D60024F97E /* CustomMKCircle.swift */,
 				35D32F4022412C5E00A83141 /* MapBottomWhenMatchedView.swift */,
 			);
 			path = Map;
@@ -811,6 +814,7 @@
 				3583CEC72234EF1400621F1F /* MatchPopupViewController.swift in Sources */,
 				3583CEB72234C1D700621F1F /* RoundFloatingButton.swift in Sources */,
 				35AD2F87223433DB00CD86EE /* MapRepository.swift in Sources */,
+				356D38E2224535D60024F97E /* CustomMKCircle.swift in Sources */,
 				35CB411F2243605200D7F23C /* AnimationUtils.swift in Sources */,
 				3583CEC02234C99F00621F1F /* CommonUtils.swift in Sources */,
 				927B79F922369FF3001F8A36 /* ItemCreationPanelView.swift in Sources */,

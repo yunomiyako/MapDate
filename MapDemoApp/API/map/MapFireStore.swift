@@ -24,6 +24,25 @@ class MapFireStore {
     typealias Ops = ([String : Any]) -> ()
     var lastWriteTime : Date? = nil
     let pathlib = MapFireStorePath()
+    let gatherHereDocumentPath = "gatherHere"
+    
+    func getGatherHereLocation(transactionId : String , handler : @escaping (LocationLog) -> ()) {
+        self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId)).document(gatherHereDocumentPath).addSnapshotListener { (snapshot, error) in
+            
+            if let error = error {
+                LogDebug("Error getting documents: \(error)")
+            } else {
+                guard let d = snapshot?.data() else {
+                    LogDebug("document was nil")
+                    return
+                }
+                let log = LocationLog(document: d)
+                handler(log)
+            }
+            
+        }
+    }
+    
     
     func getLocation(transactionId : String , location_id : String , handler : @escaping (LocationLog) -> ()) {
         self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId)).document(location_id).addSnapshotListener { (snapshot, error) in
@@ -40,6 +59,18 @@ class MapFireStore {
             }
             
         }
+    }
+    
+    func sendGatherHereLocation(transactionId : String , location : LocationLog) {
+        let collection = self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId))
+        collection.document(gatherHereDocumentPath).setData(
+            [
+                "id" : location.id ,
+                "latitude": location.latitude ,
+                "longitude" : location.longitude ,
+                "createdAt" : location.createdAt ,
+                ]
+        )
     }
     
     func setLocation(transactionId : String , location : LocationLog) {
@@ -64,7 +95,6 @@ class MapFireStore {
                 "createdAt" : location.createdAt ,
             ]
         )
-        
     }
     
 
