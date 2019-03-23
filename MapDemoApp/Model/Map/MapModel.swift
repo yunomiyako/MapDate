@@ -15,6 +15,8 @@ class MapModel {
     private var circleOverlay : CustomMKCircle? = nil
     private var timer : Timer? = nil
     
+    //test by kitahara あとで別のファイルに移す？
+    private let NEAR_METER : Double = 300
     fileprivate var mapFireStore = MapFireStore()
     
     init(mapView : MKMapView ) {
@@ -80,6 +82,12 @@ class MapModel {
     //自分が中心の半径n[m]の丸を描画する
     func showCircleAroundUser(radius : Double , alpha : Float = 1 , fillColor : UIColor? = nil) {
         let center = self.mapView.userLocation.coordinate
+        self.showCircleAroundLocation(location: center, radius: radius, alpha: alpha, fillColor: fillColor)
+    }
+    
+    //ロケーションを指定してその中心半径n[m]の丸を描画する
+    func showCircleAroundLocation(location : CLLocationCoordinate2D , radius : Double , alpha : Float = 1 , fillColor : UIColor? = nil) {
+        let center = location
         let radius_distance = CLLocationDistance(exactly: radius)
         if let rad = radius_distance {
             let circle = CustomMKCircle(center: center, radius: rad)
@@ -92,16 +100,23 @@ class MapModel {
     
     //自分が中心の半径n[m]の丸が見えるようにズームする
     func zoomCircleAroundUser(radius : Double ) {
+        let center = self.mapView.userLocation.coordinate
+        self.zoomCircleAroundLocation(location: center, radius: radius)
+    }
+    
+    //指定したロケーションの半径n[m]の丸が見えるようにズームする
+    func zoomCircleAroundLocation(location : CLLocationCoordinate2D , radius : Double ) {
+        let center = location
         let mapMargin = 1.3
         let rad_degree = CLLocationDegrees(exactly: radius * mapMargin)
-        let center = self.mapView.userLocation.coordinate
         if let rad = rad_degree {
             let region = MKCoordinateRegion(center: center, latitudinalMeters: 2*rad, longitudinalMeters: 2*rad)
             LogDebug(region.debugDescription)
             let fittedRegion = self.mapView.regionThatFits(region)
-            self.mapView.setRegion(fittedRegion, animated: false)
+            self.mapView.setRegion(fittedRegion, animated: true)
         }
     }
+    
     
     //アノテーションを加える
     func addAnnotation(center : CLLocationCoordinate2D , title : String) {
@@ -184,8 +199,7 @@ class MapModel {
     }
     
     //円をtimerでアニメートする
-    func startCircleAnimation(radius : Double) {
-        LogDebug("animateCircle")
+    func startCircleAnimation(location : CLLocationCoordinate2D , radius : Double) {
         if self.timer != nil {
             self.timer?.invalidate()
             self.timer = nil
@@ -207,7 +221,7 @@ class MapModel {
             } else {
                 let r = radius_array[counter]
                 self.removeCircleOverlay()
-                self.showCircleAroundUser(radius: r , alpha :  0.6 * (1.0 - Float(counter) / Float(frameRate))  , fillColor : UIColor.mainRed() )
+                self.showCircleAroundLocation(location: location , radius: r , alpha :  0.6 * (1.0 - Float(counter) / Float(frameRate))  , fillColor : UIColor.mainRed() )
             }
             counter += 1
         })
@@ -217,5 +231,57 @@ class MapModel {
     
     func stopCircleAnimation() {
         self.timer?.invalidate()
+    }
+    
+    //ロングタップした時にGatherHereを設置する処理
+    func longTapGathereHereHandler(gestureRecognizer: UILongPressGestureRecognizer) {
+        // ロングタップ開始
+        if gestureRecognizer.state == .began {
+            self.removeGatherHere()
+        }
+            // ロングタップ終了（手を離した）
+        else if gestureRecognizer.state == .ended {
+            let tapPoint = gestureRecognizer.location(in: mapView)
+            let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
+            self.sendGatherHereLocation(coordinate : center)
+            
+            // 現在地と目的地のMKPlacemarkを生成(ここいる？)
+            let fromPlacemark = MKPlacemark(coordinate:mapView.userLocation.coordinate, addressDictionary:nil)
+            let toPlacemark   = MKPlacemark(coordinate:center, addressDictionary:nil)
+            self.showRoute(from: fromPlacemark, to: toPlacemark)
+        }
+    }
+    
+    //ロングタップした時に検索範囲を変更する処理
+    func longTapChangeDiscoveryCenter(gestureRecognizer: UILongPressGestureRecognizer , endHandler : (CLLocationCoordinate2D) -> ()) {
+        // ロングタップ開始
+        if gestureRecognizer.state == .began {
+            self.removeCircleOverlay()
+        }
+            // ロングタップ終了（手を離した）
+        else if gestureRecognizer.state == .ended {
+            let tapPoint = gestureRecognizer.location(in: mapView)
+            let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
+            endHandler(center)
+        }
+    }
+    
+    func calculateDistanceMeter(x : CLLocationCoordinate2D , y : CLLocationCoordinate2D) -> Double {
+        
+        let loc_x = CLLocation(latitude: x.latitude, longitude: x.longitude)
+        let loc_y = CLLocation(latitude: y.latitude, longitude: y.longitude)
+        
+        let distance_m = loc_x.distance(from: loc_y)
+        return distance_m
+    }
+    
+    //十分に近づいたことを判定する
+    func isNear(x : CLLocationCoordinate2D , y : CLLocationCoordinate2D) -> Bool{
+        let distance_m = calculateDistanceMeter(x: x, y: y)
+        if distance_m < NEAR_METER {
+            return true
+        } else {
+            return false
+        }
     }
 }

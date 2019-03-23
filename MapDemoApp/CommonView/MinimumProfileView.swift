@@ -25,14 +25,23 @@ class MinimumProfileView: UIView {
             view.top == view.superview!.top
             view.bottom == view.superview!.bottom
         }
+        
+        profileImageView.setRound()
     }
     
     override func layoutSubviews() {
-        profileImageView.setRound()
+        super.layoutSubviews()
+        LogDebug("minimum profile frame = \(self.frame.debugDescription)")
     }
     
     private func createRatingView() -> RatingView {
         let view = RatingView()
+        view.customizeRateView(updateOnTouch: false , starSize : 20)
         return view
     }
+    
+    func setRate(rating: Double, text: String?) {
+        rateView.setRate(rating: rating, text: text)
+    }
+    
 }

@@ -13,8 +13,9 @@ import SwiftIcons
 class MapBottomWhenMatchedView: UIView {
 
     // MARK: - Properties -
+    lazy private var baseView : UIView = UIView()
     lazy private var paperSwitch : RAMPaperSwitch = {
-        let view = RAMPaperSwitch(view: self, color: UIColor.mainPink())
+        let view = RAMPaperSwitch(view: self.baseView , color: UIColor.mainPink())
         view.tintColor = UIColor.mainPink()
         view.animationDidStartClosure = { _ in
             self.delegate?.onToggleShareLocation(on : view.isOn)
@@ -57,6 +58,14 @@ class MapBottomWhenMatchedView: UIView {
         return view
     }()
     
+    lazy private var safelyMetButton : RoundFloatingButton = {
+        let view = RoundFloatingButton()
+        view.setText(text: NSLocalizedString("ICouldMeetSafely", tableName: "MapStrings", comment: ""))
+        view.delegate = self
+        view.setDisable(disable: true)
+        return view
+    }()
+    
     
     weak var delegate : MapBottomViewDelegate? = nil
     
@@ -73,18 +82,26 @@ class MapBottomWhenMatchedView: UIView {
     
     private func childInit() {
         self.backgroundColor = .white
-        self.addSubview(paperSwitch)
-        self.addSubview(locationInfoDescriptionLabel)
-        self.addSubview(partitionView)
-        self.addSubview(chatButton)
-        self.addSubview(finishButton)
+        self.addSubview(baseView)
+        self.baseView.addSubview(paperSwitch)
+        self.baseView.addSubview(locationInfoDescriptionLabel)
+        self.baseView.addSubview(partitionView)
+        self.baseView.addSubview(chatButton)
+        self.baseView.addSubview(finishButton)
+        self.baseView.addSubview(safelyMetButton)
+        //なぜかminiProfileViewをbaseViewに乗せるとバグる・・・
         self.addSubview(miniProfileView)
+        
+        //test by kitahara
+        miniProfileView.setRate(rating: 3.5, text: nil)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         self.layoutUpperFrame()
         self.layoutChatButton()
+        self.layoutBaseView()
+        self.layoutSafelyMetButton()
     }
     
     // MARK: - Create subviews -
@@ -96,6 +113,10 @@ class MapBottomWhenMatchedView: UIView {
     }
 
     // MARK: - Layout subviews -
+    private func layoutBaseView() {
+        self.baseView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+    }
+    
     private func layoutUpperFrame() {
         let x_1 = self.frame.width  - paperSwitch.frame.width - 30
         let x_2 : CGFloat = 30
@@ -122,9 +143,18 @@ class MapBottomWhenMatchedView: UIView {
         
         let x_2 : CGFloat = 10
         let y_2 = partitionView.frame.maxY + 20
-        let width = self.frame.width - 140 - 2 * chatButtonSideLength
+        let width = self.frame.width - 2 * chatButtonSideLength
+
         miniProfileView.frame = CGRect(x: x_2, y: y_2, width: width, height: miniProfileHeight)
-        
+        self.bringSubviewToFront(miniProfileView)
+    }
+    
+    private func layoutSafelyMetButton() {
+        let x : CGFloat = 10
+        let y = miniProfileView.frame.maxY + 20
+        let height : CGFloat = 60
+        safelyMetButton.frame = CGRect(x: x, y: y, width: self.frame.width - 2*x, height: height)
+        self.baseView.bringSubviewToFront(safelyMetButton)
     }
     
     
@@ -135,5 +165,15 @@ class MapBottomWhenMatchedView: UIView {
 
     @objc private func onClickFinishButton(_ sender : Any) {
         self.delegate?.onClickFinishButton()
+    }
+    
+    func setButtonDisable(disable : Bool) {
+        self.safelyMetButton.setDisable(disable: disable)
+    }
+}
+
+extension MapBottomWhenMatchedView : RoundFloatingButtonDelegate {
+    func onClickButton() {
+        LogDebug("I met safely")
     }
 }

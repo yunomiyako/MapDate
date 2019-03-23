@@ -8,23 +8,49 @@
 
 import UIKit
 import Cartography
+import MapKit
 
 class MapViewController: UIViewController , PopUpShowable {
 
     // MARK: - Properties -
-    lazy private var mapView:MapView = self.createMapView()
-    lazy private var bottomView : MapBottomView = self.createBottomView()
-    lazy private var bottomWhenMatchView : MapBottomWhenMatchedView = self.createBottomWhenMatchView()
-    lazy private var topTextView : FloatingRectangleView = self.createTopTextView()
+    lazy private var mapView:MapView = {
+        let view = MapView()
+        view.delegate = self
+        return view;
+    }()
+    
+    lazy private var bottomView : MapBottomView = {
+        let view = MapBottomView()
+        view.delegate = self
+        return view
+    }()
+    
+    lazy private var bottomWhenMatchView : MapBottomWhenMatchedView = {
+        let view = MapBottomWhenMatchedView()
+        view.delegate = self
+        view.setTopShadow()
+        return view
+    }()
+    
+    lazy private var topTextView : FloatingRectangleView = {
+        let view = FloatingRectangleView()
+        return view
+    }()
+    
+    lazy private var searchBarView : MapSearchBarView = {
+        let view = MapSearchBarView()
+        return view
+    }()
     
     private let mapUseCase = MapUseCase()
     private let matchUseCase = MatchUseCase()
     private let firebaseUseCase = FirebaseUseCase()
     
     private var discoveryRadius : Double = 3000
+    private var discoveryCenter : CLLocationCoordinate2D? = nil 
     
     //test by kitahara
-    private var state : MapState = .initial  {
+    private var state : MapState = .matched  {
         willSet {
             
             if newValue == .initial {
@@ -59,6 +85,7 @@ class MapViewController: UIViewController , PopUpShowable {
         self.view.addSubview(bottomView)
         self.view.addSubview(topTextView)
         self.view.addSubview(bottomWhenMatchView)
+        self.view.addSubview(searchBarView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,6 +101,7 @@ class MapViewController: UIViewController , PopUpShowable {
         self.layoutMapView()
         self.switchBottomViewLayout()
         self.layoutTopTextView()
+        self.layoutSearchBarView()
     }
     
     private func switchBottomViewLayout() {
@@ -90,30 +118,6 @@ class MapViewController: UIViewController , PopUpShowable {
         }
     }
     
-    // MARK: - Create subviews -
-    private func createMapView() -> MapView {
-        let view = MapView()
-        view.delegate = self
-        return view;
-    }
-    
-    private func createBottomView() -> MapBottomView {
-        let view = MapBottomView()
-        view.delegate = self
-        return view
-    }
-    
-    private func createBottomWhenMatchView() -> MapBottomWhenMatchedView {
-        let view = MapBottomWhenMatchedView()
-        view.delegate = self
-        return view
-    }
-    
-    private func createTopTextView() -> FloatingRectangleView {
-        let view = FloatingRectangleView()
-        return view
-    }
-    
     // MARK: - Layout subviews -
     private func layoutMapView() {
         mapView.frame = self.view.frame
@@ -126,7 +130,7 @@ class MapViewController: UIViewController , PopUpShowable {
     }
     
     private func layoutBottomWhenMatchView() {
-        let height : CGFloat = 170
+        let height : CGFloat = 270
         let y = self.view.frame.height
         bottomWhenMatchView.frame = CGRect(x: 0, y: y - height, width: self.view.frame.width, height: height)
     }
@@ -136,6 +140,14 @@ class MapViewController: UIViewController , PopUpShowable {
         topTextView.frame = CGRect(x: 0, y: 50 , width: self.view.frame.width, height: height)
     }
 
+    private func layoutSearchBarView() {
+        let x : CGFloat = 20
+        let y : CGFloat = 50
+        let width = self.view.frame.width - 90
+        let height : CGFloat = 40
+        searchBarView.frame = CGRect(x: x, y: y, width: width, height: height)
+        searchBarView.setSize(width: width, height: height)
+    }
 
     
     private func openDiscoverySettingPage() {
@@ -146,21 +158,29 @@ class MapViewController: UIViewController , PopUpShowable {
     }
     
     fileprivate func circleRange() {
-        //radiusを設定から取得して、自分を中心に円を描く
+        //radiusを設定から取得して、自分か指定したローケーションを中心に円を描く
+        let centerLocation = self.discoveryCenter ?? self.mapView.getUserLocation()
         let radius = Double(mapUseCase.getSyncDiscoveryDistance())
-        let userLocation = self.mapView.getUserLocation()
-        self.mapView.showCircleAroundUser(radius : radius)
-        self.mapUseCase.getNearPeopleNumber(location: userLocation, radius: radius, completion: { number in
+        self.mapView.showCircleAroundLocation(location: centerLocation, radius: radius)
+        self.mapUseCase.getNearPeopleNumber(location: centerLocation, radius: radius, completion: { number in
             dispatch_after(1, block: {
                 self.topTextView.setText(text: "\(number) people wait you nearby")
                 self.topTextView.showUpAnimation()
             })
         })
+        if let pinnedLocation = self.discoveryCenter  {
+            self.mapView.addAnnotation(center: pinnedLocation, title: "")
+        }
     }
     
     //位置情報をリアルタイムに取得する
     fileprivate func startUpdatingLocation() {
         self.mapView.startUpdatingLocation()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        LogDebug("touchesBegan")
+        self.view.endEditing(true)
     }
 }
 
@@ -203,8 +223,9 @@ extension MapViewController : MapBottomViewDelegate {
             self.bottomView.buttonLoading(bool : false)
             self.state = .matched
         })
+        let centerLocation = self.discoveryCenter ?? self.mapView.getUserLocation()
         let radius = Double(mapUseCase.getSyncDiscoveryDistance())
-        self.mapView.startSearchingAnimation(radius : radius)
+        self.mapView.startSearchingAnimation(location : centerLocation , radius : radius)
         
         //周りの人に通知を投げる
 //        let coord = mapView.getUserLocation()
@@ -228,6 +249,14 @@ extension MapViewController : MapBottomViewDelegate {
 }
 
 extension MapViewController : MapViewDelegate {
+    func isNear(near: Bool) {
+        if near {
+            self.bottomWhenMatchView.setButtonDisable(disable: false)
+        } else {
+            self.bottomWhenMatchView.setButtonDisable(disable: true)
+        }
+    }
+    
     func canDrawPartnerLocation() -> Bool {
         switch(self.state) {
         case .initial:
@@ -255,12 +284,15 @@ extension MapViewController : MapViewDelegate {
         }
     }
     
-    func canOnLongTapMapView() -> Bool {
+    func onLongTapMapView(gestureRecognizer: UILongPressGestureRecognizer) {
         switch self.state {
         case .initial:
-            return false
+            self.mapView.longTapChangeDiscoveryCenter(gestureRecognizer: gestureRecognizer) {location in
+                self.discoveryCenter = location
+                self.circleRange()
+            }
         case .matched:
-            return true
+            self.mapView.longTapGathereHereHandler(gestureRecognizer: gestureRecognizer)
         }
     }
 }

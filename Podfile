@@ -14,6 +14,7 @@ target 'MapDemoApp' do
   pod "PullToDismissTransition"
   pod 'SwiftIcons', '~> 2.3.2'
   pod 'Cosmos', '~> 18.0'
+  pod "SHSearchBar"
   #####⬇︎TSUKASA⬇︎########
   pod 'FlexiblePageControl'
   pod 'MagazineLayout'

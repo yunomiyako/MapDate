@@ -11,9 +11,10 @@ import MapKit
 
 protocol MapViewDelegate : class {
     func canShowCircleAroundUser() -> Bool
-    func canOnLongTapMapView() -> Bool
+    func onLongTapMapView(gestureRecognizer: UILongPressGestureRecognizer)
     func canDrawGatherHere() -> Bool
     func canDrawPartnerLocation() -> Bool
+    func isNear(near : Bool) 
 }
 
 class MapView: UIView {
@@ -50,23 +51,38 @@ class MapView: UIView {
             if self.delegate?.canDrawPartnerLocation() ?? false == false {return}
             let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
             self.showAnotherUserLocation(id: log.id , location: location)
+            
+            //近くにいるかを判定
+            let isNear = self.mapModel?.isNear(x: location, y: self.getUserLocation()) ?? false
+            self.delegate?.isNear(near : isNear)
         })
         
         self.mapModel?.receiveGatherHereLocation(handler : {log in
             if self.delegate?.canDrawGatherHere() ?? false == false {return}
             let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
-            self.mapModel?.removeGatherHere()
-            self.mapModel?.addAnnotation(center: location , title : "Gather Here")
+            self.addAnnotation(center: location, title: "Gather Here")
         })
+    }
+    
+    func addAnnotation(center : CLLocationCoordinate2D, title : String) {
+        self.mapModel?.removeGatherHere()
+        self.mapModel?.addAnnotation(center: center , title : title)
     }
     
     //自分の近くに円を描く。
     func showCircleAroundUser(radius : Double) {
         if self.delegate?.canShowCircleAroundUser() ?? false {
-            self.mapModel?.removeAllOverlays()
+            self.mapModel?.removeCircleOverlay()
             self.mapModel?.showCircleAroundUser(radius: radius)
             self.mapModel?.zoomCircleAroundUser(radius: radius)
         }
+    }
+    
+    //指定したロケーションに円を描く
+    func showCircleAroundLocation(location : CLLocationCoordinate2D, radius : Double) {
+        self.mapModel?.removeCircleOverlay()
+        self.mapModel?.showCircleAroundLocation(location: location, radius: radius)
+        self.mapModel?.zoomCircleAroundLocation(location: location, radius: radius)
     }
     
     //state変わった時に
@@ -124,24 +140,15 @@ class MapView: UIView {
     
     // MARK : Listener
     @objc private func onLongTapMapView(gestureRecognizer: UILongPressGestureRecognizer) {
-        if self.delegate?.canOnLongTapMapView() ?? false {
-            
-            // ロングタップ開始
-            if gestureRecognizer.state == .began {
-                self.mapModel?.removeGatherHere()
-            }
-                // ロングタップ終了（手を離した）
-            else if gestureRecognizer.state == .ended {
-                let tapPoint = gestureRecognizer.location(in: mapView)
-                let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
-                self.mapModel?.sendGatherHereLocation(coordinate : center)
-                
-                // 現在地と目的地のMKPlacemarkを生成
-                let fromPlacemark = MKPlacemark(coordinate:mapView.userLocation.coordinate, addressDictionary:nil)
-                let toPlacemark   = MKPlacemark(coordinate:center, addressDictionary:nil)
-                self.mapModel?.showRoute(from: fromPlacemark, to: toPlacemark)
-            }
-        }
+        self.delegate?.onLongTapMapView(gestureRecognizer: gestureRecognizer)
+    }
+    
+    func longTapGathereHereHandler(gestureRecognizer: UILongPressGestureRecognizer) {
+        self.mapModel?.longTapGathereHereHandler(gestureRecognizer: gestureRecognizer)
+    }
+    
+    func longTapChangeDiscoveryCenter(gestureRecognizer: UILongPressGestureRecognizer , endHandler : (CLLocationCoordinate2D) -> ()) {
+        self.mapModel?.longTapChangeDiscoveryCenter(gestureRecognizer: gestureRecognizer , endHandler : endHandler)
     }
     
     //別のユーザを表示させる
@@ -174,8 +181,8 @@ class MapView: UIView {
         self.mapModel?.stopCircleAnimation()
     }
     
-    func startSearchingAnimation(radius : Double) {
-        self.mapModel?.startCircleAnimation(radius: radius)
+    func startSearchingAnimation(location : CLLocationCoordinate2D , radius : Double) {
+        self.mapModel?.startCircleAnimation(location : location , radius: radius)
     }
     
 }

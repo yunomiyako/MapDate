@@ -62,6 +62,16 @@ class RoundFloatingButton: UIView {
         
     }
     
+    func setDisable(disable : Bool) {
+        self.button.isEnabled = !disable
+        if disable {
+            self.button.alpha = 0.3
+        } else {
+            self.button.alpha = 1
+        }
+        
+    }
+    
     func setLoading(bool : Bool) {
         loading = bool
         if !bool {
