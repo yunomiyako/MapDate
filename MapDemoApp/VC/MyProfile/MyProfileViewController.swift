@@ -254,7 +254,6 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     }
 
     func resize(image: UIImage, width: Double) -> UIImage {
-        
         // オリジナル画像のサイズからアスペクト比を計算
         let aspectScale = image.size.height / image.size.width
         

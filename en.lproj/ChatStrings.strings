@@ -1,0 +1,17 @@
+/* 
+  ChatStrings.strings
+  MapDemoApp
+
+  Created by kitaharamugirou on 2019/03/20.
+  Copyright © 2019 kitaharamugirou. All rights reserved.
+*/
+
+/*
+ How to use: NSLocalizedString("memoBook", tableName: "ChatStrings", comment: "")
+ */
+
+"ChatTab" = "chat";
+"ChatPlaceHolder" = "input message";
+"ChatStart" = "start message";
+"ChatNewMessage" = "new message";
+"Send" = "Send";

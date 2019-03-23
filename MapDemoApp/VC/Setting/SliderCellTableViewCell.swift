@@ -27,7 +27,6 @@ class SliderCellTableViewCell: UITableViewCell {
     private var by : Float = 0
     private var key : String = ""
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -65,6 +64,9 @@ class SliderCellTableViewCell: UITableViewCell {
     func setValue(value : [CGFloat]) {
         sliderView.thumbCount = value.count
         sliderView.value = value
+        if value.count == 1 {
+            sliderView.tintColor = UIColor.gray
+        }
     }
     
     func setText(leftText : String , rightTextUnit : String) {

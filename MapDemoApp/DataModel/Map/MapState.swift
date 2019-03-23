@@ -10,9 +10,5 @@ import Foundation
 
 enum MapState {
     case initial //通常モード
-    case finding //探し中
-    case chatting //話し中
-    case meetUp //待ち合わせ
-    case meeting //during meeting
-    case farewell //別れ
+    case matched //マッチしたあと
 }

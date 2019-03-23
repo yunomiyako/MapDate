@@ -20,8 +20,7 @@ class HomeViewController: UIViewController {
         firebaseUseCase.checkSignIn(
             whenSignIn: {user in
                 //ログイン済み
-                //let vc = ChatViewController()
-                let vc = MyProfileViewController()
+                let vc = MapViewController()
                 self.present(vc, animated: true)
             },
             whenNot: {

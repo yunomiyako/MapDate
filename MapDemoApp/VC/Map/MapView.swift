@@ -8,6 +8,14 @@
 
 import UIKit
 import MapKit
+
+protocol MapViewDelegate : class {
+    func canShowCircleAroundUser() -> Bool
+    func canOnLongTapMapView() -> Bool
+    func canDrawGatherHere() -> Bool
+    func canDrawPartnerLocation() -> Bool
+}
+
 class MapView: UIView {
     // MARK: - Properties -
     lazy private var mapView:MKMapView = self.createMapView()
@@ -15,8 +23,8 @@ class MapView: UIView {
     
     private var locationManager : CLLocationManager?
     private var mapModel : MapModel? = nil
-    fileprivate var mapFireStore = MapFireStore()
-    
+    weak var delegate : MapViewDelegate? = nil
+
     // MARK: - Life cycle events -
     required override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,26 +38,40 @@ class MapView: UIView {
     
     private func childInit() {
         LogDebug("MapView childInit")
-        self.mapModel = MapModel(mapView: mapView, state: .initial)
+        self.mapModel = MapModel(mapView: mapView)
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()
+        
         self.addSubview(mapView)
         self.mapView.addSubview(trackingButton)
         
         self.mapModel?.receivePartnerLocation(handler: {log in
-            let id = log.id
+            if self.delegate?.canDrawPartnerLocation() ?? false == false {return}
             let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
-            self.showAnotherUserLocation(id: id, location: location)
+            self.showAnotherUserLocation(id: log.id , location: location)
+        })
+        
+        self.mapModel?.receiveGatherHereLocation(handler : {log in
+            if self.delegate?.canDrawGatherHere() ?? false == false {return}
+            let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
+            self.mapModel?.removeGatherHere()
+            self.mapModel?.addAnnotation(center: location , title : "Gather Here")
         })
     }
     
-    //自分の近くを円で描く
+    //自分の近くに円を描く。
     func showCircleAroundUser(radius : Double) {
-        LogDebug("showCircleAroundUser")
+        if self.delegate?.canShowCircleAroundUser() ?? false {
+            self.mapModel?.removeAllOverlays()
+            self.mapModel?.showCircleAroundUser(radius: radius)
+            self.mapModel?.zoomCircleAroundUser(radius: radius)
+        }
+    }
+    
+    //state変わった時に
+    func removeAllOverlays() {
         self.mapModel?.removeAllOverlays()
-        self.mapModel?.showCircleAroundUser(radius: radius)
-        self.mapModel?.zoomCircleAroundUser(radius: radius)
     }
     
     override func layoutSubviews() {
@@ -70,10 +92,10 @@ class MapView: UIView {
         //set delegate to render views such as line
         view.delegate = self
         
-        //タップリスナー
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapMapView) )
-        view.addGestureRecognizer(tapGesture)
-        
+        //タップリスナー　使ってない
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapMapView) )
+//        view.addGestureRecognizer(tapGesture)
+//
         //ロングタップリスナー
         let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(onLongTapMapView) )
         view.addGestureRecognizer(longTapGesture)
@@ -101,46 +123,39 @@ class MapView: UIView {
     
     
     // MARK : Listener
-    @objc private func onTapMapView(gestureRecognizer: UITapGestureRecognizer) {
-        // タップした位置（CGPoint）を指定してMkMapView上の緯度経度を取得する
-        let tapPoint = gestureRecognizer.location(in: mapView)
-        let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
-    }
-    
     @objc private func onLongTapMapView(gestureRecognizer: UILongPressGestureRecognizer) {
-        // ロングタップ開始
-        if gestureRecognizer.state == .began {
-            self.mapModel?.removeGatherHere()
-        }
-        // ロングタップ終了（手を離した）
-        else if gestureRecognizer.state == .ended {
-            let tapPoint = gestureRecognizer.location(in: mapView)
-            let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
-            self.mapModel?.addAnnotation(center: center , title : "Gather Here")
+        if self.delegate?.canOnLongTapMapView() ?? false {
             
-            // 現在地と目的地のMKPlacemarkを生成
-            let fromPlacemark = MKPlacemark(coordinate:mapView.userLocation.coordinate, addressDictionary:nil)
-            let toPlacemark   = MKPlacemark(coordinate:center, addressDictionary:nil)
-            showRoute(from: fromPlacemark, to: toPlacemark)
-            
-            //test by kitahara
-            self.showAnotherUserLocation(id : "test user" , location : center)
+            // ロングタップ開始
+            if gestureRecognizer.state == .began {
+                self.mapModel?.removeGatherHere()
+            }
+                // ロングタップ終了（手を離した）
+            else if gestureRecognizer.state == .ended {
+                let tapPoint = gestureRecognizer.location(in: mapView)
+                let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
+                self.mapModel?.sendGatherHereLocation(coordinate : center)
+                
+                // 現在地と目的地のMKPlacemarkを生成
+                let fromPlacemark = MKPlacemark(coordinate:mapView.userLocation.coordinate, addressDictionary:nil)
+                let toPlacemark   = MKPlacemark(coordinate:center, addressDictionary:nil)
+                self.mapModel?.showRoute(from: fromPlacemark, to: toPlacemark)
+            }
         }
     }
     
     //別のユーザを表示させる
     private func showAnotherUserLocation(id : String , location : CLLocationCoordinate2D) {
-        //test by kitahara
+        //test by kitahara これいらなくなりそう
         let imageNamed = "image01.jpg"
         let image = UIImage(named: imageNamed )
+        
+        //idは再利用のために必要
         self.mapModel?.showAnotherUserLocation(id : id , location : location , image : image)
     }
-
-    /*from to のrouteを表示*/
-    private func showRoute(from : MKPlacemark, to : MKPlacemark) {
-        self.mapModel?.showRoute(from: from, to: to)
-    }
     
+    
+    /*外に晒すfunction*/
     func getUserLocation() -> CLLocationCoordinate2D{
         return mapView.userLocation.coordinate
     }
@@ -151,17 +166,29 @@ class MapView: UIView {
         }
     }
     
+    func removeCircleOverlay() {
+        self.mapModel?.removeCircleOverlay()
+    }
+    
+    func stopCircleAnimation() {
+        self.mapModel?.stopCircleAnimation()
+    }
+    
+    func startSearchingAnimation(radius : Double) {
+        self.mapModel?.startCircleAnimation(radius: radius)
+    }
+    
 }
 
 extension MapView : MKMapViewDelegate {
     //MARK:- MapKit delegates
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if(overlay.isKind(of: MKCircle.self)) {
+        if let circle = overlay as? CustomMKCircle {
             //円の時
             let renderer = MKCircleRenderer(overlay: overlay)
-            renderer.fillColor = UIColor.mainGreen()
-            renderer.strokeColor = UIColor.black
-            renderer.alpha = 0.2
+            renderer.fillColor = circle.fillColor
+            renderer.strokeColor = UIColor.mainRed()
+            renderer.alpha = CGFloat(circle.alpha)
             renderer.lineWidth = 1
             return renderer
             
@@ -211,6 +238,7 @@ extension MapView :CLLocationManagerDelegate {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
         case .restricted, .denied:
+            //ここの処理かく
             break
         case .authorizedAlways, .authorizedWhenInUse:
             break
@@ -219,11 +247,9 @@ extension MapView :CLLocationManagerDelegate {
     
     //ユーザの座標が更新されるたびに呼ばれる
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        LogDebug("locationManager")
         guard let newLocation = locations.last else {
             return
         }
-        
         self.mapModel?.sendLocation(coordinate: newLocation.coordinate)
     }
 }
