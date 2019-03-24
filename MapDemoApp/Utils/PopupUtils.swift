@@ -123,4 +123,10 @@ class PopupUtils {
             alert.show()
         }
     }
+    
+    class func showModalPopup(presentingVC : UIViewController , presentedVC : UIViewController , delegate : UIViewControllerTransitioningDelegate) {
+        presentedVC.modalPresentationStyle = .custom
+        presentedVC.transitioningDelegate = delegate
+        presentingVC.present(presentedVC, animated: true, completion: nil)
+    }
 }

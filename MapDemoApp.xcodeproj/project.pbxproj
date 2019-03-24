@@ -22,6 +22,9 @@
 		35401891223AA4DA0002BCF2 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401890223AA4DA0002BCF2 /* APIClient.swift */; };
 		35401893223AA50A0002BCF2 /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401892223AA50A0002BCF2 /* RequestProtocol.swift */; };
 		35401895223AA84A0002BCF2 /* GetNearPeopleNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401894223AA84A0002BCF2 /* GetNearPeopleNumber.swift */; };
+		356A4AA8224717B80080DD9A /* CustomPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356A4AA7224717B80080DD9A /* CustomPresentationController.swift */; };
+		356A4AAA224727E80080DD9A /* VerticalProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356A4AA9224727E80080DD9A /* VerticalProfileView.swift */; };
+		356A4AAC224727FD0080DD9A /* VerticalProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 356A4AAB224727FD0080DD9A /* VerticalProfileView.xib */; };
 		356D38E2224535D60024F97E /* CustomMKCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356D38E1224535D60024F97E /* CustomMKCircle.swift */; };
 		356D38E42246812B0024F97E /* MapSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356D38E32246812B0024F97E /* MapSearchBarView.swift */; };
 		3583CEB72234C1D700621F1F /* RoundFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3583CEB62234C1D700621F1F /* RoundFloatingButton.swift */; };
@@ -112,6 +115,9 @@
 		35401890223AA4DA0002BCF2 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		35401892223AA50A0002BCF2 /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
 		35401894223AA84A0002BCF2 /* GetNearPeopleNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNearPeopleNumber.swift; sourceTree = "<group>"; };
+		356A4AA7224717B80080DD9A /* CustomPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPresentationController.swift; sourceTree = "<group>"; };
+		356A4AA9224727E80080DD9A /* VerticalProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalProfileView.swift; sourceTree = "<group>"; };
+		356A4AAB224727FD0080DD9A /* VerticalProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VerticalProfileView.xib; sourceTree = "<group>"; };
 		356D38E1224535D60024F97E /* CustomMKCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMKCircle.swift; sourceTree = "<group>"; };
 		356D38E32246812B0024F97E /* MapSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchBarView.swift; sourceTree = "<group>"; };
 		3583CEB62234C1D700621F1F /* RoundFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundFloatingButton.swift; sourceTree = "<group>"; };
@@ -238,6 +244,14 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		356A4AA62247174A0080DD9A /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				356A4AA7224717B80080DD9A /* CustomPresentationController.swift */,
+			);
+			path = Popup;
+			sourceTree = "<group>";
+		};
 		3583CEB82234C39700621F1F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,6 +365,7 @@
 		35AD2F73223422C300CD86EE /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				356A4AA62247174A0080DD9A /* Popup */,
 				35A4081F223CE9DF007BDF06 /* Login */,
 				35401884223A224A0002BCF2 /* Setting */,
 				927B79D122369FF2001F8A36 /* MyProfile */,
@@ -455,6 +470,8 @@
 				35D5D0902242D8760035E099 /* MinimumProfileView.xib */,
 				35CB4121224374C900D7F23C /* PopupShowable.swift */,
 				35CB41252243776F00D7F23C /* AlertView.swift */,
+				356A4AA9224727E80080DD9A /* VerticalProfileView.swift */,
+				356A4AAB224727FD0080DD9A /* VerticalProfileView.xib */,
 			);
 			path = CommonView;
 			sourceTree = "<group>";
@@ -618,6 +635,7 @@
 				35D5D0912242D8760035E099 /* MinimumProfileView.xib in Resources */,
 				D8B68BB4223CE35B00501D7E /* delete.png in Resources */,
 				35CB412822437B5200D7F23C /* MapStrings.strings in Resources */,
+				356A4AAC224727FD0080DD9A /* VerticalProfileView.xib in Resources */,
 				927B79EE22369FF3001F8A36 /* image05.jpg in Resources */,
 				35BBB35F223C1BC400C484AC /* setting2.png in Resources */,
 				927B79EC22369FF3001F8A36 /* image06.jpg in Resources */,
@@ -797,6 +815,7 @@
 				3583CED22234FCB400621F1F /* ChatMessageViewModel.swift in Sources */,
 				3583CED02234FBCA00621F1F /* ChatRepository.swift in Sources */,
 				35AD2F642234216000CD86EE /* HomeViewController.swift in Sources */,
+				356A4AA8224717B80080DD9A /* CustomPresentationController.swift in Sources */,
 				35AD2F782234243F00CD86EE /* MapView.swift in Sources */,
 				35D5D0932242DDFD0035E099 /* NibHelper + extension.swift in Sources */,
 				3540188D223A46110002BCF2 /* UIImage extension.swift in Sources */,
@@ -805,7 +824,6 @@
 				35401893223AA50A0002BCF2 /* RequestProtocol.swift in Sources */,
 				35A4082B223D1AA7007BDF06 /* ChatFireStore.swift in Sources */,
 				927B79F322369FF3001F8A36 /* Colors.swift in Sources */,
-				927B795722353257001F8A36 /* MyProfileViewController.swift in Sources */,
 				353D908F22367453004BB44C /* MapModel.swift in Sources */,
 				927B79F622369FF3001F8A36 /* DataSourceCountsProvider.swift in Sources */,
 				927B79F322369FF3001F8A36 /* Colors.swift in Sources */,
@@ -818,6 +836,7 @@
 				353BEE6D2237E5E600F956D9 /* MapKit extension.swift in Sources */,
 				35D6AA3722411415002DCD9F /* RequestMatch.swift in Sources */,
 				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
+				356A4AAA224727E80080DD9A /* VerticalProfileView.swift in Sources */,
 				353D908B22367329004BB44C /* MapState.swift in Sources */,
 				3583CED42234FFA900621F1F /* ChatUseCase.swift in Sources */,
 				35A40821223CE9FD007BDF06 /* LoginViewController.swift in Sources */,

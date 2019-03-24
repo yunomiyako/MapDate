@@ -50,7 +50,7 @@ class MapViewController: UIViewController , PopUpShowable {
     private var discoveryCenter : CLLocationCoordinate2D? = nil 
     
     //test by kitahara
-    private var state : MapState = .matched  {
+    private var state : MapState = .initial  {
         willSet {
             
             if newValue == .initial {
@@ -86,11 +86,14 @@ class MapViewController: UIViewController , PopUpShowable {
         self.view.addSubview(topTextView)
         self.view.addSubview(bottomWhenMatchView)
         self.view.addSubview(searchBarView)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.circleRange()
-        
+        //起動時にだけ発動させたいから、もう少しいい実装
+        if self.state == .initial {
+            circleRange()
+        }
         //test by kitahara
         self.startUpdatingLocation()
         
@@ -102,6 +105,8 @@ class MapViewController: UIViewController , PopUpShowable {
         self.switchBottomViewLayout()
         self.layoutTopTextView()
         self.layoutSearchBarView()
+        
+        self.view.bringSubviewToFront(topTextView)
     }
     
     private func switchBottomViewLayout() {
@@ -120,7 +125,7 @@ class MapViewController: UIViewController , PopUpShowable {
     
     // MARK: - Layout subviews -
     private func layoutMapView() {
-        mapView.frame = self.view.frame
+        mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
     }
     
     private func layoutBottomView() {
@@ -162,12 +167,14 @@ class MapViewController: UIViewController , PopUpShowable {
         let centerLocation = self.discoveryCenter ?? self.mapView.getUserLocation()
         let radius = Double(mapUseCase.getSyncDiscoveryDistance())
         self.mapView.showCircleAroundLocation(location: centerLocation, radius: radius)
+        
         self.mapUseCase.getNearPeopleNumber(location: centerLocation, radius: radius, completion: { number in
             dispatch_after(1, block: {
                 self.topTextView.setText(text: "\(number) people wait you nearby")
                 self.topTextView.showUpAnimation()
             })
         })
+        
         if let pinnedLocation = self.discoveryCenter  {
             self.mapView.addAnnotation(center: pinnedLocation, title: "")
         }
@@ -222,6 +229,9 @@ extension MapViewController : MapBottomViewDelegate {
         dispatch_after(5, block: {
             self.bottomView.buttonLoading(bool : false)
             self.state = .matched
+            
+            let vc = MatchPopupViewController()
+            PopupUtils.showModalPopup(presentingVC: self, presentedVC: vc, delegate: self)
         })
         let centerLocation = self.discoveryCenter ?? self.mapView.getUserLocation()
         let radius = Double(mapUseCase.getSyncDiscoveryDistance())
@@ -294,5 +304,13 @@ extension MapViewController : MapViewDelegate {
         case .matched:
             self.mapView.longTapGathereHereHandler(gestureRecognizer: gestureRecognizer)
         }
+    }
+}
+
+// modalViewController.modalPresentationStyle = .custom
+// でカスタムとしたので、こちらで設定するように呼び出す。
+extension MapViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return CustomPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }

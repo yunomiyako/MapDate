@@ -8,6 +8,8 @@
 
 import UIKit
 import Cosmos
+import TinyConstraints
+
 class RatingView: UIView {
     lazy private var rateView : CosmosView = self.createRateView()
     
@@ -24,6 +26,7 @@ class RatingView: UIView {
     
     private func childInit() {
         self.addSubview(rateView)
+        rateView.centerInSuperview()
     }
     
     override func layoutSubviews() {
@@ -32,7 +35,8 @@ class RatingView: UIView {
     }
     
     private func layoutRateView() {
-        rateView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        //rateView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        //rateView.center = self.center
     }
     
     private func createRateView() -> CosmosView {
