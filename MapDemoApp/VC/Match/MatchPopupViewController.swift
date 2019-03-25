@@ -11,7 +11,8 @@ import UIKit
 class MatchPopupViewController: UIViewController {
     lazy private var topLabel : UILabel = {
         let view = UILabel()
-        view.text = "Yay, we found the people who want to meet with you!"
+        view.text = "Yay, we found the people who want to meet you!"
+        view.textAlignment = .center
         view.numberOfLines = 0
         view.font = UIFont.bigBoldFont()
         return view
