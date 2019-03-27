@@ -68,17 +68,20 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         }
         
         nameField.backgroundColor = .white
+        nameField.textColor = UIColor.gray
         nameField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.05, height: 0))
         nameField.leftViewMode = UITextField.ViewMode.always
         scrview.addSubview(nameField)
         
         ageField.backgroundColor = .white
+        ageField.textColor = UIColor.gray
         ageField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.05, height: 0))
         ageField.leftViewMode = UITextField.ViewMode.always
         ageField.keyboardType = UIKeyboardType.numberPad
         scrview.addSubview(ageField)
         
         jobTitleField.backgroundColor = .white
+        jobTitleField.textColor = UIColor.gray
         jobTitleField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.05, height: 0))
         jobTitleField.leftViewMode = UITextField.ViewMode.always
         scrview.addSubview(jobTitleField)

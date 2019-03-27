@@ -62,6 +62,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         pageControl.pageIndicatorTintColor = UIColor.clear
         pageControl.numberOfPages = numberOfPage
         
+        
 
 
         baceScrview.addSubview(scrollView)
@@ -107,7 +108,12 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
             var img = UIImage(named: imageNamed as String)
             img = cfuncs.resize(image: img!, width: Double(self.view.frame.width))
             let view = UIImageView(frame: CGRect(x: CGFloat(index) * (self.view.frame.width), y: 0, width: self.view.frame.width, height: (img?.size.height)!))
+            view.isUserInteractionEnabled = true
             view.image = img
+            let tap:UITapGestureRecognizer = UITapGestureRecognizer(
+                target: self,
+                action: #selector(imageViewTapped(_:)))
+            view.addGestureRecognizer(tap)
             scrollY = img?.size.height
             scrollView.addSubview(view)
         }
@@ -129,11 +135,14 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         
     }
     
-    
+    @objc func imageViewTapped(_ sender: UITapGestureRecognizer){
+        
+     
+    }
     @objc func editProfile(sender : AnyObject) {
         let vc = EditProfileViewController()
         vc.state = self.state
-        vc.nameField.text = "user.displayName!"
+        vc.nameField.text = user.displayName ?? "NO NAME"
         vc.ageField.text = age
         vc.jobTitleField.text = job
         vc.doneButtonTapHandler = { [weak self] state in
@@ -232,7 +241,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         let section = SectionInfo(
             headerInfo: HeaderInfo(
                 visibilityMode: .visible(heightMode: .dynamic),
-                title: "user.displayName!"),
+                title: user.displayName ?? "NO NAME"),
             itemInfos: [
                 ageSec,
                 jobSec,
