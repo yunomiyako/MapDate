@@ -15,6 +15,10 @@ extension UIColor {
         return UIColor.colorWithHexString("0984e3")
     }
     
+    static func mainPink() -> UIColor {
+        return UIColor.colorWithHexString("fab1a0")
+    }
+    
     
     static func colorWithHexString (_ hex:String) -> UIColor {
         

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="VerticalProfileView" customModule="MapDemoApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="392" height="454"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_profile_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="Gd8-fk-Cnc">
+                    <rect key="frame" x="83.5" y="10" width="225" height="225"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Gd8-fk-Cnc" secondAttribute="height" multiplier="1:1" id="Jop-2D-RzN"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xgu-xm-umP">
+                    <rect key="frame" x="159" y="255" width="74.5" height="99"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IjC-OE-7VH">
+                    <rect key="frame" x="0.0" y="374" width="392" height="80"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="gj2-Dk-BVO"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <accessibility key="accessibilityConfiguration">
+                <bool key="isElement" value="YES"/>
+            </accessibility>
+            <constraints>
+                <constraint firstItem="Xgu-xm-umP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="1en-tP-Yei"/>
+                <constraint firstItem="IjC-OE-7VH" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="4LY-K1-Dcv"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="IjC-OE-7VH" secondAttribute="bottom" id="8b6-nn-Kwc"/>
+                <constraint firstItem="Gd8-fk-Cnc" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Mmu-8s-Bu9"/>
+                <constraint firstItem="Gd8-fk-Cnc" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="Ooz-mF-nGG"/>
+                <constraint firstItem="Xgu-xm-umP" firstAttribute="top" secondItem="Gd8-fk-Cnc" secondAttribute="bottom" constant="20" id="WgK-aA-DsY"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="IjC-OE-7VH" secondAttribute="trailing" id="ZA9-VP-lZC"/>
+                <constraint firstItem="IjC-OE-7VH" firstAttribute="top" secondItem="Xgu-xm-umP" secondAttribute="bottom" constant="20" id="lxr-AN-txs"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="nameLabel" destination="Xgu-xm-umP" id="8j9-5n-Mv3"/>
+                <outlet property="profileImageView" destination="Gd8-fk-Cnc" id="BZB-h8-rr5"/>
+                <outlet property="rateBaseView" destination="IjC-OE-7VH" id="hhC-1E-48A"/>
+            </connections>
+            <point key="canvasLocation" x="65.599999999999994" y="31.484257871064472"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="default_profile_image.png" width="225" height="225"/>
+    </resources>
+</document>

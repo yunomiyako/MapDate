@@ -132,7 +132,6 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     
         backBtn.frame = CGRect(x: self.view.frame.width * 0.8, y:scrollView.frame.maxY - (backBtnsize * 0.5) , width: backBtnsize, height: backBtnsize)
         backBtn.imageView?.contentMode = .scaleAspectFit
-        
     }
     
     @objc func imageViewTapped(_ sender: UITapGestureRecognizer){
@@ -150,13 +149,10 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
             self!.loadDefaultData()
         }
         
-        
         self.present(vc, animated: true)
-        
     }
     
     @objc func back(sender : AnyObject) {
-     
             self.dismiss(animated: true, completion: nil)
     }
     
@@ -186,9 +182,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         for sectionIndex in (0..<dataSource.numberOfSections).reversed() {
             dataSource.removeSection(atSectionIndex: sectionIndex)
         }
-
         collectionView.reloadData()
-        
     }
     
     private func loadDefaultData() {
@@ -270,6 +264,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         pageControl.setProgress(contentOffsetX: scrollView.contentOffset.x, pageWidth: scrollView.bounds.width)
         
     }
+
 
 
 }

@@ -79,7 +79,7 @@ class FloatingRectangleView: UIView {
             UIView.animate(withDuration: 2 , delay : 3 ,  animations: {
                 self.layoutBaseView()
             } , completion : { _ in
-                self.isHidden = true
+                self.baseView.isHidden = true
             })
         })
     }

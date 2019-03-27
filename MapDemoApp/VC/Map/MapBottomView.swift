@@ -10,11 +10,17 @@ import UIKit
 protocol MapBottomViewDelegate : class {
     func onClickSettingButton()
     func onClickButton()
+    func onClickChatButton()
+    func onClickFinishButton()
+    func onTapUserIcon()
+    func onToggleShareLocation(on : Bool)
 }
 class MapBottomView: UIView {
     // MARK: - Properties -
     lazy private var button:RoundFloatingButton = self.createButton()
     lazy private var settingButton : UIButton = self.createSettingButton()
+    
+    
     weak var delegate : MapBottomViewDelegate? = nil
 
     // MARK: - Life cycle events -
@@ -83,6 +89,10 @@ class MapBottomView: UIView {
         let bottom = UIColor(red: 255, green: 255, blue: 255, alpha: 0.8)
         self.gradation(topColor: top, bottomColor: bottom)
     }
+    
+    func buttonLoading(bool : Bool) {
+        button.setLoading(bool: bool)
+    }
 }
 
 extension MapBottomView : RoundFloatingButtonDelegate {
@@ -90,8 +100,5 @@ extension MapBottomView : RoundFloatingButtonDelegate {
         //popup TextView and
         self.delegate?.onClickButton()
         button.setLoading(bool: true)
-        dispatch_after(5.0) {
-            self.button.setLoading(bool: false)
-        }
     }
 }

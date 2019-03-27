@@ -23,6 +23,7 @@ class HomeViewController: UIViewController {
                 //let vc = ChatViewController()
                 let vc = MyProfileViewController()
                 //let vc = MapViewController()
+
                 self.present(vc, animated: true)
             },
             whenNot: {

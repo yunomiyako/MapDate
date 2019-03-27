@@ -17,6 +17,7 @@ class RoundFloatingButton: UIView {
     lazy private var button = self.createButton()
     weak var delegate :RoundFloatingButtonDelegate? = nil
     private var loading = false
+    private let indicator = UIActivityIndicatorView()
     
     // MARK: - Life cycle events -
     required override init(frame: CGRect) {
@@ -61,16 +62,23 @@ class RoundFloatingButton: UIView {
         
     }
     
+    func setDisable(disable : Bool) {
+        self.button.isEnabled = !disable
+        if disable {
+            self.button.alpha = 0.3
+        } else {
+            self.button.alpha = 1
+        }
+        
+    }
+    
     func setLoading(bool : Bool) {
-        let tag = 808404
         loading = bool
         if !bool {
             self.button.isUserInteractionEnabled = true
             self.button.titleLabel?.alpha = 1
-            if let indicator = self.button.viewWithTag(tag) as? UIActivityIndicatorView {
-                indicator.stopAnimating()
-                indicator.removeFromSuperview()
-            }
+            indicator.stopAnimating()
+            indicator.removeFromSuperview()
         } else {
             self.button.isUserInteractionEnabled = false
             self.button.titleLabel?.alpha = 0
@@ -80,11 +88,11 @@ class RoundFloatingButton: UIView {
             self.layoutButton()
         }, completion: { _ in
             if bool {
-                let indicator = UIActivityIndicatorView()
-                indicator.tag = tag
-                self.button.addSubview(indicator)
-                indicator.center = CGPoint(x : 25, y : 25)
-                indicator.startAnimating()
+                self.button.addSubview(self.indicator)
+                self.indicator.center = CGPoint(x : 25, y : 25)
+                self.indicator.startAnimating()
+            } else {
+                self.indicator.removeFromSuperview()
             }
         })
     }

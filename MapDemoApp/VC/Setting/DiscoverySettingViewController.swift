@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DiscoverySettingViewControllerDelegate : class {
-    func willDismiss()
+    func willDismissIfEdited()
 }
 
 class DiscoverySettingViewController: UIViewController {
@@ -17,9 +17,11 @@ class DiscoverySettingViewController: UIViewController {
     lazy var tableView : UITableView = self.createTableView()
     weak var delegate : DiscoverySettingViewControllerDelegate? = nil
     
-    private var distance : CGFloat = 3000 //単位[m]
+    private var distance_m : CGFloat = 3000 //単位[m]
     private var age : [CGFloat] = [20 ,30]
     private let mapUseCase = MapUseCase()
+    private var isEdited : Bool = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,16 +35,18 @@ class DiscoverySettingViewController: UIViewController {
     }
     
     private func initValue() {
-        self.distance = self.mapUseCase.getSyncDiscoveryDistance()
+        self.distance_m = self.mapUseCase.getSyncDiscoveryDistance()
         self.age = self.mapUseCase.getSyncDiscoveryAge()
     }
     
     @objc private func clickCloseButton() {
         //設定した値を保存
-        mapUseCase.setSyncDiscoveryDistance(distance: self.distance)
+        mapUseCase.setSyncDiscoveryDistance(distance: self.distance_m)
         mapUseCase.setSyncDiscoveryAge(age: self.age)
         self.dismiss(animated: true) {
-            self.delegate?.willDismiss()
+            if self.isEdited {
+                self.delegate?.willDismissIfEdited()
+            }
         }
     }
     
@@ -87,7 +91,7 @@ extension DiscoverySettingViewController : UITableViewDataSource {
         case 0 :
             let cell = tableView.dequeueReusableCell(withIdentifier:"SliderCellTableViewCell" , for: indexPath as IndexPath) as! SliderCellTableViewCell
             cell.setSliderConfig(min: 2, max: 50, by: 2 , delegate : self )
-            cell.setValue(value: [self.distance / 1000])
+            cell.setValue(value: [self.distance_m / 1000])
             cell.setText(leftText: "Search Distance:", rightTextUnit: "km")
             cell.selectionStyle = .none
             return cell
@@ -108,9 +112,10 @@ extension DiscoverySettingViewController : UITableViewDataSource {
 
 extension DiscoverySettingViewController : SliderCellTableViewCellDelegate {
     func onChangeValue(value: [CGFloat]) {
+        isEdited = true
         //あまりまともでないけどvalueの要素数で場合分けする
         if value.count == 1 {
-            self.distance = value[0] * 1000
+            self.distance_m = value[0] * 1000
         } else if value.count == 2 {
             self.age = value
         }

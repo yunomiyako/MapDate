@@ -9,14 +9,17 @@
 import Foundation
 import MapKit
 class MapModel {
-    private var state : MapState = .initial
     private let mapView : MKMapView
     
-    private var gatherHereAnnotation :MKPointAnnotation? = nil
+    private var gatherHereAnnotation : MKPointAnnotation? = nil
+    private var circleOverlay : CustomMKCircle? = nil
+    private var timer : Timer? = nil
+    
+    //test by kitahara あとで別のファイルに移す？
+    private let NEAR_METER : Double = 300
     fileprivate var mapFireStore = MapFireStore()
     
-    init(mapView : MKMapView , state : MapState) {
-        self.state = state
+    init(mapView : MKMapView ) {
         self.mapView = mapView
     }
     
@@ -77,27 +80,43 @@ class MapModel {
     }
     
     //自分が中心の半径n[m]の丸を描画する
-    func showCircleAroundUser(radius : Double) {
+    func showCircleAroundUser(radius : Double , alpha : Float = 1 , fillColor : UIColor? = nil) {
         let center = self.mapView.userLocation.coordinate
+        self.showCircleAroundLocation(location: center, radius: radius, alpha: alpha, fillColor: fillColor)
+    }
+    
+    //ロケーションを指定してその中心半径n[m]の丸を描画する
+    func showCircleAroundLocation(location : CLLocationCoordinate2D , radius : Double , alpha : Float = 1 , fillColor : UIColor? = nil) {
+        let center = location
         let radius_distance = CLLocationDistance(exactly: radius)
         if let rad = radius_distance {
-            let circle = MKCircle(center: center, radius: rad)
+            let circle = CustomMKCircle(center: center, radius: rad)
+            circle.alpha = alpha
+            circle.fillColor = fillColor == nil ? UIColor.clear : fillColor!
+            self.circleOverlay = circle
             self.mapView.addOverlay(circle)
         }
     }
     
     //自分が中心の半径n[m]の丸が見えるようにズームする
     func zoomCircleAroundUser(radius : Double ) {
+        let center = self.mapView.userLocation.coordinate
+        self.zoomCircleAroundLocation(location: center, radius: radius)
+    }
+    
+    //指定したロケーションの半径n[m]の丸が見えるようにズームする
+    func zoomCircleAroundLocation(location : CLLocationCoordinate2D , radius : Double ) {
+        let center = location
         let mapMargin = 1.3
         let rad_degree = CLLocationDegrees(exactly: radius * mapMargin)
-        let center = self.mapView.userLocation.coordinate
         if let rad = rad_degree {
             let region = MKCoordinateRegion(center: center, latitudinalMeters: 2*rad, longitudinalMeters: 2*rad)
             LogDebug(region.debugDescription)
             let fittedRegion = self.mapView.regionThatFits(region)
-            self.mapView.setRegion(fittedRegion, animated: false)
+            self.mapView.setRegion(fittedRegion, animated: true)
         }
     }
+    
     
     //アノテーションを加える
     func addAnnotation(center : CLLocationCoordinate2D , title : String) {
@@ -107,12 +126,17 @@ class MapModel {
         self.mapView.addAnnotation(pointAno)
         gatherHereAnnotation = pointAno
     }
-    
 
     //古いannotationを消す
     func removeGatherHere() {
         if let anno = gatherHereAnnotation {
             mapView.removeAnnotation(anno)
+        }
+    }
+    
+    func removeCircleOverlay() {
+        if let overlay = circleOverlay {
+            mapView.removeOverlay(overlay)
         }
     }
     
@@ -141,23 +165,123 @@ class MapModel {
     func sendLocation(coordinate : CLLocationCoordinate2D) {
         //test by kitahara
         let transactionId = "test_transactionId"
-        let user_location_id = "user_location_id"
-        //let user_location_id = "partner_location_id"
-        let log = LocationLog(coordinate: coordinate, id: user_location_id)
+        let location_id = "user_location_id"
+        let log = LocationLog(coordinate: coordinate, id: location_id)
         mapFireStore.setLocation(transactionId: transactionId, location: log)
+    }
+    
+    func sendGatherHereLocation(coordinate : CLLocationCoordinate2D) {
+        //test by kitahara
+        let transactionId = "test_transactionId"
+        let log = LocationLog(coordinate: coordinate, id: "gather here")
+        mapFireStore.sendGatherHereLocation(transactionId: transactionId, location: log)
     }
     
     //相手の位置情報をfirestoreから受け取る
     func receivePartnerLocation(handler : @escaping (LocationLog) -> ()) {
         //test by kitahara
         let transactionId = "test_transactionId"
-        let user_location_id = "partner_location_id"
+        let location_id = "partner_location_id"
         //let user_location_id = "user_location_id"
         
-        mapFireStore.getLocation(transactionId: transactionId, location_id: user_location_id, handler: {log in
+        mapFireStore.getLocation(transactionId: transactionId, location_id: location_id, handler: {log in
             handler(log)
         })
     }
     
+    //相手の位置情報をfirestoreから受け取る
+    func receiveGatherHereLocation(handler : @escaping (LocationLog) -> ()) {
+        //test by kitahara
+        let transactionId = "test_transactionId"
+        mapFireStore.getGatherHereLocation(transactionId: transactionId, handler: {log in
+            handler(log)
+        })
+    }
     
+    //円をtimerでアニメートする
+    func startCircleAnimation(location : CLLocationCoordinate2D , radius : Double) {
+        if self.timer != nil {
+            self.timer?.invalidate()
+            self.timer = nil
+        }
+        
+        let duration : Float = 2
+        let frameRate : Int = 100
+        let timeInterval = TimeInterval(duration / Float(frameRate) )
+        
+        var radius_array : [Double] = []
+        for i in 0...frameRate {
+            radius_array.append( radius * Double(i) /  Double(frameRate)  )
+        }
+        
+        var counter = 0
+        let timer  = Timer(timeInterval: timeInterval, repeats: true, block: {_ in
+            if counter >= radius_array.count {
+                counter = 0
+            } else {
+                let r = radius_array[counter]
+                self.removeCircleOverlay()
+                self.showCircleAroundLocation(location: location , radius: r , alpha :  0.6 * (1.0 - Float(counter) / Float(frameRate))  , fillColor : UIColor.mainRed() )
+            }
+            counter += 1
+        })
+        RunLoop.main.add(timer, forMode:RunLoop.Mode.common)
+        self.timer = timer
+    }
+    
+    func stopCircleAnimation() {
+        self.timer?.invalidate()
+    }
+    
+    //ロングタップした時にGatherHereを設置する処理
+    func longTapGathereHereHandler(gestureRecognizer: UILongPressGestureRecognizer) {
+        // ロングタップ開始
+        if gestureRecognizer.state == .began {
+            self.removeGatherHere()
+        }
+            // ロングタップ終了（手を離した）
+        else if gestureRecognizer.state == .ended {
+            let tapPoint = gestureRecognizer.location(in: mapView)
+            let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
+            self.sendGatherHereLocation(coordinate : center)
+            
+            // 現在地と目的地のMKPlacemarkを生成(ここいる？)
+            let fromPlacemark = MKPlacemark(coordinate:mapView.userLocation.coordinate, addressDictionary:nil)
+            let toPlacemark   = MKPlacemark(coordinate:center, addressDictionary:nil)
+            self.showRoute(from: fromPlacemark, to: toPlacemark)
+        }
+    }
+    
+    //ロングタップした時に検索範囲を変更する処理
+    func longTapChangeDiscoveryCenter(gestureRecognizer: UILongPressGestureRecognizer , endHandler : (CLLocationCoordinate2D) -> ()) {
+        // ロングタップ開始
+        if gestureRecognizer.state == .began {
+            self.removeCircleOverlay()
+        }
+            // ロングタップ終了（手を離した）
+        else if gestureRecognizer.state == .ended {
+            let tapPoint = gestureRecognizer.location(in: mapView)
+            let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
+            endHandler(center)
+        }
+    }
+    
+    func calculateDistanceMeter(x : CLLocationCoordinate2D , y : CLLocationCoordinate2D) -> Double {
+        
+        let loc_x = CLLocation(latitude: x.latitude, longitude: x.longitude)
+        let loc_y = CLLocation(latitude: y.latitude, longitude: y.longitude)
+        
+        let distance_m = loc_x.distance(from: loc_y)
+        return distance_m
+    }
+    
+    //十分に近づいたことを判定する
+    func isNear(x : CLLocationCoordinate2D , y : CLLocationCoordinate2D) -> Bool{
+        let distance_m = calculateDistanceMeter(x: x, y: y)
+        if distance_m < NEAR_METER {
+            return true
+        } else {
+            return false
+        }
+    }
 }
