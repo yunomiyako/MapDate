@@ -9,6 +9,7 @@
 import UIKit
 import TinyConstraints
 
+
 final class EditProfileViewController: UIViewController, UITextViewDelegate {
     
     let textEditer = UITextView()
@@ -54,7 +55,7 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         jobTilte.text = "JOB TITLE"
         scrview.addSubview(jobTilte)
         
-        for i in 0..<6{
+        for i in 0..<9{
             profimgs.append(UIImageView())
             profimgs[i].image = UIImage(named: "frame.png")
             scrview.addSubview(profimgs[i])
@@ -108,27 +109,36 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
 
         scrview.scrollIndicatorInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
         scrview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        scrview.contentSize = CGSize(width:0, height: scrview.frame.height * 1.8)
+        
     
         
         let scrhalfY = self.scrview.frame.height * 0.5
         let scrhalfX = self.scrview.frame.width * 0.5
         let prfpos1 = scrhalfY * 0.3
+        let prfpos2 = prfpos1 + (scrview.frame.width * 0.22)+prfpos1 * 0.5
+        let prfpos3 = prfpos2 + (scrview.frame.width * 0.22)+prfpos2 * 0.25
         
         photos.frame = CGRect(x: scrhalfX * 0.1, y: prfpos1 * 0.81, width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         photos.sizeToFit()
-        for i in 0..<6{
+        for i in 0..<9{
             
             if i < 3{
                 profimgs[i].frame = CGRect(x: 0, y: prfpos1, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
                 profimgBtns[i].frame = CGRect(x: 0, y: 0, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
                 profimgBtns[i].frame.origin.y = profimgs[i].frame.maxY - profimgBtns[i].frame.height
                 
-            }else{
-                profimgs[i].frame = CGRect(x: 0, y: prfpos1 + (scrview.frame.width * 0.22)+prfpos1 * 0.5, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
+            }else if i > 2 && i < 6{
+                profimgs[i].frame = CGRect(x: 0, y: prfpos2, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
                 profimgBtns[i].frame = CGRect(x: 0, y:0, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
                 profimgBtns[i].frame.origin.y = profimgs[i].frame.maxY - profimgBtns[i].frame.height
+            }else{
+                
+                profimgs[i].frame = CGRect(x: 0, y: prfpos3, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
+                profimgBtns[i].frame = CGRect(x: 0, y:0, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
+                profimgBtns[i].frame.origin.y = profimgs[i].frame.maxY - profimgBtns[i].frame.height
+                
             }
+            
             switch (i+1)%3{
             case 1:
                 profimgs[i].frame.origin.x = scrhalfX * 0.2
@@ -140,7 +150,7 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
             }
             profimgBtns[i].frame.origin.x = profimgs[i].frame.minX + profimgs[i].frame.width * 0.75
         }
-        let photoButtom = profimgs[5].frame.maxY
+        let photoButtom = profimgs[8].frame.maxY
         let nameFieldY =  (photoButtom * 1.1)
         
         name.frame = CGRect(x: scrhalfX * 0.1, y: nameFieldY*0.94 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
@@ -161,6 +171,8 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         abouMe.sizeToFit()
         
         textEditerSet()
+        let scrH = jobTitleField.frame.maxY * 1.2
+        scrview.contentSize = CGSize(width:0, height:scrH /*scrview.frame.height * 1.8*/)
         addNavBackView()
         addNavigationBar()
     }
@@ -170,6 +182,8 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         charNumLabel.text = String(500 - charNum)
         textEditerSet()
         let beforeStr = textEditer.text
+        let scrH = jobTitleField.frame.maxY * 1.2
+        scrview.contentSize = CGSize(width:0, height:scrH /*scrview.frame.height * 1.8*/)
         if textEditer.text.count > 500 { // 500字を超えた時
             // 以下，範囲指定する
             let zero = beforeStr!.startIndex
@@ -223,7 +237,7 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
             
             self.selectedFrame = sender.tag
             
-            for i in self.selectedFrame ..< self.photoNum{
+            for i in self.selectedFrame ..< self.photoNum - 1{
                 self.profimgs[i].image = self.profimgs[i+1].image
             }
             

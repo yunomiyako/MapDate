@@ -27,7 +27,7 @@ final class Header: MagazineLayoutCollectionReusableView {
 
     backgroundColor = .white
 
-    label.font = UIFont.systemFont(ofSize: 39)
+    label.font = UIFont.boldSystemFont(ofSize: 39)
     //label.font = UIFont.systemFont(ofSize: 37)
     label.textColor = .black
     label.numberOfLines = 0

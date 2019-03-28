@@ -15,6 +15,7 @@
 
 import MagazineLayout
 import UIKit
+import SwiftIcons
 
 final class Cell: MagazineLayoutCollectionViewCell {
 
@@ -27,6 +28,8 @@ final class Cell: MagazineLayoutCollectionViewCell {
 
     label.font = UIFont.systemFont(ofSize: 20)
     //label.font = UIFont.systemFont(ofSize: 15)
+    //label.setIcon(icon: .emoji(.digitZero), iconSize: 5)
+
     label.sizeToFit()
     label.textColor = .gray
     label.numberOfLines = 0

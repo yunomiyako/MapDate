@@ -97,6 +97,7 @@
 		D8B68BB2223B570300501D7E /* addimg.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BB1223B570300501D7E /* addimg.png */; };
 		D8B68BB4223CE35B00501D7E /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BB3223CE35B00501D7E /* delete.png */; };
 		D8B68BB6223D284A00501D7E /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BB5223D284A00501D7E /* back.png */; };
+		D8FAA06B224B27AB00F0BA8A /* firebaceProc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FAA06A224B27AB00F0BA8A /* firebaceProc.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -193,6 +194,7 @@
 		D8B68BB1223B570300501D7E /* addimg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addimg.png; sourceTree = "<group>"; };
 		D8B68BB3223CE35B00501D7E /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		D8B68BB5223D284A00501D7E /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		D8FAA06A224B27AB00F0BA8A /* firebaceProc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = firebaceProc.swift; sourceTree = "<group>"; };
 		EEB1E5F862D85A6C22AAC394 /* Pods-MapDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -404,6 +406,7 @@
 		35AD2F7A223428EC00CD86EE /* API */ = {
 			isa = PBXGroup;
 			children = (
+				D8FAA069224B270D00F0BA8A /* profile */,
 				35D6AA3322410BF1002DCD9F /* match */,
 				3583CECE2234F8F100621F1F /* chat */,
 				35AD2F85223433CF00CD86EE /* map */,
@@ -553,6 +556,14 @@
 				927B79D222369FF2001F8A36 /* resouce */,
 			);
 			path = UtilsTM;
+			sourceTree = "<group>";
+		};
+		D8FAA069224B270D00F0BA8A /* profile */ = {
+			isa = PBXGroup;
+			children = (
+				D8FAA06A224B27AB00F0BA8A /* firebaceProc.swift */,
+			);
+			path = profile;
 			sourceTree = "<group>";
 		};
 		E496487D896D7B5AF6C5E99C /* Pods */ = {
@@ -848,6 +859,7 @@
 				35CB411F2243605200D7F23C /* AnimationUtils.swift in Sources */,
 				3583CEC02234C99F00621F1F /* CommonUtils.swift in Sources */,
 				927B79F922369FF3001F8A36 /* ItemCreationPanelView.swift in Sources */,
+				D8FAA06B224B27AB00F0BA8A /* firebaceProc.swift in Sources */,
 				35068EF322429F1D00DDC7D5 /* ChatContainerViewController.swift in Sources */,
 				35D32F4122412C5E00A83141 /* MapBottomWhenMatchedView.swift in Sources */,
 				927B79FA22369FF3001F8A36 /* Header.swift in Sources */,
