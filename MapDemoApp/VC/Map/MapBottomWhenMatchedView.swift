@@ -143,7 +143,7 @@ class MapBottomWhenMatchedView: UIView {
         
         let x_2 : CGFloat = 10
         let y_2 = partitionView.frame.maxY + 20
-        let width = self.frame.width - 2 * chatButtonSideLength
+        let width = min(self.frame.width - 2 * chatButtonSideLength - 50 , 400)
 
         miniProfileView.frame = CGRect(x: x_2, y: y_2, width: width, height: miniProfileHeight)
         self.bringSubviewToFront(miniProfileView)
@@ -174,6 +174,6 @@ class MapBottomWhenMatchedView: UIView {
 
 extension MapBottomWhenMatchedView : RoundFloatingButtonDelegate {
     func onClickButton() {
-        LogDebug("I met safely")
+        self.delegate?.onClickSafelyMetButton()
     }
 }

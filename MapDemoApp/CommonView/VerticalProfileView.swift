@@ -40,6 +40,10 @@ class VerticalProfileView: UIView {
         return view
     }
     
+    func setUpdateOnTouch(touchable : Bool , startSize : Double) {
+        rateView.customizeRateView(updateOnTouch: touchable , starSize : startSize)
+    }
+    
     func setRate(rating: Double, text: String?) {
         rateView.setRate(rating: rating, text: text)
     }

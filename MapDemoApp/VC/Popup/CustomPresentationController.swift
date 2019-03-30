@@ -13,7 +13,12 @@ import UIKit
 class CustomPresentationController: UIPresentationController {
     // 表示されるモーダル
     var modalView = UIView()
-    let margin = (x: CGFloat(30), y: CGFloat(220.0))
+    var margin = (x: CGFloat(30), y: CGFloat(220.0))
+    var isDismissable = true
+    
+    func changeMargin(x : CGFloat , y : CGFloat) {
+        self.margin = (x : x , y : y)
+    }
     
     // 表示トランジション開始前に呼ばれる
     override func presentationTransitionWillBegin() {
@@ -75,7 +80,6 @@ class CustomPresentationController: UIPresentationController {
         presentedViewFrame.size = childContentSize
         presentedViewFrame.origin.x = margin.x / 2.0
         presentedViewFrame.origin.y = margin.y / 2.0
-        
         return presentedViewFrame
     }
     
@@ -89,6 +93,8 @@ class CustomPresentationController: UIPresentationController {
     
     // モーダルを消す処理。
     @objc func modalViewTouched(_ sender: UITapGestureRecognizer) {
-        presentedViewController.dismiss(animated: true, completion: nil)
+        if isDismissable {
+            presentedViewController.dismiss(animated: true, completion: nil)
+        }
     }
 }
