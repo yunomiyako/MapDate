@@ -23,6 +23,7 @@
 		35401893223AA50A0002BCF2 /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401892223AA50A0002BCF2 /* RequestProtocol.swift */; };
 		35401895223AA84A0002BCF2 /* GetNearPeopleNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401894223AA84A0002BCF2 /* GetNearPeopleNumber.swift */; };
 		355D718A224CCB8C00C3CAC1 /* RateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355D7189224CCB8C00C3CAC1 /* RateUserViewController.swift */; };
+		355D7192224F3D6100C3CAC1 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355D7191224F3D6000C3CAC1 /* ModalPresentationController.swift */; };
 		356A4AA8224717B80080DD9A /* CustomPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356A4AA7224717B80080DD9A /* CustomPresentationController.swift */; };
 		356A4AAA224727E80080DD9A /* VerticalProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356A4AA9224727E80080DD9A /* VerticalProfileView.swift */; };
 		356A4AAC224727FD0080DD9A /* VerticalProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 356A4AAB224727FD0080DD9A /* VerticalProfileView.xib */; };
@@ -117,6 +118,7 @@
 		35401892223AA50A0002BCF2 /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
 		35401894223AA84A0002BCF2 /* GetNearPeopleNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNearPeopleNumber.swift; sourceTree = "<group>"; };
 		355D7189224CCB8C00C3CAC1 /* RateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUserViewController.swift; sourceTree = "<group>"; };
+		355D7191224F3D6000C3CAC1 /* ModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
 		356A4AA7224717B80080DD9A /* CustomPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPresentationController.swift; sourceTree = "<group>"; };
 		356A4AA9224727E80080DD9A /* VerticalProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalProfileView.swift; sourceTree = "<group>"; };
 		356A4AAB224727FD0080DD9A /* VerticalProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VerticalProfileView.xib; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 		356A4AA62247174A0080DD9A /* Popup */ = {
 			isa = PBXGroup;
 			children = (
+				355D7191224F3D6000C3CAC1 /* ModalPresentationController.swift */,
 				356A4AA7224717B80080DD9A /* CustomPresentationController.swift */,
 				3583CEC62234EF1400621F1F /* MatchPopupViewController.swift */,
 				355D7189224CCB8C00C3CAC1 /* RateUserViewController.swift */,
@@ -826,6 +829,7 @@
 				3583CEC42234D57B00621F1F /* Font.swift in Sources */,
 				35A40823223CFF0E007BDF06 /* FirebaseUseCase.swift in Sources */,
 				927B79F522369FF3001F8A36 /* Data.swift in Sources */,
+				355D7192224F3D6100C3CAC1 /* ModalPresentationController.swift in Sources */,
 				35AD2F76223423B800CD86EE /* MapViewController.swift in Sources */,
 				356D38E42246812B0024F97E /* MapSearchBarView.swift in Sources */,
 				353D909422368773004BB44C /* MapUtils.swift in Sources */,

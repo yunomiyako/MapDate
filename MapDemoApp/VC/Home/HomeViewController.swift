@@ -27,8 +27,7 @@ class HomeViewController: UIViewController {
             },
             whenNot: {
                 //ログインしていないのでLoginViewControllerを表示
-                let vc = MapViewController()
-                //let vc = MyProfileViewController()
+                let vc = LoginViewController()
                 self.present(vc, animated: true)
             }
         )

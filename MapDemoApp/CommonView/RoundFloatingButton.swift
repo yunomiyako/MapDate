@@ -105,6 +105,6 @@ class RoundFloatingButton: UIView {
         self.delegate?.onClickButton()
     }
     
-    
 
+    
 }

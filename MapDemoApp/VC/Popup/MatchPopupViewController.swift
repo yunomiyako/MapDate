@@ -30,6 +30,8 @@ class MatchPopupViewController: UIViewController {
         return view
     }()
     
+    fileprivate var handler : (() -> ())? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -56,11 +58,12 @@ class MatchPopupViewController: UIViewController {
         let height : CGFloat = 30 //test by kitahara let it be auto
         topLabel.frame = CGRect(x: 10, y: 20, width: width, height: height)
         topLabel.sizeToFit()
+        topLabel.frame.size.width = self.view.frame.width - 20
     }
     
     private func layoutProfileView() {
         let width = self.view.frame.width - 20
-        let height : CGFloat = 370
+        let height : CGFloat = 420
         let y : CGFloat = self.view.frame.height / 2 - height / 2
         profileView.frame = CGRect(x: 10, y: y, width: width, height: height)
         LogDebug("profileView frame = \(profileView.frame.debugDescription)")
@@ -73,10 +76,16 @@ class MatchPopupViewController: UIViewController {
         okButton.frame = CGRect(x: 35, y: y, width: width, height: height)
     }
     
+    func setButtonListener(handler : @escaping () -> ()) {
+        self.handler = handler
+    }
+    
 }
 
 extension MatchPopupViewController : RoundFloatingButtonDelegate {
     func onClickButton() {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: {
+            self.handler?()
+        })
     }
 }

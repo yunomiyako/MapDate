@@ -62,7 +62,9 @@ class MapBottomWhenMatchedView: UIView {
         let view = RoundFloatingButton()
         view.setText(text: NSLocalizedString("ICouldMeetSafely", tableName: "MapStrings", comment: ""))
         view.delegate = self
-        view.setDisable(disable: true)
+        
+        //test by kitahara
+        view.setDisable(disable: false)
         return view
     }()
     
