@@ -105,7 +105,6 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         textView.isEditable = false
         
         
-        
         loadDefaultData()
     }
     
@@ -199,8 +198,16 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         let attrText = NSMutableAttributedString(string: strs)
      
         //サイズ
-        nameAgeLabel.font = UIFont.boldSystemFont(ofSize: 30)
-        attrText.addAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 39)], range: NSMakeRange(0, nameStr.count))
+        let myBoundSize: CGSize = UIScreen.main.bounds.size
+        //5SとSEのとき
+        if myBoundSize.width == 320.0 && myBoundSize.height == 568.0{
+            nameAgeLabel.font = UIFont.boldSystemFont(ofSize: 25)
+            attrText.addAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 31)], range: NSMakeRange(0, nameStr.count))
+        }else{
+            nameAgeLabel.font = UIFont.boldSystemFont(ofSize: 37)
+            attrText.addAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 39)], range: NSMakeRange(0, nameStr.count))
+        }
+        
 
         nameAgeLabel.attributedText = attrText
     
