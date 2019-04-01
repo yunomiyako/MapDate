@@ -51,3 +51,73 @@ extension UIColor {
         return UIColor(hue: hue, saturation: saturation, brightness: brightness * ratio, alpha: alpha)
     }
 }
+
+class PickerTextField: UITextField, UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+        
+    
+    var dataList = [String]()
+    
+    /*
+     // Only override drawRect: if you perform custom drawing.
+     // An empty implementation adversely affects performance during animation.
+     override func drawRect(rect: CGRect) {
+     // Drawing code
+     }
+     */
+    
+    init() {
+        super.init(frame: CGRect.zero)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    func setup(dataList: [String]) {
+        self.dataList = dataList
+        
+        let picker = UIPickerView()
+        picker.delegate = self
+        picker.dataSource = self
+        picker.showsSelectionIndicator = true
+        
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
+        let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:  #selector(self.done))
+        let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(Progress.cancel))
+        toolbar.setItems([cancelItem, doneItem], animated: true)
+        
+        self.inputView = picker
+        self.inputAccessoryView = toolbar
+    }
+    
+
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return dataList.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return dataList[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.text = dataList[row]
+    }
+    
+   @objc func cancel() {
+        self.text = ""
+        self.endEditing(true)
+    }
+    
+   @objc func done() {
+        self.endEditing(true)
+    }
+}
+

@@ -9,6 +9,7 @@
 import UIKit
 import TinyConstraints
 
+
 final class EditProfileViewController: UIViewController, UITextViewDelegate {
     
     let textEditer = UITextView()
@@ -27,9 +28,11 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
     let nameField = UITextField()
     let abouMe = UILabel()
     let age = UILabel()
-    let ageField = UITextField()
+    let ageField = PickerTextField()
     let jobTilte = UILabel()
     let jobTitleField = UITextField()
+    let gender = UILabel()
+    let genderField = PickerTextField()
     var charNumLabel = UILabel()
     var photoNum = 0
     
@@ -54,7 +57,10 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         jobTilte.text = "JOB TITLE"
         scrview.addSubview(jobTilte)
         
-        for i in 0..<6{
+        gender.text = "GENDER"
+        scrview.addSubview(gender)
+        
+        for i in 0..<9{
             profimgs.append(UIImageView())
             profimgs[i].image = UIImage(named: "frame.png")
             scrview.addSubview(profimgs[i])
@@ -73,11 +79,16 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         nameField.leftViewMode = UITextField.ViewMode.always
         scrview.addSubview(nameField)
         
+        var agerange = [String]()
+        for i in 18 ..< 60{
+            agerange.append(String(i))
+        }
         ageField.backgroundColor = .white
         ageField.textColor = UIColor.gray
         ageField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.05, height: 0))
         ageField.leftViewMode = UITextField.ViewMode.always
         ageField.keyboardType = UIKeyboardType.numberPad
+        ageField.setup(dataList: agerange)
         scrview.addSubview(ageField)
         
         jobTitleField.backgroundColor = .white
@@ -86,18 +97,25 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         jobTitleField.leftViewMode = UITextField.ViewMode.always
         scrview.addSubview(jobTitleField)
         
+        genderField.backgroundColor = .white
+        genderField.textColor = UIColor.gray
+        genderField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.05, height: 0))
+        genderField.leftViewMode = UITextField.ViewMode.always
+        genderField.setup(dataList: ["Woman","Man"])
+        scrview.addSubview(genderField)
+        
         textEditer.backgroundColor = .white
         textEditer.text = "@" //※ダミーテキストでフォントを設定させる
         textEditer.text = ""
         textEditer.text = state
         textEditer.textColor = UIColor.gray
-        textEditer.textContainerInset = UIEdgeInsets(top: 15, left: 10, bottom: 20, right: 10)
+        textEditer.textContainerInset = UIEdgeInsets(top: 15, left: 10, bottom: 15, right: 10)
         textEditer.font = textEditer.font?.withSize(20)
         textEditer.delegate = self
         self.scrview.addSubview(textEditer)
         charNumLabel.text = String(500-state.count)
         charNumLabel.textColor = UIColor.gray
-        self.textEditer.addSubview(charNumLabel)
+        self.scrview.addSubview(charNumLabel)
       
         
 
@@ -108,27 +126,36 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
 
         scrview.scrollIndicatorInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
         scrview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        scrview.contentSize = CGSize(width:0, height: scrview.frame.height * 1.8)
+        
     
         
         let scrhalfY = self.scrview.frame.height * 0.5
         let scrhalfX = self.scrview.frame.width * 0.5
         let prfpos1 = scrhalfY * 0.3
+        let prfpos2 = prfpos1 + (scrview.frame.width * 0.22)+prfpos1 * 0.5
+        let prfpos3 = prfpos2 + (scrview.frame.width * 0.22)+prfpos2 * 0.25
         
         photos.frame = CGRect(x: scrhalfX * 0.1, y: prfpos1 * 0.81, width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         photos.sizeToFit()
-        for i in 0..<6{
+        for i in 0..<9{
             
             if i < 3{
                 profimgs[i].frame = CGRect(x: 0, y: prfpos1, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
                 profimgBtns[i].frame = CGRect(x: 0, y: 0, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
                 profimgBtns[i].frame.origin.y = profimgs[i].frame.maxY - profimgBtns[i].frame.height
                 
-            }else{
-                profimgs[i].frame = CGRect(x: 0, y: prfpos1 + (scrview.frame.width * 0.22)+prfpos1 * 0.5, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
+            }else if i > 2 && i < 6{
+                profimgs[i].frame = CGRect(x: 0, y: prfpos2, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
                 profimgBtns[i].frame = CGRect(x: 0, y:0, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
                 profimgBtns[i].frame.origin.y = profimgs[i].frame.maxY - profimgBtns[i].frame.height
+            }else{
+                
+                profimgs[i].frame = CGRect(x: 0, y: prfpos3, width: self.scrview.frame.width * 0.22, height: scrhalfY * 0.3)
+                profimgBtns[i].frame = CGRect(x: 0, y:0, width: profimgs[i].frame.width * 0.3, height: profimgs[i].frame.width * 0.3)
+                profimgBtns[i].frame.origin.y = profimgs[i].frame.maxY - profimgBtns[i].frame.height
+                
             }
+            
             switch (i+1)%3{
             case 1:
                 profimgs[i].frame.origin.x = scrhalfX * 0.2
@@ -140,7 +167,7 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
             }
             profimgBtns[i].frame.origin.x = profimgs[i].frame.minX + profimgs[i].frame.width * 0.75
         }
-        let photoButtom = profimgs[5].frame.maxY
+        let photoButtom = profimgs[8].frame.maxY
         let nameFieldY =  (photoButtom * 1.1)
         
         name.frame = CGRect(x: scrhalfX * 0.1, y: nameFieldY*0.94 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
@@ -161,6 +188,8 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         abouMe.sizeToFit()
         
         textEditerSet()
+        let scrH = genderField.frame.maxY + self.view.frame.height/2
+        scrview.contentSize = CGSize(width:0, height:scrH)
         addNavBackView()
         addNavigationBar()
     }
@@ -170,6 +199,8 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         charNumLabel.text = String(500 - charNum)
         textEditerSet()
         let beforeStr = textEditer.text
+        let scrH = genderField.frame.maxY + self.view.frame.height/2
+        scrview.contentSize = CGSize(width:0, height:scrH /*scrview.frame.height * 1.8*/)
         if textEditer.text.count > 500 { // 500字を超えた時
             // 以下，範囲指定する
             let zero = beforeStr!.startIndex
@@ -185,9 +216,16 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         let prfpos1 = scrhalfY * 0.3
         let textEditerY = ageField.frame.maxY*1.1
         let TEheight = textEditer.sizeThatFits(CGSize(width: textEditer.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
-        textEditer.frame = CGRect(x: 0, y: textEditerY, width: self.view.frame.width, height: TEheight*1.2)
-        charNumLabel.frame = CGRect(x: textEditer.frame.width*0.9, y: TEheight*0.9, width: textEditer.frame.width*0.1, height: TEheight*0.2)
+        textEditer.frame = CGRect(x: 0, y: textEditerY, width: self.view.frame.width, height: TEheight)
+        charNumLabel.frame = CGRect(x: textEditer.frame.width*0.9, y: textEditer.frame.maxY - 15, width: textEditer.frame.width*0.1, height: 0)
+       
+        
+        
         charNumLabel.sizeToFit()
+//        charNumLabel.bottomToSuperview()
+//        charNumLabel.rightToSuperview()
+//        charNumLabel.height(5)
+//        charNumLabel.width(10)
         
         let jobTitleY = (textEditerY + TEheight*1.2)*1.08
         
@@ -195,6 +233,14 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         jobTilte.sizeToFit()
         
         jobTitleField.frame = CGRect(x: 0, y: jobTitleY, width: self.view.frame.width, height: scrhalfY*0.1)
+        
+        let genderY = jobTitleField.frame.maxY*1.08
+        
+        gender.frame = CGRect(x: scrhalfX * 0.1, y: genderY*0.97 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        gender.sizeToFit()
+        
+        genderField.frame = CGRect(x: 0, y: genderY, width: self.view.frame.width, height: scrhalfY*0.1)
+        
 
         
     }
@@ -223,7 +269,7 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
             
             self.selectedFrame = sender.tag
             
-            for i in self.selectedFrame ..< self.photoNum{
+            for i in self.selectedFrame ..< self.photoNum - 1{
                 self.profimgs[i].image = self.profimgs[i+1].image
             }
             
