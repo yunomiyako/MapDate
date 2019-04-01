@@ -172,6 +172,10 @@ class MapBottomWhenMatchedView: UIView {
     func setButtonDisable(disable : Bool) {
         self.safelyMetButton.setDisable(disable: disable)
     }
+    
+    func toggleShareLocation(on : Bool) {
+        paperSwitch.setOn(on, animated: true)
+    }
 }
 
 extension MapBottomWhenMatchedView : RoundFloatingButtonDelegate {

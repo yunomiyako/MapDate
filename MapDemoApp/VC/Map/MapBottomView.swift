@@ -20,8 +20,6 @@ class MapBottomView: UIView {
     // MARK: - Properties -
     lazy private var button:RoundFloatingButton = self.createButton()
     lazy private var settingButton : UIButton = self.createSettingButton()
-    
-    
     weak var delegate : MapBottomViewDelegate? = nil
 
     // MARK: - Life cycle events -

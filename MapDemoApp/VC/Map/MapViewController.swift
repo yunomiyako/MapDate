@@ -44,7 +44,9 @@ class MapViewController: UIViewController , PopUpShowable {
     private let firebaseUseCase = FirebaseUseCase()
     
     private var discoveryRadius : Double = 3000
-    private var discoveryCenter : CLLocationCoordinate2D? = nil 
+    private var discoveryCenter : CLLocationCoordinate2D? = nil
+    
+    private var didConfirmShareLocation = false
     
     //test by kitahara
     private var stateToBottom : [MapState : UIView]  = [:]
@@ -226,8 +228,12 @@ extension MapViewController : MapBottomViewDelegate {
     }
     
     func onToggleShareLocation(on : Bool) {
-        if on {
-        self.showMessagePopup(NSLocalizedString("ShareLocationMessage", tableName: "MapStrings", comment: ""))
+        if on && !didConfirmShareLocation {
+            self.bottomWhenMatchView.toggleShareLocation(on : false)
+            self.showOKCancelPopup(NSLocalizedString("ShareLocationMessage", tableName: "MapStrings", comment: ""), completionHandler: {
+                self.bottomWhenMatchView.toggleShareLocation(on:true)
+                self.didConfirmShareLocation = true
+            })
         }
     }
     
