@@ -278,10 +278,12 @@ class MapModel {
     //十分に近づいたことを判定する
     func isNear(x : CLLocationCoordinate2D , y : CLLocationCoordinate2D) -> Bool{
         let distance_m = calculateDistanceMeter(x: x, y: y)
+        LogDebug("distance_m = \(distance_m)")
         if distance_m < NEAR_METER {
             return true
         } else {
-            return false
+            //test by kitahara
+            return true
         }
     }
 }

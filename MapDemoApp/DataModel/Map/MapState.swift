@@ -11,4 +11,5 @@ import Foundation
 enum MapState {
     case initial //通常モード
     case matched //マッチしたあと
+    case rating //rate中
 }

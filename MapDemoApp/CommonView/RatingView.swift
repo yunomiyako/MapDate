@@ -10,9 +10,13 @@ import UIKit
 import Cosmos
 import TinyConstraints
 
+protocol RatingViewDelegate : class {
+    func didFinishTouchingCosmos(rate : Double)
+}
+
 class RatingView: UIView {
     lazy private var rateView : CosmosView = self.createRateView()
-    
+    weak var delegate :RatingViewDelegate? = nil
     // MARK: - Life cycle events -
     required override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,12 +45,19 @@ class RatingView: UIView {
     
     private func createRateView() -> CosmosView {
         let view = CosmosView()
+        view.didFinishTouchingCosmos = { rate in
+            self.delegate?.didFinishTouchingCosmos(rate : rate)
+        }
         return view
     }
     
     func setRate(rating : Double , text : String?) {
         rateView.rating = rating
         rateView.text = text
+    }
+    
+    func getRate() -> Double {
+        return rateView.rating
     }
     
     func customizeRateView(

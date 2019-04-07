@@ -44,9 +44,12 @@ class MapViewController: UIViewController , PopUpShowable {
     private let firebaseUseCase = FirebaseUseCase()
     
     private var discoveryRadius : Double = 3000
-    private var discoveryCenter : CLLocationCoordinate2D? = nil 
+    private var discoveryCenter : CLLocationCoordinate2D? = nil
+    
+    private var didConfirmShareLocation = false
     
     //test by kitahara
+    private var stateToBottom : [MapState : UIView]  = [:]
     private var state : MapState = .initial  {
         willSet {
             
@@ -55,17 +58,24 @@ class MapViewController: UIViewController , PopUpShowable {
             }
             
             //FIXME : もっと綺麗に書けそう
-            if state == .initial && newValue == .matched {
-                let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
-                AnimationUtils.transitionTwoViewAppearance(fromView: self.bottomView, toView: self.bottomWhenMatchView, whereGo: bottomPoint, afterLayout: {
-                    self.switchBottomViewLayout()
-                })
-            } else if state == .matched && newValue == .initial {
-                let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
-                AnimationUtils.transitionTwoViewAppearance(fromView: self.bottomWhenMatchView, toView: self.bottomView, whereGo: bottomPoint, afterLayout: {
+            let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
+            if let fromVC = self.stateToBottom[state] , let toVC = self.stateToBottom[newValue] {
+                AnimationUtils.transitionTwoViewAppearance(fromView: fromVC, toView: toVC, whereGo: bottomPoint, afterLayout: {
                     self.switchBottomViewLayout()
                 })
             }
+            
+//            if state == .initial && newValue == .matched {
+//                let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
+//                AnimationUtils.transitionTwoViewAppearance(fromView: self.bottomView, toView: self.bottomWhenMatchView, whereGo: bottomPoint, afterLayout: {
+//                    self.switchBottomViewLayout()
+//                })
+//            } else if state == .matched && newValue == .initial {
+//                let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
+//                AnimationUtils.transitionTwoViewAppearance(fromView: self.bottomWhenMatchView, toView: self.bottomView, whereGo: bottomPoint, afterLayout: {
+//                    self.switchBottomViewLayout()
+//                })
+//            }
         }
         didSet {
             if oldValue == .initial {
@@ -89,6 +99,13 @@ class MapViewController: UIViewController , PopUpShowable {
         if self.state == .initial {
             circleRange()
         }
+        
+        stateToBottom = [
+            .initial : bottomView ,
+            .matched : bottomWhenMatchView ,
+            .rating : UIView()
+        ]
+        
         //test by kitahara
         self.startUpdatingLocation()
         
@@ -184,6 +201,19 @@ extension MapViewController : DiscoverySettingViewControllerDelegate {
 extension MapViewController : MapBottomViewDelegate {
     func onClickSafelyMetButton() {
         //pop up something
+        self.state = .rating
+        
+        let vc = RateUserViewController()
+        vc.delegate = self
+        self.modalPresentationController = CustomPresentationController(presentedViewController: vc, presenting: self)
+        self.modalPresentationController?.isDismissable = false
+        //FIXME: マジックナンバーすぎる　レイアウトが変わった時に対応できない
+        self.modalPresentationController?.contentHeight = 550
+        PopupUtils.showModalPopup(presentingVC: self, presentedVC: vc, delegate: self)
+        
+        vc.addButtonClickListener(handler: {
+            self.modalPresentationController?.contentHeight = 650
+        })
     }
     
     
@@ -198,8 +228,12 @@ extension MapViewController : MapBottomViewDelegate {
     }
     
     func onToggleShareLocation(on : Bool) {
-        if on {
-        self.showMessagePopup(NSLocalizedString("ShareLocationMessage", tableName: "MapStrings", comment: ""))
+        if on && !didConfirmShareLocation {
+            self.bottomWhenMatchView.toggleShareLocation(on : false)
+            self.showOKCancelPopup(NSLocalizedString("ShareLocationMessage", tableName: "MapStrings", comment: ""), completionHandler: {
+                self.bottomWhenMatchView.toggleShareLocation(on:true)
+                self.didConfirmShareLocation = true
+            })
         }
     }
     
@@ -218,21 +252,14 @@ extension MapViewController : MapBottomViewDelegate {
         dispatch_after(1, block: {
             self.bottomView.buttonLoading(bool : false)
             self.state = .matched
-            
             let vc = MatchPopupViewController()
+            vc.setButtonListener(handler : {
+                self.onClickChatButton()
+            })
             self.modalPresentationController = CustomPresentationController(presentedViewController: vc, presenting: self)
             self.modalPresentationController?.isDismissable = true
+            self.modalPresentationController?.contentHeight = 700
             PopupUtils.showModalPopup(presentingVC: self, presentedVC: vc, delegate: self)
-            
-            //test by kitahara
-            dispatch_after(1, block: {
-                UIView.animate(withDuration: 5, animations: {
-                    //アニメーションどうするんだろう。
-                    self.modalPresentationController?.changeMargin(x: 30 , y: 400)
-                    self.modalPresentationController?.containerViewWillLayoutSubviews()
-                    vc.viewDidLayoutSubviews()
-                })
-            })
         })
         let centerLocation = self.discoveryCenter ?? self.mapView.getUserLocation()
         let radius = Double(mapUseCase.getSyncDiscoveryDistance())
@@ -274,6 +301,8 @@ extension MapViewController : MapViewDelegate {
             return false
         case .matched:
             return true
+        case .rating:
+            return false
         }
     }
     
@@ -283,6 +312,8 @@ extension MapViewController : MapViewDelegate {
             return false
         case .matched:
             return true
+        case .rating:
+            return false
         }
     }
     
@@ -291,6 +322,8 @@ extension MapViewController : MapViewDelegate {
         case .initial:
             return true
         case .matched:
+            return false
+        case .rating:
             return false
         }
     }
@@ -304,6 +337,8 @@ extension MapViewController : MapViewDelegate {
             }
         case .matched:
             self.mapView.longTapGathereHereHandler(gestureRecognizer: gestureRecognizer)
+        case .rating:
+            break
         }
     }
 }
@@ -313,5 +348,12 @@ extension MapViewController : MapViewDelegate {
 extension MapViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return modalPresentationController
+    }
+}
+
+extension MapViewController : RateuserViewControllerDelegate {
+    func onClickRateOk(rate: Double) {
+        LogDebug("rate : \(rate)")
+        self.state = .initial
     }
 }

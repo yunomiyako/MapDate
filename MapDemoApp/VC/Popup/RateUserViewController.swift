@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol RateuserViewControllerDelegate : class {
+    func onClickRateOk(rate : Double)
+}
+
 class RateUserViewController: UIViewController {
     lazy private var topLabel : UILabel = {
         let view = UILabel()
@@ -20,6 +24,8 @@ class RateUserViewController: UIViewController {
     
     lazy private var profileView : VerticalProfileView = {
         let view = VerticalProfileView.instantiate(className: "VerticalProfileView")
+        view.hideStar(visible : false)
+        view.delegate = self
         return view
     }()
     
@@ -29,6 +35,10 @@ class RateUserViewController: UIViewController {
         view.delegate = self
         return view
     }()
+    
+    weak var delegate : RateuserViewControllerDelegate? = nil
+    fileprivate var onClickHandler : (() -> ())? = nil
+    fileprivate var isRateMode = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,11 +67,12 @@ class RateUserViewController: UIViewController {
         let height : CGFloat = 30 //test by kitahara let it be auto
         topLabel.frame = CGRect(x: 10, y: 20, width: width, height: height)
         topLabel.sizeToFit()
+        topLabel.frame.size.width = self.view.frame.width - 20
     }
     
     private func layoutProfileView() {
         let width = self.view.frame.width - 20
-        let height : CGFloat = 370
+        let height : CGFloat = 420
         let y : CGFloat = self.view.frame.height / 2 - height / 2
         profileView.frame = CGRect(x: 10, y: y, width: width, height: height)
         LogDebug("profileView frame = \(profileView.frame.debugDescription)")
@@ -74,10 +85,31 @@ class RateUserViewController: UIViewController {
         okButton.frame = CGRect(x: 35, y: y, width: width, height: height)
     }
     
+    func addButtonClickListener(handler : @escaping () -> ()) {
+        self.onClickHandler = handler
+    }
+    
 }
 
 extension RateUserViewController : RoundFloatingButtonDelegate {
     func onClickButton() {
-        self.dismiss(animated: true, completion: nil)
+        profileView.hideStar(visible : true)
+        if !isRateMode {
+            self.topLabel.text = "How was your day? Rate him/her."
+            self.okButton.setText(text: "OK")
+            self.okButton.setDisable(disable: true)
+            self.onClickHandler?()
+            isRateMode = true
+        } else {
+            let rate = profileView.getRate()
+            self.delegate?.onClickRateOk(rate: rate)
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+}
+
+extension RateUserViewController : VerticalProfileViewDelegate {
+    func didFinishTouchingCosmos(rate: Double) {
+        self.okButton.setDisable(disable: false)
     }
 }

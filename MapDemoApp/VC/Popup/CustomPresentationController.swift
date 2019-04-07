@@ -13,12 +13,19 @@ import UIKit
 class CustomPresentationController: UIPresentationController {
     // 表示されるモーダル
     var modalView = UIView()
-    var margin = (x: CGFloat(30), y: CGFloat(220.0))
+    var xMargin : CGFloat = 30
     var isDismissable = true
-    
-    func changeMargin(x : CGFloat , y : CGFloat) {
-        self.margin = (x : x , y : y)
+    var contentHeight: CGFloat? {
+        didSet {
+            presentedView?.setNeedsUpdateConstraints()
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                guard let frame = self?.frameOfPresentedViewInContainerView else { return }
+                self?.presentedView?.frame = frame
+                self?.presentedView?.layoutIfNeeded()
+            }
+        }
     }
+
     
     // 表示トランジション開始前に呼ばれる
     override func presentationTransitionWillBegin() {
@@ -66,20 +73,21 @@ class CustomPresentationController: UIPresentationController {
     // モーダルのサイズを返す。
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         // parentSizeに呼び出し元のviewControllerのサイズが入ってる。
-        return CGSize(width: parentSize.width - margin.x, height: parentSize.height - margin.y)
+        return CGSize(width: parentSize.width - xMargin, height: contentHeight ?? 300)
     }
     
     // モーダルの場所設定
     override var frameOfPresentedViewInContainerView: CGRect {
         var presentedViewFrame = CGRect()
-        let containerBounds = containerView!.bounds
+        let containerBounds = presentingViewController.view.bounds
         let childContentSize = size(
             forChildContentContainer: presentedViewController,
             withParentContainerSize: containerBounds.size
         )
+        let y = (presentingViewController.view.frame.height - (contentHeight ?? 300)) / 2
         presentedViewFrame.size = childContentSize
-        presentedViewFrame.origin.x = margin.x / 2.0
-        presentedViewFrame.origin.y = margin.y / 2.0
+        presentedViewFrame.origin.x = xMargin / 2.0
+        presentedViewFrame.origin.y = y
         return presentedViewFrame
     }
     
