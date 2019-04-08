@@ -10,8 +10,18 @@ import Foundation
 import Alamofire
 struct GetNearPeopleNumberRequest : RequestProtocol {
     typealias Response = GetNearPeopleNumberResponse
-    var path: String = "/people_number"
     var method =  Alamofire.HTTPMethod.get
+    var functionName: String = "get_people_num_by_conditions"
+    
+    //パラメータ関係 このセットの仕方微妙・・・
+    private var num : Int
+    init(num : Int) {
+        self.num = num
+    }
+    
+    var parameters: Alamofire.Parameters? {
+        return ["num" : self.num]
+    }
 }
 
 class GetNearPeopleNumberResponse : ResponseProtocol {

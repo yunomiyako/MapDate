@@ -15,6 +15,7 @@ protocol RequestProtocol {
     associatedtype Response: ResponseProtocol
     var baseUrl: String { get }
     var path: String { get }
+    var functionName : String {get}
     var method: Alamofire.HTTPMethod { get }
     var parameters: Alamofire.Parameters? { get }
     var encoding: Alamofire.ParameterEncoding { get }
@@ -34,5 +35,11 @@ extension RequestProtocol {
     }
     var headers: Alamofire.HTTPHeaders? {
         return nil
+    }
+    var path : String {
+        return ""
+    }
+    var functionName : String {
+        return ""
     }
 }

@@ -8,11 +8,11 @@
 
 import Foundation
 import Alamofire
-struct RequestMatch : RequestProtocol {
+struct RequestMatchRequest : RequestProtocol {
     var parameters: Parameters?
     typealias Response = RequestMatchResponse
-    var path: String = "/request_match"
     var method =  Alamofire.HTTPMethod.post
+    var functionName: String = "request_match"
     
     init(uid : String , latitude: Double , longitude: Double , radius : Double , age_range : [Int]) {
         self.parameters = [
