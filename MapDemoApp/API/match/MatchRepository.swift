@@ -20,6 +20,8 @@ class MatchRepository {
         let request = RequestMatchRequest(uid: uid, latitude: location.latitude, longitude: location.longitude, radius: radius, age_range: age_range)
         cloudFunctionHelper.call(request: request, completion: { res in
             completion(res)
+        } , failure: {
+            completion(RequestMatchResponse())
         })
     }
 }

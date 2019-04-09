@@ -247,42 +247,42 @@ extension MapViewController : MapBottomViewDelegate {
         self.openDiscoverySettingPage()
     }
     
-    func onClickButton() {
-        //test by kitahara
-        dispatch_after(1, block: {
-            self.bottomView.buttonLoading(bool : false)
-            self.state = .matched
-            let vc = MatchPopupViewController()
-            vc.setButtonListener(handler : {
-                self.onClickChatButton()
-            })
-            self.modalPresentationController = CustomPresentationController(presentedViewController: vc, presenting: self)
-            self.modalPresentationController?.isDismissable = true
-            self.modalPresentationController?.contentHeight = 700
-            PopupUtils.showModalPopup(presentingVC: self, presentedVC: vc, delegate: self)
+    private func onMatch() {
+        self.bottomView.buttonLoading(bool : false)
+        self.state = .matched
+        let vc = MatchPopupViewController()
+        vc.setButtonListener(handler : {
+            self.onClickChatButton()
         })
+        self.modalPresentationController = CustomPresentationController(presentedViewController: vc, presenting: self)
+        self.modalPresentationController?.isDismissable = true
+        self.modalPresentationController?.contentHeight = 700
+        PopupUtils.showModalPopup(presentingVC: self, presentedVC: vc, delegate: self)
+    
+    }
+    
+    func onClickButton() {
         let centerLocation = self.discoveryCenter ?? self.mapView.getUserLocation()
         let radius = Double(mapUseCase.getSyncDiscoveryDistance())
         self.mapView.startSearchingAnimation(location : centerLocation , radius : radius)
         
         //周りの人に通知を投げる
-//        let coord = mapView.getUserLocation()
-//        let user = firebaseUseCase.getCurrentUser()
-//        if let uid = user.uid {
-//            let location = LocationLog(coordinate: coord, id: uid)
-//            self.matchUseCase.requestMatch(uid: uid, location: location) {response in
-//                let result = response.result
-//                if result == "success" {
-//                    LogDebug("マッチしました！")
-//                } else if result == "fail" {
-//                    LogDebug("マッチしませんでした")
-//                    self.bottomView.buttonLoading(bool : false)
-//                } else {
-//                    LogDebug("レスポンスの形がおかしい")
-//                }
-//
-//            }
-//        }
+        let user = firebaseUseCase.getCurrentUser()
+        if let uid = user.uid {
+            let location = LocationLog(coordinate: centerLocation, id: uid)
+            self.matchUseCase.requestMatch(uid: uid, location: location) {response in
+                let result = response.result
+                if result == "success" {
+                    self.onMatch()
+                } else if result == "fail" {
+                    LogDebug("マッチしませんでした")
+                    self.bottomView.buttonLoading(bool : false)
+                } else {
+                    LogDebug("レスポンスの形がおかしい")
+                }
+
+            }
+        }
     }
 }
 

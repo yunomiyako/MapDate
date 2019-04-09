@@ -11,7 +11,6 @@ import Alamofire
 struct RequestMatchRequest : RequestProtocol {
     var parameters: Parameters?
     typealias Response = RequestMatchResponse
-    var method =  Alamofire.HTTPMethod.post
     var functionName: String = "request_match"
     
     init(uid : String , latitude: Double , longitude: Double , radius : Double , age_range : [Int]) {
@@ -21,7 +20,9 @@ struct RequestMatchRequest : RequestProtocol {
             "longitude" : longitude ,
             "radius" : radius ,
             "age_min" : age_range[0] ,
-            "age_max" : age_range[1]
+            "age_max" : age_range[1] ,
+            "want_man" : true , //test by kitahara
+            "want_woman" : true
         ]
     }
 }
