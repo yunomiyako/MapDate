@@ -13,18 +13,18 @@ class ChatUseCase {
     private let chatRep = ChatRepository()
     private let chatFireStore = ChatFireStore()
     
-    func listenChatMessages(completion : @escaping ([ChatMessage]) -> ()) {
+    func listenChatMessages(matchData : MatchDataModel , completion : @escaping ([ChatMessage]) -> ()) {
         //test by kitahara
-        let transactionId = "test_transaction"
+        let transactionId = matchData.transaction_id
         chatFireStore.readMessage(transactionId: transactionId, handler: {messages in
             completion(messages.sorted{ $0.sentDate < $1.sentDate })
         })
     }
     
-    func addChatMessage(text : String , sender : Sender ) {
+    func addChatMessage(matchData : MatchDataModel ,text : String , sender : Sender ) {
         //test by kitahara
         
-        let transactionId = "test_transaction"
+        let transactionId = matchData.transaction_id
         let uid = UUID().uuidString
         let message = ChatMessage(text: text, sender: sender, messageId: uid, date: Date())
         let vm = ChatMessageViewModel(message : message)

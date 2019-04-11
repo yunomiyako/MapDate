@@ -25,5 +25,5 @@ struct GetNearPeopleNumberRequest : RequestProtocol {
 }
 
 class GetNearPeopleNumberResponse : ResponseProtocol {
-    var peopleNumber : Int
+    var people_number : Int
 }

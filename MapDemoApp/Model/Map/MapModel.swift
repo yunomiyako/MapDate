@@ -162,37 +162,33 @@ class MapModel {
     }
     
     //自分の位置情報をfirestoreに送る
-    func sendLocation(coordinate : CLLocationCoordinate2D) {
-        //test by kitahara
-        let transactionId = "test_transactionId"
-        let location_id = "user_location_id"
+    func sendLocation(matchData : MatchDataModel , coordinate : CLLocationCoordinate2D) {
+        let transactionId = matchData.transaction_id
+        let location_id = matchData.your_location_id
         let log = LocationLog(coordinate: coordinate, id: location_id)
         mapFireStore.setLocation(transactionId: transactionId, location: log)
     }
     
-    func sendGatherHereLocation(coordinate : CLLocationCoordinate2D) {
-        //test by kitahara
-        let transactionId = "test_transactionId"
+    func sendGatherHereLocation(matchData : MatchDataModel? , coordinate : CLLocationCoordinate2D) {
+        guard let _matchData = matchData else {return}
+        let transactionId = _matchData.transaction_id
         let log = LocationLog(coordinate: coordinate, id: "gather here")
         mapFireStore.sendGatherHereLocation(transactionId: transactionId, location: log)
     }
     
     //相手の位置情報をfirestoreから受け取る
-    func receivePartnerLocation(handler : @escaping (LocationLog) -> ()) {
-        //test by kitahara
-        let transactionId = "test_transactionId"
-        let location_id = "partner_location_id"
-        //let user_location_id = "user_location_id"
+    func receivePartnerLocation(matchData : MatchDataModel , handler : @escaping (LocationLog) -> ()) {
+        let transactionId = matchData.transaction_id
+        let partner_location_id = matchData.partner_location_id
         
-        mapFireStore.getLocation(transactionId: transactionId, location_id: location_id, handler: {log in
+        mapFireStore.getLocation(transactionId: transactionId, location_id: partner_location_id, handler: {log in
             handler(log)
         })
     }
     
     //相手の位置情報をfirestoreから受け取る
-    func receiveGatherHereLocation(handler : @escaping (LocationLog) -> ()) {
-        //test by kitahara
-        let transactionId = "test_transactionId"
+    func receiveGatherHereLocation(matchData : MatchDataModel , handler : @escaping (LocationLog) -> ()) {
+        let transactionId = matchData.transaction_id
         mapFireStore.getGatherHereLocation(transactionId: transactionId, handler: {log in
             handler(log)
         })
@@ -234,7 +230,7 @@ class MapModel {
     }
     
     //ロングタップした時にGatherHereを設置する処理
-    func longTapGathereHereHandler(gestureRecognizer: UILongPressGestureRecognizer) {
+    func longTapGathereHereHandler(matchData: MatchDataModel? , gestureRecognizer: UILongPressGestureRecognizer) {
         // ロングタップ開始
         if gestureRecognizer.state == .began {
             self.removeGatherHere()
@@ -243,7 +239,7 @@ class MapModel {
         else if gestureRecognizer.state == .ended {
             let tapPoint = gestureRecognizer.location(in: mapView)
             let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
-            self.sendGatherHereLocation(coordinate : center)
+            self.sendGatherHereLocation(matchData: matchData, coordinate : center)
             
             // 現在地と目的地のMKPlacemarkを生成(ここいる？)
             let fromPlacemark = MKPlacemark(coordinate:mapView.userLocation.coordinate, addressDictionary:nil)

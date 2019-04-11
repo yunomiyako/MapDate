@@ -32,9 +32,10 @@ class CloudFunctionsHelper {
                         failure()
                         return
                     }
+                    print(data)
                     let decoder = JSONDecoder()
                     //ここ注意 snake_case => snakeCase
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    //decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let res = try decoder.decode(T.Response.self , from: jsonData)
                     completion(res)
                 } catch {

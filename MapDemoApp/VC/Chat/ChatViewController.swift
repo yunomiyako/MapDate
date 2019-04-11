@@ -10,6 +10,10 @@ import UIKit
 import MessageKit
 import MapKit
 
+protocol ChatViewControllerDelegate : class {
+    func getMatchData() -> MatchDataModel?
+}
+
 class ChatViewController: MessagesViewController {
     // Some global variables for the sake of the example. Using globals is not recommended!
     fileprivate var indicator = UIActivityIndicatorView()
@@ -17,7 +21,7 @@ class ChatViewController: MessagesViewController {
         return .lightContent
     }
     
-    
+    weak var delegate : ChatViewControllerDelegate? = nil
     private let sender = Sender(id: "any_unique_id2", displayName: "Alex")
     private var messages: [ChatMessage] = []
     private let chatUseCase = ChatUseCase()
@@ -27,16 +31,18 @@ class ChatViewController: MessagesViewController {
         
         configureMessageCollectionView()
         configureMessageInputBar()
-        
-        chatUseCase.listenChatMessages() { messages in
+
+        //ナビゲーションバーの右側に閉じるボタン付与
+        let closeButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(self.clickCloseButton))
+        self.navigationItem.setRightBarButton(closeButton, animated: false)
+    }
+    
+    func startLoadingChatMessage(matchData : MatchDataModel) {
+        chatUseCase.listenChatMessages(matchData: matchData) { messages in
             self.messages += messages
             self.messagesCollectionView.reloadData()
             self.messagesCollectionView.scrollToBottom()
         }
-        
-        //ナビゲーションバーの右側に閉じるボタン付与
-        let closeButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(self.clickCloseButton))
-        self.navigationItem.setRightBarButton(closeButton, animated: false)
     }
     
     @objc private func clickCloseButton() {
@@ -121,7 +127,9 @@ extension ChatViewController: MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
         for component in inputBar.inputTextView.components {
             if let text = component as? String {
-                self.chatUseCase.addChatMessage(text: text, sender: self.sender)
+                let matchData = self.delegate?.getMatchData()
+                guard let m = matchData else {return}
+                self.chatUseCase.addChatMessage(matchData: m, text: text, sender: self.sender)
             }
         }
         inputBar.inputTextView.text = String()
