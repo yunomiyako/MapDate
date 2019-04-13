@@ -29,7 +29,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     let rangeLabel = UILabel()
     let line = UILabel()
     var state = "No Info"
-    var job = "No info"
+    var job = "No Info"
     var distance = "5"
     var age = "24"
  
@@ -105,7 +105,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         textView.isEditable = false
         
         
-        loadDefaultData()
+        loadData()
     }
     
     
@@ -174,7 +174,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         vc.jobTitleField.text = job
         vc.doneButtonTapHandler = { [weak self] state in
             self!.state = state
-            self!.loadDefaultData()
+            self!.loadData()
             self!.textView.frame = CGRect(x:self!.view.frame.width*0.025, y: self!.scrollView.frame.maxY+self!.view.frame.height * 0.18, width: self!.view.frame.width*0.95, height: self!.textView.contentSize.height)
             let baceInfoH = self!.nameAgeLabel.frame.height + self!.jobLabel.frame.height + self!.rangeLabel.frame.height
             let baceHeight = self!.scrollView.frame.height + baceInfoH + self!.textView.frame.height*1.5
@@ -190,7 +190,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
 
     
     
-    private func loadDefaultData() {
+    private func loadData() {
         
         let nameStr = "  \(user.displayName ?? "NO NAME")"
         let ageStr = "  \(age)"

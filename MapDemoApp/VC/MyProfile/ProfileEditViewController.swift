@@ -10,7 +10,7 @@ import UIKit
 import TinyConstraints
 
 
-final class EditProfileViewController: UIViewController, UITextViewDelegate {
+final class EditProfileViewController: UIViewController, UITextViewDelegate,UITextFieldDelegate {
     
     let textEditer = UITextView()
     let scrview = UIScrollView()
@@ -102,6 +102,7 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         genderField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width*0.05, height: 0))
         genderField.leftViewMode = UITextField.ViewMode.always
         genderField.setup(dataList: ["Woman","Man"])
+        genderField.delegate = self
         scrview.addSubview(genderField)
         
         textEditer.backgroundColor = .white
@@ -170,25 +171,33 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         let photoButtom = profimgs[8].frame.maxY
         let nameFieldY =  (photoButtom * 1.1)
         
-        name.frame = CGRect(x: scrhalfX * 0.1, y: nameFieldY*0.94 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        name.frame = CGRect(x: scrhalfX * 0.1, y: nameFieldY-25 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         name.sizeToFit()
         
         nameField.frame = CGRect(x: 0, y: nameFieldY, width: self.view.frame.width, height: scrhalfY*0.1)
         
-        let ageFieldY = (nameFieldY + scrhalfY*0.1)*1.1
+        let genderY = (nameFieldY + scrhalfY*0.1)*1.1
         
-        age.frame = CGRect(x: scrhalfX * 0.1, y: ageFieldY*0.95 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        gender.frame = CGRect(x: scrhalfX * 0.1, y: genderY-25 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        gender.sizeToFit()
+        
+        genderField.frame = CGRect(x: 0, y: genderY, width: self.view.frame.width, height: scrhalfY*0.1)
+        
+        
+        let ageFieldY = genderField.frame.maxY*1.1
+        
+        age.frame = CGRect(x: scrhalfX * 0.1, y: ageFieldY-25 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         age.sizeToFit()
         
         ageField.frame = CGRect(x: 0, y: ageFieldY, width: self.view.frame.width, height: scrhalfY*0.1)
         
         let textEditerY = ageField.frame.maxY*1.1
         
-        abouMe.frame = CGRect(x: scrhalfX * 0.1, y: textEditerY*0.96 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        abouMe.frame = CGRect(x: scrhalfX * 0.1, y: textEditerY-25 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         abouMe.sizeToFit()
         
         textEditerSet()
-        let scrH = genderField.frame.maxY + self.view.frame.height/2
+        let scrH = jobTitleField.frame.maxY + self.view.frame.height/2
         scrview.contentSize = CGSize(width:0, height:scrH)
         addNavBackView()
         addNavigationBar()
@@ -199,7 +208,7 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         charNumLabel.text = String(500 - charNum)
         textEditerSet()
         let beforeStr = textEditer.text
-        let scrH = genderField.frame.maxY + self.view.frame.height/2
+        let scrH = jobTitleField.frame.maxY + self.view.frame.height/2
         scrview.contentSize = CGSize(width:0, height:scrH /*scrview.frame.height * 1.8*/)
         if textEditer.text.count > 500 { // 500字を超えた時
             // 以下，範囲指定する
@@ -217,37 +226,41 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
         let textEditerY = ageField.frame.maxY*1.1
         let TEheight = textEditer.sizeThatFits(CGSize(width: textEditer.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
         textEditer.frame = CGRect(x: 0, y: textEditerY, width: self.view.frame.width, height: TEheight)
-        charNumLabel.frame = CGRect(x: textEditer.frame.width*0.9, y: textEditer.frame.maxY - 15, width: textEditer.frame.width*0.1, height: 0)
+        charNumLabel.frame = CGRect(x: textEditer.frame.width*0.9, y: textEditer.frame.maxY - 25, width: textEditer.frame.width*0.1, height: 0)
        
         
         
         charNumLabel.sizeToFit()
-//        charNumLabel.bottomToSuperview()
-//        charNumLabel.rightToSuperview()
-//        charNumLabel.height(5)
-//        charNumLabel.width(10)
         
         let jobTitleY = (textEditerY + TEheight*1.2)*1.08
         
-        jobTilte.frame = CGRect(x: scrhalfX * 0.1, y: jobTitleY*0.97 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
+        jobTilte.frame = CGRect(x: scrhalfX * 0.1, y: jobTitleY-25 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
         jobTilte.sizeToFit()
         
         jobTitleField.frame = CGRect(x: 0, y: jobTitleY, width: self.view.frame.width, height: scrhalfY*0.1)
         
-        let genderY = jobTitleField.frame.maxY*1.08
-        
-        gender.frame = CGRect(x: scrhalfX * 0.1, y: genderY*0.97 , width: scrview.frame.width * 0.22 * 0.8, height: prfpos1*0.45)
-        gender.sizeToFit()
-        
-        genderField.frame = CGRect(x: 0, y: genderY, width: self.view.frame.width, height: scrhalfY*0.1)
+      
         
 
         
     }
     
     @objc private func doneButtonTapped() {
-        doneButtonTapHandler?(textEditer.text)
-        dismiss(animated: true, completion: nil)
+        if genderField.text == ""{
+            let title = "Please select your gender"
+            
+            let okText = "ok"
+            
+            let alert = UIAlertController(title: title, message: "", preferredStyle: UIAlertController.Style.alert)
+            let okayButton = UIAlertAction(title: okText, style: UIAlertAction.Style.cancel){ (action: UIAlertAction) in
+            }
+            alert.addAction(okayButton)
+            
+            self.present(alert, animated: true, completion: nil)
+        }else{
+            doneButtonTapHandler?(textEditer.text)
+            dismiss(animated: true, completion: nil)
+        }
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -337,6 +350,12 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate {
             navigationView.frame.origin = self.view.frame.origin
             navigationView.frame.size = CGSize(width: self.view.frame.width, height: navBar.frame.origin.y + navBar.frame.height)
         }
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if genderField.text == ""{
+            genderField.text = "woman"
+        }
+    return true
     }
 }
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

@@ -9,6 +9,7 @@
 import UIKit
 import Cartography
 import MapKit
+import SwiftIcons
 
 class MapViewController: UIViewController , PopUpShowable {
 
@@ -78,15 +79,22 @@ class MapViewController: UIViewController , PopUpShowable {
         }
     }
     
+    var goProf = UIBarButtonItem()
+    let navBar = UINavigationBar()
+    let navItem = UINavigationItem(title: "Map")
+    let navigationView = UIView()
+    let baceView = UIView()
+    
     // MARK: - Life cycle events -
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(mapView)
+        self.view.addSubview(baceView)
+        self.baceView.addSubview(mapView)
         self.view.addSubview(bottomView)
         self.view.addSubview(topTextView)
         self.view.addSubview(bottomWhenMatchView)
-        self.view.addSubview(searchBarView)
-        
+        self.baceView.addSubview(searchBarView)
+       
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,10 +113,19 @@ class MapViewController: UIViewController , PopUpShowable {
         self.switchBottomViewLayout()
         self.layoutTopTextView()
         self.layoutSearchBarView()
+        addNavBackView()
+        addNavigationBar()
+        self.layoutBaceView()
         
         self.view.bringSubviewToFront(topTextView)
     }
     
+
+    //遷移先Viewから戻る処理
+    @objc func returnView(){
+        self.dismiss(animated: true, completion: nil)
+    }
+
     private func switchBottomViewLayout() {
         if self.state == .initial {
             self.layoutBottomView()
@@ -120,6 +137,59 @@ class MapViewController: UIViewController , PopUpShowable {
             self.layoutBottomWhenMatchView()
         } else {
             bottomWhenMatchView.isHidden = true
+        }
+    }
+    func layoutBaceView(){
+        
+        baceView.frame = self.view.frame
+        baceView.frame.origin.y = navBar.frame.maxY
+        
+    }
+    
+    @objc func goToProfile(sender: AnyObject){
+        
+        let vc = MyProfileViewController()
+    
+        self.present(vc, animated: true)
+    }
+    func addNavigationBar(){
+        
+        self.view.addSubview(navBar)
+        //navigationBarの色を透明にする
+        navBar.setBackgroundImage(UIImage(), for: .default)
+        navBar.shadowImage = UIImage()
+//        navItem.rightBarButtonItem = UIBarButtonItem(
+//            barButtonSystemItem: .done,
+//            target: self,
+//            action: #selector(returnView))
+        navItem.hidesBackButton = true
+        goProf.setIcon(icon: .ionicons(.iosContact), iconSize: 30, color: .orange, cgRect: CGRect(x: 0, y: 0, width: 30, height: 30), target: self, action: #selector(goToProfile(sender:)))
+        navItem.leftBarButtonItem = goProf
+        
+        
+        navBar.pushItem(navItem, animated: true)
+        //navigationBarのサイズと位置を調整
+        if #available(iOS 11.0, *) {
+            //iOS11よりも上だったら(iPhoneXだろうがiPhone8だろうがiOSが11より上ならこっちでまとめて対応できる)
+            navBar.frame.origin = self.view.safeAreaLayoutGuide.layoutFrame.origin
+            navBar.frame.size = CGSize(width: self.view.safeAreaLayoutGuide.layoutFrame.width, height: 44)
+        }else{
+            //もしもiOS11よりも下だったら
+            navBar.frame.origin = self.view.frame.origin
+            navBar.frame.size = CGSize(width: self.view.frame.width, height: 44)
+        }
+    }
+    func addNavBackView(){
+        
+        self.view.addSubview(navigationView)
+        navigationView.backgroundColor = UIColor.white
+        //navigationBarの背景のサイズと位置を調整
+        if #available(iOS 11.0, *) {
+            navigationView.frame.origin = self.view.safeAreaLayoutGuide.owningView!.frame.origin
+            navigationView.frame.size = CGSize(width: self.view.safeAreaLayoutGuide.owningView!.frame.width, height: navBar.frame.origin.y + navBar.frame.height)
+        }else{
+            navigationView.frame.origin = self.view.frame.origin
+            navigationView.frame.size = CGSize(width: self.view.frame.width, height: navBar.frame.origin.y + navBar.frame.height)
         }
     }
     
