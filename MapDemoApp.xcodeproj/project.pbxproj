@@ -86,14 +86,7 @@
 		927B79EF22369FF3001F8A36 /* image04.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B79DA22369FF2001F8A36 /* image04.jpg */; };
 		927B79F022369FF3001F8A36 /* image09.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B79DB22369FF2001F8A36 /* image09.jpg */; };
 		927B79F122369FF3001F8A36 /* image08.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 927B79DC22369FF2001F8A36 /* image08.jpg */; };
-		927B79F322369FF3001F8A36 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79DE22369FF2001F8A36 /* Colors.swift */; };
 		927B79F422369FF3001F8A36 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79DF22369FF2001F8A36 /* MyProfileViewController.swift */; };
-		927B79F522369FF3001F8A36 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E122369FF2001F8A36 /* Data.swift */; };
-		927B79F622369FF3001F8A36 /* DataSourceCountsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E222369FF2001F8A36 /* DataSourceCountsProvider.swift */; };
-		927B79F722369FF3001F8A36 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E322369FF2001F8A36 /* DataSource.swift */; };
-		927B79F822369FF3001F8A36 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E522369FF2001F8A36 /* Cell.swift */; };
-		927B79F922369FF3001F8A36 /* ItemCreationPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E622369FF2001F8A36 /* ItemCreationPanelView.swift */; };
-		927B79FA22369FF3001F8A36 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79E722369FF2001F8A36 /* Header.swift */; };
 		927B79FE2236A4CE001F8A36 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927B79FD2236A4CE001F8A36 /* ProfileEditViewController.swift */; };
 		D8B68BB0223A0D9200501D7E /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BAF223A0D9100501D7E /* frame.png */; };
 		D8B68BB2223B570300501D7E /* addimg.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B68BB1223B570300501D7E /* addimg.png */; };
@@ -185,14 +178,7 @@
 		927B79DA22369FF2001F8A36 /* image04.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image04.jpg; sourceTree = "<group>"; };
 		927B79DB22369FF2001F8A36 /* image09.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image09.jpg; sourceTree = "<group>"; };
 		927B79DC22369FF2001F8A36 /* image08.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image08.jpg; sourceTree = "<group>"; };
-		927B79DE22369FF2001F8A36 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		927B79DF22369FF2001F8A36 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
-		927B79E122369FF2001F8A36 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
-		927B79E222369FF2001F8A36 /* DataSourceCountsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourceCountsProvider.swift; sourceTree = "<group>"; };
-		927B79E322369FF2001F8A36 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
-		927B79E522369FF2001F8A36 /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
-		927B79E622369FF2001F8A36 /* ItemCreationPanelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCreationPanelView.swift; sourceTree = "<group>"; };
-		927B79E722369FF2001F8A36 /* Header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		927B79FD2236A4CE001F8A36 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileEditViewController.swift; path = MapDemoApp/VC/MyProfile/ProfileEditViewController.swift; sourceTree = SOURCE_ROOT; };
 		D8B68BAF223A0D9100501D7E /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		D8B68BB1223B570300501D7E /* addimg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addimg.png; sourceTree = "<group>"; };
@@ -524,33 +510,10 @@
 			path = resouce;
 			sourceTree = "<group>";
 		};
-		927B79E022369FF2001F8A36 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				927B79E122369FF2001F8A36 /* Data.swift */,
-				927B79E222369FF2001F8A36 /* DataSourceCountsProvider.swift */,
-				927B79E322369FF2001F8A36 /* DataSource.swift */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
-		927B79E422369FF2001F8A36 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				927B79E522369FF2001F8A36 /* Cell.swift */,
-				927B79E622369FF2001F8A36 /* ItemCreationPanelView.swift */,
-				927B79E722369FF2001F8A36 /* Header.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		D8B68BAC22389A3700501D7E /* UtilsTM */ = {
 			isa = PBXGroup;
 			children = (
 				35A4081B223C89D4007BDF06 /* commonFuncs.swift */,
-				927B79DE22369FF2001F8A36 /* Colors.swift */,
-				927B79E022369FF2001F8A36 /* Data */,
-				927B79E422369FF2001F8A36 /* Views */,
 				927B79D222369FF2001F8A36 /* resouce */,
 			);
 			path = UtilsTM;
@@ -813,7 +776,6 @@
 				35AD2F8E22343D9100CD86EE /* FloatingRectangleView.swift in Sources */,
 				35BBB35D223C0B0B00C484AC /* UserDefaultsUseCase.swift in Sources */,
 				927B79F422369FF3001F8A36 /* MyProfileViewController.swift in Sources */,
-				927B79F822369FF3001F8A36 /* Cell.swift in Sources */,
 				35401895223AA84A0002BCF2 /* GetNearPeopleNumber.swift in Sources */,
 				35BBB358223BE42D00C484AC /* SliderCellTableViewCell.swift in Sources */,
 				3583CEBA2234C3B200621F1F /* Color.swift in Sources */,
@@ -830,16 +792,11 @@
 				35D5D0932242DDFD0035E099 /* NibHelper + extension.swift in Sources */,
 				3540188D223A46110002BCF2 /* UIImage extension.swift in Sources */,
 				353D908F22367453004BB44C /* MapModel.swift in Sources */,
-				927B79F622369FF3001F8A36 /* DataSourceCountsProvider.swift in Sources */,
 				35401893223AA50A0002BCF2 /* RequestProtocol.swift in Sources */,
 				35A4082B223D1AA7007BDF06 /* ChatFireStore.swift in Sources */,
-				927B79F322369FF3001F8A36 /* Colors.swift in Sources */,
 				353D908F22367453004BB44C /* MapModel.swift in Sources */,
-				927B79F622369FF3001F8A36 /* DataSourceCountsProvider.swift in Sources */,
-				927B79F322369FF3001F8A36 /* Colors.swift in Sources */,
 				3583CEC42234D57B00621F1F /* Font.swift in Sources */,
 				35A40823223CFF0E007BDF06 /* FirebaseUseCase.swift in Sources */,
-				927B79F522369FF3001F8A36 /* Data.swift in Sources */,
 				355D7192224F3D6100C3CAC1 /* ModalPresentationController.swift in Sources */,
 				35AD2F76223423B800CD86EE /* MapViewController.swift in Sources */,
 				356D38E42246812B0024F97E /* MapSearchBarView.swift in Sources */,
@@ -858,14 +815,11 @@
 				356D38E2224535D60024F97E /* CustomMKCircle.swift in Sources */,
 				35CB411F2243605200D7F23C /* AnimationUtils.swift in Sources */,
 				3583CEC02234C99F00621F1F /* CommonUtils.swift in Sources */,
-				927B79F922369FF3001F8A36 /* ItemCreationPanelView.swift in Sources */,
 				D8FAA06B224B27AB00F0BA8A /* firebaceProc.swift in Sources */,
 				35068EF322429F1D00DDC7D5 /* ChatContainerViewController.swift in Sources */,
 				35D32F4122412C5E00A83141 /* MapBottomWhenMatchedView.swift in Sources */,
-				927B79FA22369FF3001F8A36 /* Header.swift in Sources */,
 				3583CECA2234F26A00621F1F /* ChatViewController.swift in Sources */,
 				35401891223AA4DA0002BCF2 /* APIClient.swift in Sources */,
-				927B79F722369FF3001F8A36 /* DataSource.swift in Sources */,
 				35401888223A3E3F0002BCF2 /* CustomAnnotationView.swift in Sources */,
 				35A4082F223D6206007BDF06 /* MapFireStore.swift in Sources */,
 				35D6AA3222410BE0002DCD9F /* MatchUseCase.swift in Sources */,
