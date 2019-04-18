@@ -42,4 +42,7 @@ extension RequestProtocol {
     var functionName : String {
         return ""
     }
+    var method :Alamofire.HTTPMethod  {
+        return Alamofire.HTTPMethod.get
+    }
 }

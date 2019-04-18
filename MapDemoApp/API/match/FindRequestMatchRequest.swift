@@ -1,17 +1,17 @@
 //
-//  RequestMatch.swift
+//  FindRequestMatchRequest.swift
 //  MapDemoApp
 //
-//  Created by kitaharamugirou on 2019/03/19.
+//  Created by kitaharamugirou on 2019/04/09.
 //  Copyright © 2019 kitaharamugirou. All rights reserved.
 //
 
 import Foundation
 import Alamofire
-struct RequestMatchRequest : RequestProtocol {
+struct FindRequestMatchRequest : RequestProtocol {
     var parameters: Parameters?
-    typealias Response = RequestMatchResponse
-    var functionName: String = "request_match"
+    typealias Response = FindRequestMatchResponse
+    var functionName: String = "find_request_match"
     
     init(uid : String , latitude: Double , longitude: Double , radius : Double , age_range : [Int]) {
         self.parameters = [
@@ -27,16 +27,6 @@ struct RequestMatchRequest : RequestProtocol {
     }
 }
 
-class RequestMatchResponse : ResponseProtocol {
-    var result : String
-    var your_location_id : String?
-    var partner_location_id : String?
-    var transaction_id : String?
-    
-    init() {
-        self.result = "fail"
-        self.your_location_id = nil
-        self.partner_location_id = nil
-        self.transaction_id = nil
-    }
+class FindRequestMatchResponse : ResponseProtocol {
+    var partner_location_ids : [ String ]
 }

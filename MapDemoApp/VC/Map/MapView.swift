@@ -14,7 +14,9 @@ protocol MapViewDelegate : class {
     func onLongTapMapView(gestureRecognizer: UILongPressGestureRecognizer)
     func canDrawGatherHere() -> Bool
     func canDrawPartnerLocation() -> Bool
-    func isNear(near : Bool) 
+    func isNear(near : Bool)
+    func getMatchData() -> MatchDataModel?
+    
 }
 
 class MapView: UIView {
@@ -25,6 +27,7 @@ class MapView: UIView {
     private var locationManager : CLLocationManager?
     private var mapModel : MapModel? = nil
     weak var delegate : MapViewDelegate? = nil
+    
 
     // MARK: - Life cycle events -
     required override init(frame: CGRect) {
@@ -47,7 +50,10 @@ class MapView: UIView {
         self.addSubview(mapView)
         self.mapView.addSubview(trackingButton)
         
-        self.mapModel?.receivePartnerLocation(handler: {log in
+    }
+    
+    func matchUpdate(matchData : MatchDataModel) {
+        self.mapModel?.receivePartnerLocation(matchData: matchData, handler: {log in
             if self.delegate?.canDrawPartnerLocation() ?? false == false {return}
             let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
             self.showAnotherUserLocation(id: log.id , location: location)
@@ -57,7 +63,7 @@ class MapView: UIView {
             self.delegate?.isNear(near : isNear)
         })
         
-        self.mapModel?.receiveGatherHereLocation(handler : {log in
+        self.mapModel?.receiveGatherHereLocation(matchData: matchData, handler : {log in
             if self.delegate?.canDrawGatherHere() ?? false == false {return}
             let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
             self.addAnnotation(center: location, title: "Gather Here")
@@ -144,7 +150,9 @@ class MapView: UIView {
     }
     
     func longTapGathereHereHandler(gestureRecognizer: UILongPressGestureRecognizer) {
-        self.mapModel?.longTapGathereHereHandler(gestureRecognizer: gestureRecognizer)
+        let matchData = self.delegate?.getMatchData()
+        guard let m = matchData else {return}
+        self.mapModel?.longTapGathereHereHandler(matchData: m, gestureRecognizer: gestureRecognizer)
     }
     
     func longTapChangeDiscoveryCenter(gestureRecognizer: UILongPressGestureRecognizer , endHandler : (CLLocationCoordinate2D) -> ()) {
@@ -257,6 +265,8 @@ extension MapView :CLLocationManagerDelegate {
         guard let newLocation = locations.last else {
             return
         }
-        self.mapModel?.sendLocation(coordinate: newLocation.coordinate)
+        let matchData = self.delegate?.getMatchData()
+        guard let m = matchData else {return}
+        self.mapModel?.sendLocation(matchData: m, coordinate: newLocation.coordinate)
     }
 }

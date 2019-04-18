@@ -43,47 +43,16 @@ class MapViewController: UIViewController , PopUpShowable {
     private let mapUseCase = MapUseCase()
     private let matchUseCase = MatchUseCase()
     private let firebaseUseCase = FirebaseUseCase()
+    private var matchModel : MatchModel = MatchModel(state: .initial)
     
-    private var discoveryRadius : Double = 3000
-    private var discoveryCenter : CLLocationCoordinate2D? = nil
     
-    private var didConfirmShareLocation = false
+    init?(matchModel : MatchModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.matchModel = matchModel
+    }
     
-    //test by kitahara
-    private var stateToBottom : [MapState : UIView]  = [:]
-    private var state : MapState = .initial  {
-        willSet {
-            
-            if newValue == .initial {
-                self.circleRange()
-            }
-            
-            //FIXME : もっと綺麗に書けそう
-            let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
-            if let fromVC = self.stateToBottom[state] , let toVC = self.stateToBottom[newValue] {
-                AnimationUtils.transitionTwoViewAppearance(fromView: fromVC, toView: toVC, whereGo: bottomPoint, afterLayout: {
-                    self.switchBottomViewLayout()
-                })
-            }
-            
-//            if state == .initial && newValue == .matched {
-//                let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
-//                AnimationUtils.transitionTwoViewAppearance(fromView: self.bottomView, toView: self.bottomWhenMatchView, whereGo: bottomPoint, afterLayout: {
-//                    self.switchBottomViewLayout()
-//                })
-//            } else if state == .matched && newValue == .initial {
-//                let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
-//                AnimationUtils.transitionTwoViewAppearance(fromView: self.bottomWhenMatchView, toView: self.bottomView, whereGo: bottomPoint, afterLayout: {
-//                    self.switchBottomViewLayout()
-//                })
-//            }
-        }
-        didSet {
-            if oldValue == .initial {
-                self.mapView.stopCircleAnimation()
-                self.mapView.removeCircleOverlay()
-            }
-        }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     var goProf = UIBarButtonItem()
@@ -99,24 +68,38 @@ class MapViewController: UIViewController , PopUpShowable {
         self.baceView.addSubview(mapView)
         self.view.addSubview(bottomView)
         self.view.addSubview(bottomWhenMatchView)
-        //self.baceView.addSubview(searchBarView)
+        matchModel.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
         //起動時にだけ発動させたいから、もう少しいい実装
-        if self.state == .initial {
+        if matchModel.state == .initial {
             circleRange()
         }
         
-        stateToBottom = [
+        matchModel.stateToBottom = [
             .initial : bottomView ,
             .matched : bottomWhenMatchView ,
             .rating : UIView()
         ]
         
-        //test by kitahara
+        //test by kitahara 適切なタイミングに変更
         self.startUpdatingLocation()
-        
+    }
+    
+    
+    fileprivate func finishLoadMatch(response : RequestMatchResponse) {
+        let result = response.result
+        if result == "success" {
+            LogDebug("\(response.partner_location_id)とマッチしました")
+            self.onMatch()
+        } else if result == "fail" {
+            LogDebug("マッチしませんでした")
+            self.mapView.stopCircleAnimation()
+            self.bottomView.buttonLoading(bool : false)
+        } else {
+            LogDebug("レスポンスの形がおかしい")
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -136,13 +119,13 @@ class MapViewController: UIViewController , PopUpShowable {
     }
 
     private func switchBottomViewLayout() {
-        if self.state == .initial {
+        if matchModel.state == .initial {
             self.layoutBottomView()
         } else {
             bottomView.isHidden = true
         }
         
-        if self.state == .matched {
+        if matchModel.state == .matched {
             self.layoutBottomWhenMatchView()
         } else {
             bottomWhenMatchView.isHidden = true
@@ -238,7 +221,7 @@ class MapViewController: UIViewController , PopUpShowable {
     
     fileprivate func circleRange() {
         //radiusを設定から取得して、自分か指定したローケーションを中心に円を描く
-        let centerLocation = self.discoveryCenter ?? self.mapView.getUserLocation()
+        let centerLocation = matchModel.discoveryCenter ?? self.mapView.getUserLocation()
         let radius = Double(mapUseCase.getSyncDiscoveryDistance())
         self.mapView.showCircleAroundLocation(location: centerLocation, radius: radius)
         
@@ -246,7 +229,7 @@ class MapViewController: UIViewController , PopUpShowable {
             LogDebug("getNearPeopleNumber = \(number)")
         })
         
-        if let pinnedLocation = self.discoveryCenter  {
+        if let pinnedLocation = matchModel.discoveryCenter  {
             self.mapView.addAnnotation(center: pinnedLocation, title: "")
         }
     }
@@ -271,7 +254,7 @@ extension MapViewController : DiscoverySettingViewControllerDelegate {
 extension MapViewController : MapBottomViewDelegate {
     func onClickSafelyMetButton() {
         //pop up something
-        self.state = .rating
+        matchModel.state = .rating
         
         let vc = RateUserViewController()
         vc.delegate = self
@@ -289,7 +272,7 @@ extension MapViewController : MapBottomViewDelegate {
     
     func onClickFinishButton() {
         self.showOKCancelPopup(NSLocalizedString("FinishConfirm", tableName: "MapStrings", comment: "")) {
-            self.state = .initial
+            self.matchModel.state = .initial
         }
     }
     
@@ -298,65 +281,73 @@ extension MapViewController : MapBottomViewDelegate {
     }
     
     func onToggleShareLocation(on : Bool) {
-        if on && !didConfirmShareLocation {
+        if on && !matchModel.didConfirmShareLocation {
             self.bottomWhenMatchView.toggleShareLocation(on : false)
             self.showOKCancelPopup(NSLocalizedString("ShareLocationMessage", tableName: "MapStrings", comment: ""), completionHandler: {
                 self.bottomWhenMatchView.toggleShareLocation(on:true)
-                self.didConfirmShareLocation = true
+                self.matchModel.didConfirmShareLocation = true
             })
         }
     }
     
     func onClickChatButton() {
         let chatVC = ChatViewController()
+        chatVC.delegate = self
         let nc = UINavigationController(rootViewController: chatVC)
-        self.present(nc, animated: true)
+        self.present(nc, animated: true) {
+            guard let m = self.matchModel.matchData else {return}
+            chatVC.startLoadingChatMessage(matchData: m)
+        }
     }
     
     func onClickSettingButton() {
+        //test by kitahara マッチの受け取りを適当にここでやってる
+        let coord = self.mapView.getUserLocation()
+        let location = LocationLog(coordinate: coord, id: "")
+        matchUseCase.findRequestMatch(location: location, completion: {res in
+            let partner_location_id = res.partner_location_ids[0]
+            self.matchUseCase.receiveMatch(partner_location_id: partner_location_id, completion: {res in
+                //ここ順番大事
+                self.matchModel.matching(transaction_id: res.transaction_id, your_location_id: res.your_location_id, partner_location_id: res.partner_location_id)
+            })
+        })
+        
         self.openDiscoverySettingPage()
     }
     
-    func onClickButton() {
-        //test by kitahara
-        dispatch_after(1, block: {
-            self.bottomView.buttonLoading(bool : false)
-            self.state = .matched
-            let vc = MatchPopupViewController()
-            vc.setButtonListener(handler : {
-                self.onClickChatButton()
-            })
-            self.modalPresentationController = CustomPresentationController(presentedViewController: vc, presenting: self)
-            self.modalPresentationController?.isDismissable = true
-            self.modalPresentationController?.contentHeight = 700
-            PopupUtils.showModalPopup(presentingVC: self, presentedVC: vc, delegate: self)
+    private func onMatch() {
+        self.mapView.stopCircleAnimation()
+        self.bottomView.buttonLoading(bool : false)
+        matchModel.state = .matched
+        let vc = MatchPopupViewController()
+        vc.setButtonListener(handler : {
+            self.onClickChatButton()
         })
-        let centerLocation = self.discoveryCenter ?? self.mapView.getUserLocation()
+        self.modalPresentationController = CustomPresentationController(presentedViewController: vc, presenting: self)
+        self.modalPresentationController?.isDismissable = true
+        self.modalPresentationController?.contentHeight = 700
+        PopupUtils.showModalPopup(presentingVC: self, presentedVC: vc, delegate: self)
+    
+    }
+    
+    func onClickButton() {
+        let centerLocation = matchModel.discoveryCenter ?? self.mapView.getUserLocation()
         let radius = Double(mapUseCase.getSyncDiscoveryDistance())
         self.mapView.startSearchingAnimation(location : centerLocation , radius : radius)
         
         //周りの人に通知を投げる
-//        let coord = mapView.getUserLocation()
-//        let user = firebaseUseCase.getCurrentUser()
-//        if let uid = user.uid {
-//            let location = LocationLog(coordinate: coord, id: uid)
-//            self.matchUseCase.requestMatch(uid: uid, location: location) {response in
-//                let result = response.result
-//                if result == "success" {
-//                    LogDebug("マッチしました！")
-//                } else if result == "fail" {
-//                    LogDebug("マッチしませんでした")
-//                    self.bottomView.buttonLoading(bool : false)
-//                } else {
-//                    LogDebug("レスポンスの形がおかしい")
-//                }
-//
-//            }
-//        }
+        let location = LocationLog(coordinate: centerLocation, id: "")
+        self.matchUseCase.requestMatch(location: location) {response in
+            self.finishLoadMatch(response : response)
+        }
     }
 }
 
-extension MapViewController : MapViewDelegate {
+extension MapViewController : MapViewDelegate , ChatViewControllerDelegate {
+    func getMatchData() -> MatchDataModel? {
+        return self.matchModel.matchData
+    }
+    
     func isNear(near: Bool) {
         if near {
             self.bottomWhenMatchView.setButtonDisable(disable: false)
@@ -366,7 +357,7 @@ extension MapViewController : MapViewDelegate {
     }
     
     func canDrawPartnerLocation() -> Bool {
-        switch(self.state) {
+        switch(matchModel.state) {
         case .initial:
             return false
         case .matched:
@@ -377,7 +368,7 @@ extension MapViewController : MapViewDelegate {
     }
     
     func canDrawGatherHere() -> Bool {
-        switch(self.state) {
+        switch(matchModel.state) {
         case .initial:
             return false
         case .matched:
@@ -388,7 +379,7 @@ extension MapViewController : MapViewDelegate {
     }
     
     func canShowCircleAroundUser() -> Bool {
-        switch(self.state) {
+        switch(matchModel.state) {
         case .initial:
             return true
         case .matched:
@@ -399,10 +390,10 @@ extension MapViewController : MapViewDelegate {
     }
     
     func onLongTapMapView(gestureRecognizer: UILongPressGestureRecognizer) {
-        switch self.state {
+        switch matchModel.state {
         case .initial:
             self.mapView.longTapChangeDiscoveryCenter(gestureRecognizer: gestureRecognizer) {location in
-                self.discoveryCenter = location
+                matchModel.discoveryCenter = location
                 self.circleRange()
             }
         case .matched:
@@ -424,6 +415,38 @@ extension MapViewController: UIViewControllerTransitioningDelegate {
 extension MapViewController : RateuserViewControllerDelegate {
     func onClickRateOk(rate: Double) {
         LogDebug("rate : \(rate)")
-        self.state = .initial
+        matchModel.state = .initial
+    }
+}
+
+extension MapViewController : MatchModelDelegate {
+    func whenStateWillChange(newValue: MatchState, value: MatchState) {
+        if newValue == .initial {
+            self.circleRange()
+        }
+        
+        let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
+        if let fromVC = matchModel.stateToBottom[matchModel.state] , let toVC = matchModel.stateToBottom[newValue] {
+            AnimationUtils.transitionTwoViewAppearance(fromView: fromVC, toView: toVC, whereGo: bottomPoint, afterLayout: {
+                self.switchBottomViewLayout()
+            })
+        }
+    
+    }
+    
+    func whenStateDidChange(oldValue: MatchState, value: MatchState) {
+        if oldValue == .initial {
+            self.mapView.stopCircleAnimation()
+            self.mapView.removeCircleOverlay()
+        }
+        
+        if value == .matched {
+            let matchData = self.matchModel.matchData
+            guard let m = matchData else {
+                LogDebug("matte matchDataがない")
+                return
+            }
+            self.mapView.matchUpdate(matchData: m)
+        }
     }
 }

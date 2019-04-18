@@ -10,6 +10,10 @@ import UIKit
 import MessageKit
 import MapKit
 
+protocol ChatViewControllerDelegate : class {
+    func getMatchData() -> MatchDataModel?
+}
+
 class ChatViewController: MessagesViewController {
     // Some global variables for the sake of the example. Using globals is not recommended!
     fileprivate var indicator = UIActivityIndicatorView()
@@ -17,8 +21,8 @@ class ChatViewController: MessagesViewController {
         return .lightContent
     }
     
-    
-    private let sender = Sender(id: "any_unique_id2", displayName: "Alex")
+    weak var delegate : ChatViewControllerDelegate? = nil
+    private var sender : Sender? = nil
     private var messages: [ChatMessage] = []
     private let chatUseCase = ChatUseCase()
     
@@ -27,16 +31,20 @@ class ChatViewController: MessagesViewController {
         
         configureMessageCollectionView()
         configureMessageInputBar()
-        
-        chatUseCase.listenChatMessages() { messages in
+
+        //ナビゲーションバーの右側に閉じるボタン付与
+        let closeButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(self.clickCloseButton))
+        self.navigationItem.setRightBarButton(closeButton, animated: false)
+    }
+    
+    func startLoadingChatMessage(matchData : MatchDataModel) {
+        //test by kitahara
+        self.sender = Sender(id: matchData.your_location_id , displayName: "TestName Alex")
+        chatUseCase.listenChatMessages(matchData: matchData) { messages in
             self.messages += messages
             self.messagesCollectionView.reloadData()
             self.messagesCollectionView.scrollToBottom()
         }
-        
-        //ナビゲーションバーの右側に閉じるボタン付与
-        let closeButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(self.clickCloseButton))
-        self.navigationItem.setRightBarButton(closeButton, animated: false)
     }
     
     @objc private func clickCloseButton() {
@@ -88,7 +96,7 @@ class ChatViewController: MessagesViewController {
 
 extension ChatViewController: MessagesDataSource {
     func currentSender() -> Sender {
-        return self.sender
+        return self.sender ?? Sender(id: "anon", displayName: "anonymous")
     }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
@@ -121,7 +129,10 @@ extension ChatViewController: MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
         for component in inputBar.inputTextView.components {
             if let text = component as? String {
-                self.chatUseCase.addChatMessage(text: text, sender: self.sender)
+                let matchData = self.delegate?.getMatchData()
+                guard let m = matchData else {return}
+                guard let sender = self.sender else {return}
+                self.chatUseCase.addChatMessage(matchData: m, text: text, sender: sender)
             }
         }
         inputBar.inputTextView.text = String()

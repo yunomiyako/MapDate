@@ -22,9 +22,4 @@ class MapRepository {
             completion(res)
         })
     }
-    
-    //リクエストマッチを行う
-    func requestMatch() {
-        
-    }
 }

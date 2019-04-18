@@ -15,7 +15,7 @@ class MapUseCase {
     //近くにいる人の人数を取得する
     func getNearPeopleNumber(location : CLLocationCoordinate2D , radius : Double , completion : @escaping (Int) -> ()) {
         mapRep.getNearPeopleNumber() { response in
-            let number = response.peopleNumber
+            let number = response.people_number
             completion(number)
         }
     }
