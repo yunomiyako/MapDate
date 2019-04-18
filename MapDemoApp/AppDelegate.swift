@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let homeViewController = HomeViewController()
         window!.rootViewController = homeViewController
         window!.makeKeyAndVisible()
-        
         /*firebase setup*/
         FirebaseApp.configure()
         return true

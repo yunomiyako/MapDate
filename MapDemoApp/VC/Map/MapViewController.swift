@@ -42,8 +42,17 @@ class MapViewController: UIViewController , PopUpShowable {
     private let mapUseCase = MapUseCase()
     private let matchUseCase = MatchUseCase()
     private let firebaseUseCase = FirebaseUseCase()
-    private var matchModel = MatchModel()
+    private var matchModel : MatchModel = MatchModel(state: .initial)
     
+    
+    init?(matchModel : MatchModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.matchModel = matchModel
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Life cycle events -
     override func viewDidLoad() {
@@ -70,11 +79,6 @@ class MapViewController: UIViewController , PopUpShowable {
         
         //test by kitahara 適切なタイミングに変更
         self.startUpdatingLocation()
-        
-        //マッチング中のマッチを探す
-        self.matchUseCase.restoreMatch(completion: { response in
-            self.finishLoadMatch(response: response)
-        })
     }
     
     
@@ -85,6 +89,7 @@ class MapViewController: UIViewController , PopUpShowable {
             self.onMatch()
         } else if result == "fail" {
             LogDebug("マッチしませんでした")
+            self.mapView.stopCircleAnimation()
             self.bottomView.buttonLoading(bool : false)
         } else {
             LogDebug("レスポンスの形がおかしい")
@@ -236,7 +241,6 @@ extension MapViewController : MapBottomViewDelegate {
             self.matchUseCase.receiveMatch(partner_location_id: partner_location_id, completion: {res in
                 //ここ順番大事
                 self.matchModel.matching(transaction_id: res.transaction_id, your_location_id: res.your_location_id, partner_location_id: res.partner_location_id)
-                self.matchModel.state = .matched
             })
         })
         
@@ -244,6 +248,7 @@ extension MapViewController : MapBottomViewDelegate {
     }
     
     private func onMatch() {
+        self.mapView.stopCircleAnimation()
         self.bottomView.buttonLoading(bool : false)
         matchModel.state = .matched
         let vc = MatchPopupViewController()
@@ -347,7 +352,7 @@ extension MapViewController : RateuserViewControllerDelegate {
 }
 
 extension MapViewController : MatchModelDelegate {
-    func whenStateWillChange(newValue: MapState, value: MapState) {
+    func whenStateWillChange(newValue: MatchState, value: MatchState) {
         if newValue == .initial {
             self.circleRange()
         }
@@ -361,7 +366,7 @@ extension MapViewController : MatchModelDelegate {
     
     }
     
-    func whenStateDidChange(oldValue: MapState, value: MapState) {
+    func whenStateDidChange(oldValue: MatchState, value: MatchState) {
         if oldValue == .initial {
             self.mapView.stopCircleAnimation()
             self.mapView.removeCircleOverlay()

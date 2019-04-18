@@ -9,29 +9,35 @@
 import UIKit
 class HomeViewController: UIViewController {
     private let firebaseUseCase = FirebaseUseCase()
+    private let matchUseCase = MatchUseCase()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+    }
+    
+    private func presentMapViewController() {
+        let prevState = matchUseCase.getSyncMatchState()
+        let matchModel = MatchModel(state : prevState)
+        matchModel.loadMatchData()
+        if let vc = MapViewController(matchModel: matchModel) {
+            self.present(vc, animated: true)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
-
-        LogDebug("HomeViewControlle appear")
         firebaseUseCase.checkSignIn(
             whenSignIn: {user in
                 //ログイン済み
-                //let vc = ChatViewController()
-                //let vc = MyProfileViewController()
-                let vc = MapViewController()
-                self.present(vc, animated: true)
-            },
+                self.presentMapViewController()
+        },
             whenNot: {
                 //ログインしていないのでLoginViewControllerを表示
                 let vc = LoginViewController()
                 self.present(vc, animated: true)
-            }
+        }
         )
-        
     }
 }
 

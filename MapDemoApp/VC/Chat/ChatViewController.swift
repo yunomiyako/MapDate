@@ -22,7 +22,7 @@ class ChatViewController: MessagesViewController {
     }
     
     weak var delegate : ChatViewControllerDelegate? = nil
-    private let sender = Sender(id: "any_unique_id2", displayName: "Alex")
+    private var sender : Sender? = nil
     private var messages: [ChatMessage] = []
     private let chatUseCase = ChatUseCase()
     
@@ -38,6 +38,8 @@ class ChatViewController: MessagesViewController {
     }
     
     func startLoadingChatMessage(matchData : MatchDataModel) {
+        //test by kitahara
+        self.sender = Sender(id: matchData.your_location_id , displayName: "TestName Alex")
         chatUseCase.listenChatMessages(matchData: matchData) { messages in
             self.messages += messages
             self.messagesCollectionView.reloadData()
@@ -94,7 +96,7 @@ class ChatViewController: MessagesViewController {
 
 extension ChatViewController: MessagesDataSource {
     func currentSender() -> Sender {
-        return self.sender
+        return self.sender ?? Sender(id: "anon", displayName: "anonymous")
     }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
@@ -129,7 +131,8 @@ extension ChatViewController: MessageInputBarDelegate {
             if let text = component as? String {
                 let matchData = self.delegate?.getMatchData()
                 guard let m = matchData else {return}
-                self.chatUseCase.addChatMessage(matchData: m, text: text, sender: self.sender)
+                guard let sender = self.sender else {return}
+                self.chatUseCase.addChatMessage(matchData: m, text: text, sender: sender)
             }
         }
         inputBar.inputTextView.text = String()

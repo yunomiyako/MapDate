@@ -12,6 +12,8 @@ class MatchUseCase {
     private let matchRep = MatchRepository()
     private let mapUseCase = MapUseCase()
     private let firebaseUseCase = FirebaseUseCase()
+    private let userDefaultsRepository = UserDefaultsRepository.sharedInstance
+    
     
     //マッチリクエストを送る
     func requestMatch(location: LocationLog , completion : @escaping (RequestMatchResponse) -> ()) {
@@ -48,4 +50,15 @@ class MatchUseCase {
         matchRep.restoreMatch(uid: uid, completion: completion)
     }
     
+    //マップ状態を設定する
+    func setSyncMatchState(state : MatchState) {
+        let str = state.str()
+        userDefaultsRepository.set(str, forKey: "MatchState")
+    }
+    
+    func getSyncMatchState() -> MatchState {
+        let str = userDefaultsRepository.get(forKey: "MatchState") as? String ?? "initial"
+        let state = MatchState.createStateFromStr(str: str)
+        return state
+    }
 }
