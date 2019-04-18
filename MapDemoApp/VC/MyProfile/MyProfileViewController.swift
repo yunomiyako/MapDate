@@ -187,8 +187,6 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         self.dismiss(animated: true, completion: nil)
     }
     
-    
-    
     private func loadData() {
         
         let nameStr = "  \(user.displayName ?? "NO NAME")"

@@ -227,8 +227,6 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate,UITe
         textEditer.frame = CGRect(x: 0, y: textEditerY, width: self.view.frame.width, height: TEheight)
         charNumLabel.frame = CGRect(x: textEditer.frame.width*0.9, y: textEditer.frame.maxY - 25, width: textEditer.frame.width*0.1, height: 0)
         
-        
-        
         charNumLabel.sizeToFit()
         
         let jobTitleY = (textEditerY + TEheight*1.2)*1.08
@@ -237,10 +235,6 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate,UITe
         jobTilte.sizeToFit()
         
         jobTitleField.frame = CGRect(x: 0, y: jobTitleY, width: self.view.frame.width, height: scrhalfY*0.1)
-        
-        
-        
-        
         
     }
     

@@ -89,7 +89,7 @@ class PickerTextField: UITextField, UIPickerViewDelegate, UIPickerViewDataSource
         
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
         let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:  #selector(self.done))
-        //        let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(Progress.cancel))
+        // let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(Progress.cancel))
         toolbar.setItems([/*cancelItem, */doneItem], animated: true)
         
         self.inputView = picker
@@ -112,6 +112,12 @@ class PickerTextField: UITextField, UIPickerViewDelegate, UIPickerViewDataSource
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool{
         return false
     }
+  
+   
+    
+//   @objc func cancel() {
+//        self.endEditing(true)
+//    }
     
     
     

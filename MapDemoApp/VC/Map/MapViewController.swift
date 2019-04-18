@@ -95,12 +95,11 @@ class MapViewController: UIViewController , PopUpShowable {
     // MARK: - Life cycle events -
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.addSubview(baceView)
         self.baceView.addSubview(mapView)
         self.view.addSubview(bottomView)
         self.view.addSubview(bottomWhenMatchView)
-        //self.view.addSubview(searchBarView)
+        //self.baceView.addSubview(searchBarView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -125,13 +124,17 @@ class MapViewController: UIViewController , PopUpShowable {
         self.layoutMapView()
         self.switchBottomViewLayout()
         self.layoutSearchBarView()
-        
         addNavBackView()
         addNavigationBar()
         self.layoutBaceView()
-        
     }
     
+
+    //遷移先Viewから戻る処理
+    @objc func returnView(){
+        self.dismiss(animated: true, completion: nil)
+    }
+
     private func switchBottomViewLayout() {
         if self.state == .initial {
             self.layoutBottomView()
@@ -146,19 +149,31 @@ class MapViewController: UIViewController , PopUpShowable {
         }
     }
     func layoutBaceView(){
-        
         baceView.frame = self.view.frame
         baceView.frame.origin.y = navBar.frame.maxY
         self.view.backgroundColor = UIColor.white
-        
     }
     
+    
     @objc func goToProfile(sender: AnyObject){
-        
         let vc = MyProfileViewController()
-        
         self.present(vc, animated: true)
     }
+    
+    func addNavBackView(){
+        
+        self.view.addSubview(navigationView)
+        navigationView.backgroundColor = UIColor.white
+        //navigationBarの背景のサイズと位置を調整
+        if #available(iOS 11.0, *) {
+            navigationView.frame.origin = self.view.safeAreaLayoutGuide.owningView!.frame.origin
+            navigationView.frame.size = CGSize(width: self.view.safeAreaLayoutGuide.owningView!.frame.width, height: navBar.frame.origin.y + navBar.frame.height)
+        }else{
+            navigationView.frame.origin = self.view.frame.origin
+            navigationView.frame.size = CGSize(width: self.view.frame.width, height: navBar.frame.origin.y + navBar.frame.height)
+        }
+    }
+    
     func addNavigationBar(){
         
         self.view.addSubview(navBar)
@@ -186,19 +201,7 @@ class MapViewController: UIViewController , PopUpShowable {
             navBar.frame.size = CGSize(width: self.view.frame.width, height: 44)
         }
     }
-    func addNavBackView(){
-        
-        self.view.addSubview(navigationView)
-        navigationView.backgroundColor = UIColor.white
-        //navigationBarの背景のサイズと位置を調整
-        if #available(iOS 11.0, *) {
-            navigationView.frame.origin = self.view.safeAreaLayoutGuide.owningView!.frame.origin
-            navigationView.frame.size = CGSize(width: self.view.safeAreaLayoutGuide.owningView!.frame.width, height: navBar.frame.origin.y + navBar.frame.height)
-        }else{
-            navigationView.frame.origin = self.view.frame.origin
-            navigationView.frame.size = CGSize(width: self.view.frame.width, height: navBar.frame.origin.y + navBar.frame.height)
-        }
-    }
+
     // MARK: - Layout subviews -
     private func layoutMapView() {
         mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
