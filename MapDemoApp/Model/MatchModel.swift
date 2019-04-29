@@ -27,12 +27,18 @@ class MatchModel {
     var stateToBottom : [MatchState : UIView]  = [:]
     var state : MatchState = .initial  {
         willSet {
-            self.delegate?.whenStateWillChange(newValue: newValue, value: state)
+            if newValue != state {
+                self.delegate?.whenStateWillChange(newValue: newValue, value: state)
+            }
+            
         }
         didSet {
-            LogDebugTimer(state.str())
-            self.matchUseCase.setSyncMatchState(state: state)
-            self.delegate?.whenStateDidChange(oldValue: oldValue, value: state)
+            if oldValue != state {
+                LogDebugTimer(state.str())
+                self.matchUseCase.setSyncMatchState(state: state)
+                self.delegate?.whenStateDidChange(oldValue: oldValue, value: state)
+            }
+            
         }
     }
     
