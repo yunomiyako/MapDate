@@ -12,6 +12,8 @@ import MapKit
 protocol MatchModelDelegate : class {
     func whenStateWillChange(newValue : MatchState , value : MatchState)
     func whenStateDidChange(oldValue : MatchState , value : MatchState)
+    func getNowUserLocation() -> LocationLog
+    func foundRequestMatch(partner_location_ids : [String])
 }
 
 class MatchModel {
@@ -28,6 +30,7 @@ class MatchModel {
             self.delegate?.whenStateWillChange(newValue: newValue, value: state)
         }
         didSet {
+            LogDebugTimer(state.str())
             self.matchUseCase.setSyncMatchState(state: state)
             self.delegate?.whenStateDidChange(oldValue: oldValue, value: state)
         }
@@ -35,11 +38,15 @@ class MatchModel {
     
     var matchData : MatchDataModel? = nil
     
+    private var timer : Timer? = nil
+    
     init(state : MatchState) {
         self.state = state
         self.matchUseCase.checkMatchState() { state in
             self.state = state
         }
+        
+        startConstantCheck()
     }
     
     func loadMatchData() {
@@ -80,7 +87,8 @@ class MatchModel {
         }
     }
     
-    func findRequestMatch(location : LocationLog , completion : @escaping (FindRequestMatchResponse) -> () ) {
+    func findRequestMatch(completion : @escaping (FindRequestMatchResponse) -> () ) {
+        guard let location = self.delegate?.getNowUserLocation() else {return}
         matchUseCase.findRequestMatch(location: location) {res in
             completion(res)
         }
@@ -90,5 +98,55 @@ class MatchModel {
         self.matchUseCase.receiveMatch(partner_location_id: partner_location_id, completion: {res in
             self.matching(transaction_id: res.transaction_id, your_location_id: res.your_location_id, partner_location_id: res.partner_location_id)
         })
+    }
+    
+    private func intialConstantCheck() {
+        self.findRequestMatch(completion: {res in
+            let ids = res.partner_location_ids
+            if ids.count > 0 {
+                self.delegate?.foundRequestMatch(partner_location_ids : ids)
+            }
+        })
+    }
+    
+    private func matchedConstantCheck() {
+        self.matchUseCase.checkMatchState(completion: {state in
+            self.state = state
+        })
+    }
+    
+    private func constantCheck() {
+        switch self.state {
+        case .initial:
+            self.intialConstantCheck()
+        case .matched:
+            self.matchedConstantCheck()
+        case .rating:
+            return
+        }
+    }
+    
+    //円をtimerでアニメートする
+    private func startConstantCheck() {
+        if self.timer != nil {
+            self.timer?.invalidate()
+            self.timer = nil
+        }
+        let timeInterval: TimeInterval = 5.0
+        let timer  = Timer(timeInterval: timeInterval, repeats: true, block: {_ in
+            self.constantCheck()
+        })
+        RunLoop.main.add(timer, forMode:RunLoop.Mode.common)
+        self.timer = timer
+    }
+    
+    func rateMatch(rate : Double) {
+        guard let t = self.matchData?.transaction_id else {return}
+        LogDebug("rateMatch started")
+        self.matchUseCase.rateMatch(transaction_id: t, rate: rate) {_ in
+            LogDebug("rateMatch finished")
+            //別に何もしなくていい
+        }
+        self.state = .initial
     }
 }

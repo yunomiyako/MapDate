@@ -212,18 +212,6 @@ class MapViewController: UIViewController , PopUpShowable {
         searchBarView.setSize(width: width, height: height)
     }
     
-    private func findMatchRequest() {
-        let coord = self.mapView.getUserLocation()
-        let location = LocationLog(coordinate: coord, id: "")
-        self.matchModel.findRequestMatch(location: location) {res in
-            let ids = res.partner_location_ids
-            //test by kitahara 本来はビューを表示
-            if ids.count > 0 {
-                self.receiveMatch(partner_location_id: ids[0])
-            }
-        }
-    }
-
     private func receiveMatch(partner_location_id : String) {
         self.matchModel.receiveMatch(partner_location_id: partner_location_id)
     }
@@ -266,17 +254,6 @@ extension MapViewController : MapBottomViewDelegate {
     func onClickSafelyMetButton() {
         matchModel.meet()
         matchModel.state = .rating
-        
-        let vc = RateUserViewController()
-        vc.delegate = self
-        self.modalPresentationController = CustomPresentationController(presentedViewController: vc, presenting: self)
-        self.modalPresentationController?.isDismissable = false
-        //FIXME: マジックナンバーすぎる　レイアウトが変わった時に対応できない
-        self.modalPresentationController?.contentHeight = 550
-        PopupUtils.showModalPopup(presentingVC: self, presentedVC: vc, delegate: self)
-        vc.addButtonClickListener(handler: {
-            self.modalPresentationController?.contentHeight = 650
-        })
     }
     
     
@@ -413,19 +390,43 @@ extension MapViewController: UIViewControllerTransitioningDelegate {
 
 extension MapViewController : RateuserViewControllerDelegate {
     func onClickRateOk(rate: Double) {
-        LogDebug("rate : \(rate)")
-        matchModel.state = .initial
+        matchModel.rateMatch(rate : rate)
     }
 }
 
 extension MapViewController : MatchModelDelegate {
+    func getNowUserLocation() -> LocationLog {
+        let coord = self.mapView.getUserLocation()
+        return LocationLog(coordinate: coord, id: "") //test by kitahara : ここid必要？
+    }
+    
+    func foundRequestMatch(partner_location_ids: [String]) {
+        //test by kitahara 本来はビューを表示
+        if partner_location_ids.count > 0 {
+            self.receiveMatch(partner_location_id: partner_location_ids[0])
+        }
+    }
+    
     func whenStateWillChange(newValue: MatchState, value: MatchState) {
         if newValue == .initial {
             self.circleRange()
         }
         
+        if newValue == .rating {
+            let vc = RateUserViewController()
+            vc.delegate = self
+            self.modalPresentationController = CustomPresentationController(presentedViewController: vc, presenting: self)
+            self.modalPresentationController?.isDismissable = false
+            //FIXME: マジックナンバーすぎる　レイアウトが変わった時に対応できない
+            self.modalPresentationController?.contentHeight = 550
+            PopupUtils.showModalPopup(presentingVC: self, presentedVC: vc, delegate: self)
+            vc.addButtonClickListener(handler: {
+                self.modalPresentationController?.contentHeight = 650
+            })
+        }
+        
         let bottomPoint =  CGPoint(x: 0, y: self.view.frame.height)
-        if let fromVC = matchModel.stateToBottom[matchModel.state] , let toVC = matchModel.stateToBottom[newValue] {
+        if let fromVC = matchModel.stateToBottom[value] , let toVC = matchModel.stateToBottom[newValue] {
             AnimationUtils.transitionTwoViewAppearance(fromView: fromVC, toView: toVC, whereGo: bottomPoint, afterLayout: {
                 self.switchBottomViewLayout()
             })

@@ -21,7 +21,7 @@ class MatchRepository {
         cloudFunctionHelper.call(request: request, completion: { res in
             completion(res.matchState())
         } , failure: {
-            LogDebug("matchAction error")
+            LogDebug("rateMatch error")
             completion(MatchState.initial)
         })
     }

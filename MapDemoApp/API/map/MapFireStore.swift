@@ -75,12 +75,12 @@ class MapFireStore {
     
     func setLocation(transactionId : String , location : LocationLog) {
         //書き込み時間制限
-        LogDebug("write will start")
+        LogDebugTimer("write will start")
         if let lastTime = lastWriteTime {
             let time_diff = location.createdAt.timeIntervalSince1970 - lastTime.timeIntervalSince1970
-            LogDebug("time_diff = " + time_diff.description)
+            LogDebugTimer("time_diff = " + time_diff.description)
             if time_diff < 30 {
-                LogDebug("write skip")
+                LogDebugTimer("write skip")
                 return
             }
         }

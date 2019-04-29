@@ -11,7 +11,7 @@ import Alamofire
 struct RateMatchRequest : RequestProtocol {
     var parameters: Parameters?
     typealias Response = CheckMatchStateResponse
-    var functionName: String = "match_action"
+    var functionName: String = "rate_match"
     
     
     init(uid : String , transaction_id : String , rate : Double ) {
