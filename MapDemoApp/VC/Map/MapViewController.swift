@@ -91,7 +91,7 @@ class MapViewController: UIViewController , PopUpShowable {
     fileprivate func finishLoadMatch(response : RequestMatchResponse) {
         let result = response.result
         if result == "success" {
-            LogDebug("\(response.partner_location_id)とマッチしました")
+            LogDebug("マッチしました")
             self.onMatch()
         } else if result == "fail" {
             LogDebug("マッチしませんでした")
@@ -131,6 +131,7 @@ class MapViewController: UIViewController , PopUpShowable {
             bottomWhenMatchView.isHidden = true
         }
     }
+    
     func layoutBaceView(){
         baceView.frame = self.view.frame
         baceView.frame.origin.y = navBar.frame.maxY
@@ -210,7 +211,22 @@ class MapViewController: UIViewController , PopUpShowable {
         searchBarView.frame = CGRect(x: x, y: y, width: width, height: height)
         searchBarView.setSize(width: width, height: height)
     }
+    
+    private func findMatchRequest() {
+        let coord = self.mapView.getUserLocation()
+        let location = LocationLog(coordinate: coord, id: "")
+        self.matchModel.findRequestMatch(location: location) {res in
+            let ids = res.partner_location_ids
+            //test by kitahara 本来はビューを表示
+            if ids.count > 0 {
+                self.receiveMatch(partner_location_id: ids[0])
+            }
+        }
+    }
 
+    private func receiveMatch(partner_location_id : String) {
+        self.matchModel.receiveMatch(partner_location_id: partner_location_id)
+    }
     
     private func openDiscoverySettingPage() {
         let vc = DiscoverySettingViewController()
@@ -225,10 +241,6 @@ class MapViewController: UIViewController , PopUpShowable {
         let radius = Double(mapUseCase.getSyncDiscoveryDistance())
         self.mapView.showCircleAroundLocation(location: centerLocation, radius: radius)
         
-        self.mapUseCase.getNearPeopleNumber(location: centerLocation, radius: radius, completion: { number in
-            LogDebug("getNearPeopleNumber = \(number)")
-        })
-        
         if let pinnedLocation = matchModel.discoveryCenter  {
             self.mapView.addAnnotation(center: pinnedLocation, title: "")
         }
@@ -240,7 +252,6 @@ class MapViewController: UIViewController , PopUpShowable {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        LogDebug("touchesBegan")
         self.view.endEditing(true)
     }
 }
@@ -253,7 +264,7 @@ extension MapViewController : DiscoverySettingViewControllerDelegate {
 
 extension MapViewController : MapBottomViewDelegate {
     func onClickSafelyMetButton() {
-        //pop up something
+        matchModel.meet()
         matchModel.state = .rating
         
         let vc = RateUserViewController()
@@ -263,7 +274,6 @@ extension MapViewController : MapBottomViewDelegate {
         //FIXME: マジックナンバーすぎる　レイアウトが変わった時に対応できない
         self.modalPresentationController?.contentHeight = 550
         PopupUtils.showModalPopup(presentingVC: self, presentedVC: vc, delegate: self)
-        
         vc.addButtonClickListener(handler: {
             self.modalPresentationController?.contentHeight = 650
         })
@@ -272,7 +282,7 @@ extension MapViewController : MapBottomViewDelegate {
     
     func onClickFinishButton() {
         self.showOKCancelPopup(NSLocalizedString("FinishConfirm", tableName: "MapStrings", comment: "")) {
-            self.matchModel.state = .initial
+            self.matchModel.quitRelationship()
         }
     }
     
@@ -301,17 +311,6 @@ extension MapViewController : MapBottomViewDelegate {
     }
     
     func onClickSettingButton() {
-        //test by kitahara マッチの受け取りを適当にここでやってる
-        let coord = self.mapView.getUserLocation()
-        let location = LocationLog(coordinate: coord, id: "")
-        matchUseCase.findRequestMatch(location: location, completion: {res in
-            let partner_location_id = res.partner_location_ids[0]
-            self.matchUseCase.receiveMatch(partner_location_id: partner_location_id, completion: {res in
-                //ここ順番大事
-                self.matchModel.matching(transaction_id: res.transaction_id, your_location_id: res.your_location_id, partner_location_id: res.partner_location_id)
-            })
-        })
-        
         self.openDiscoverySettingPage()
     }
     

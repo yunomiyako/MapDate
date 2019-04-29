@@ -15,16 +15,15 @@ import FirebaseUI
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        /*firebase setup*/
+        FirebaseApp.configure()
+        
         // Override point for customization after application launch.
         window = UIWindow(frame : UIScreen.main.bounds)
         let homeViewController = HomeViewController()
         window!.rootViewController = homeViewController
         window!.makeKeyAndVisible()
-        /*firebase setup*/
-        FirebaseApp.configure()
         return true
     }
     

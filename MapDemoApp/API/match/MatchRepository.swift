@@ -15,6 +15,40 @@ class MatchRepository {
     let apiCliant = APIClient.shared
     private let cloudFunctionHelper = CloudFunctionsHelper()
     
+    //評価する
+    func rateMatch(uid : String , transaction_id : String , rate : Double , completion :  @escaping (MatchState) -> ()) {
+        let request = RateMatchRequest(uid: uid, transaction_id: transaction_id, rate : rate)
+        cloudFunctionHelper.call(request: request, completion: { res in
+            completion(res.matchState())
+        } , failure: {
+            LogDebug("matchAction error")
+            completion(MatchState.initial)
+        })
+    }
+    
+    
+    //ユーザの行動をサーバにpostする
+    func matchAction(uid : String , transaction_id : String , action : MatchActionType , completion :  @escaping (MatchState) -> ()) {
+        let request = MatchActionRequest(uid: uid, transaction_id: transaction_id, action: action)
+        cloudFunctionHelper.call(request: request, completion: { res in
+            completion(res.matchState())
+        } , failure: {
+            LogDebug("matchAction error")
+            completion(MatchState.initial)
+        })
+    }
+    
+    //DBからmatchStateを確認する
+    func checkMatchState(uid : String , completion :  @escaping (MatchState) -> ()) {
+        let request = CheckMatchStateRequest(uid: uid)
+        cloudFunctionHelper.call(request: request, completion: { res in
+            completion(res.matchState())
+        } , failure: {
+            LogDebug("checkMatchState error")
+            completion(MatchState.initial)
+        })
+    }
+    
     //マッチを希望する
     func requestMatch(uid : String , location : LocationLog , radius : Double , age_range : [Int] , completion : @escaping (RequestMatchResponse) -> ()) {
         let request = RequestMatchRequest(uid: uid, latitude: location.latitude, longitude: location.longitude, radius: radius, age_range: age_range)

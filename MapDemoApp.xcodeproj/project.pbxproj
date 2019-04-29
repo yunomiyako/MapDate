@@ -10,6 +10,7 @@
 		177D807410357E319ADA1568 /* Pods_MapDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DD4333B2CEFCA2ADBB60635 /* Pods_MapDemoApp.framework */; };
 		35068EEF224257BC00DDC7D5 /* ChatStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35068EF1224257BC00DDC7D5 /* ChatStrings.strings */; };
 		35068EF322429F1D00DDC7D5 /* ChatContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35068EF222429F1D00DDC7D5 /* ChatContainerViewController.swift */; };
+		35138E332270999C00F81598 /* CheckMatchStateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35138E322270999C00F81598 /* CheckMatchStateRequest.swift */; };
 		351F4058225B84A900BBD30C /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D908E22367453004BB44C /* MapModel.swift */; };
 		351F4059225B84A900BBD30C /* ChatUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3583CED32234FFA900621F1F /* ChatUseCase.swift */; };
 		351F405B225B888C00BBD30C /* cloudFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351F405A225B888C00BBD30C /* cloudFunctions.swift */; };
@@ -18,6 +19,8 @@
 		351F4063225F547300BBD30C /* MatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351F4062225F547300BBD30C /* MatchModel.swift */; };
 		351F4066225F57A600BBD30C /* MatchDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351F4065225F57A600BBD30C /* MatchDataModel.swift */; };
 		351F4068225F719500BBD30C /* RestoreMatchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351F4067225F719500BBD30C /* RestoreMatchRequest.swift */; };
+		3524987822770F9300F7EE24 /* MatchActionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3524987722770F9300F7EE24 /* MatchActionRequest.swift */; };
+		3524987A2277226500F7EE24 /* RateMatchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352498792277226500F7EE24 /* RateMatchRequest.swift */; };
 		353BEE6D2237E5E600F956D9 /* MapKit extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353BEE6C2237E5E600F956D9 /* MapKit extension.swift */; };
 		353D908B22367329004BB44C /* MatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D908A22367329004BB44C /* MatchState.swift */; };
 		353D909422368773004BB44C /* MapUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D909322368773004BB44C /* MapUtils.swift */; };
@@ -105,12 +108,15 @@
 		2F655C20A44D80BE930D676E /* Pods-MapDemoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapDemoApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapDemoApp/Pods-MapDemoApp.release.xcconfig"; sourceTree = "<group>"; };
 		35068EF0224257BC00DDC7D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ChatStrings.strings; sourceTree = "<group>"; };
 		35068EF222429F1D00DDC7D5 /* ChatContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatContainerViewController.swift; sourceTree = "<group>"; };
+		35138E322270999C00F81598 /* CheckMatchStateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckMatchStateRequest.swift; sourceTree = "<group>"; };
 		351F405A225B888C00BBD30C /* cloudFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cloudFunctions.swift; sourceTree = "<group>"; };
 		351F405E225CD39D00BBD30C /* ReceiveMatchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveMatchRequest.swift; sourceTree = "<group>"; };
 		351F4060225CD4BD00BBD30C /* FindRequestMatchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindRequestMatchRequest.swift; sourceTree = "<group>"; };
 		351F4062225F547300BBD30C /* MatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchModel.swift; sourceTree = "<group>"; };
 		351F4065225F57A600BBD30C /* MatchDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDataModel.swift; sourceTree = "<group>"; };
 		351F4067225F719500BBD30C /* RestoreMatchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreMatchRequest.swift; sourceTree = "<group>"; };
+		3524987722770F9300F7EE24 /* MatchActionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchActionRequest.swift; sourceTree = "<group>"; };
+		352498792277226500F7EE24 /* RateMatchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateMatchRequest.swift; sourceTree = "<group>"; };
 		353BEE6C2237E5E600F956D9 /* MapKit extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit extension.swift"; sourceTree = "<group>"; };
 		353D908A22367329004BB44C /* MatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchState.swift; sourceTree = "<group>"; };
 		353D908E22367453004BB44C /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
@@ -486,6 +492,9 @@
 				351F405E225CD39D00BBD30C /* ReceiveMatchRequest.swift */,
 				351F4060225CD4BD00BBD30C /* FindRequestMatchRequest.swift */,
 				351F4067225F719500BBD30C /* RestoreMatchRequest.swift */,
+				35138E322270999C00F81598 /* CheckMatchStateRequest.swift */,
+				3524987722770F9300F7EE24 /* MatchActionRequest.swift */,
+				352498792277226500F7EE24 /* RateMatchRequest.swift */,
 			);
 			path = match;
 			sourceTree = "<group>";
@@ -789,6 +798,7 @@
 				35CB41262243777000D7F23C /* AlertView.swift in Sources */,
 				351F4066225F57A600BBD30C /* MatchDataModel.swift in Sources */,
 				355D718A224CCB8C00C3CAC1 /* RateUserViewController.swift in Sources */,
+				3524987822770F9300F7EE24 /* MatchActionRequest.swift in Sources */,
 				3583CECD2234F7CA00621F1F /* ChatMessage.swift in Sources */,
 				353D909622369613004BB44C /* UIView extension.swift in Sources */,
 				35AD2F8022342D9400CD86EE /* LocationLog.swift in Sources */,
@@ -797,13 +807,14 @@
 				35BBB35D223C0B0B00C484AC /* UserDefaultsUseCase.swift in Sources */,
 				927B79F422369FF3001F8A36 /* MyProfileViewController.swift in Sources */,
 				35401895223AA84A0002BCF2 /* GetNearPeopleNumberRequest.swift in Sources */,
-				35401895223AA84A0002BCF2 /* GetNearPeopleNumber.swift in Sources */,
+				35401895223AA84A0002BCF2 /* GetNearPeopleNumberRequest.swift in Sources */,
 				35BBB358223BE42D00C484AC /* SliderCellTableViewCell.swift in Sources */,
 				3583CEBA2234C3B200621F1F /* Color.swift in Sources */,
 				3583CEBD2234C56B00621F1F /* MapBottomView.swift in Sources */,
 				35A40829223D046A007BDF06 /* UserDataModel.swift in Sources */,
 				35CB4122224374C900D7F23C /* PopupShowable.swift in Sources */,
 				35D6AA3522410C08002DCD9F /* MatchRepository.swift in Sources */,
+				35138E332270999C00F81598 /* CheckMatchStateRequest.swift in Sources */,
 				927B79FE2236A4CE001F8A36 /* ProfileEditViewController.swift in Sources */,
 				3583CED22234FCB400621F1F /* ChatMessageViewModel.swift in Sources */,
 				3583CED02234FBCA00621F1F /* ChatRepository.swift in Sources */,
@@ -816,10 +827,8 @@
 				351F4058225B84A900BBD30C /* MapModel.swift in Sources */,
 				35401893223AA50A0002BCF2 /* RequestProtocol.swift in Sources */,
 				35A4082B223D1AA7007BDF06 /* ChatFireStore.swift in Sources */,
-				353D908F22367453004BB44C /* MapModel.swift in Sources */,
 				35401893223AA50A0002BCF2 /* RequestProtocol.swift in Sources */,
 				35A4082B223D1AA7007BDF06 /* ChatFireStore.swift in Sources */,
-				353D908F22367453004BB44C /* MapModel.swift in Sources */,
 				3583CEC42234D57B00621F1F /* Font.swift in Sources */,
 				35A40823223CFF0E007BDF06 /* FirebaseUseCase.swift in Sources */,
 				355D7192224F3D6100C3CAC1 /* ModalPresentationController.swift in Sources */,
@@ -850,6 +859,7 @@
 				35A4082F223D6206007BDF06 /* MapFireStore.swift in Sources */,
 				35D6AA3222410BE0002DCD9F /* MatchUseCase.swift in Sources */,
 				35AD2F622234216000CD86EE /* AppDelegate.swift in Sources */,
+				3524987A2277226500F7EE24 /* RateMatchRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

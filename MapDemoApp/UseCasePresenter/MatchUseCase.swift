@@ -13,7 +13,28 @@ class MatchUseCase {
     private let mapUseCase = MapUseCase()
     private let firebaseUseCase = FirebaseUseCase()
     private let userDefaultsRepository = UserDefaultsRepository.sharedInstance
+    private var uid : String = ""
     
+    init() {
+        let user = firebaseUseCase.getCurrentUser()
+        guard let uid = user.uid else {return}
+        self.uid = uid
+    }
+    
+    //ユーザを評価する
+    func rateMatch(transaction_id : String , rate : Double , completion :  @escaping (MatchState) -> () ) {
+        matchRep.rateMatch(uid: self.uid, transaction_id: transaction_id, rate : rate, completion: completion)
+    }
+    
+    //actionを投げてstateが返ってくる
+    func matchAction(transaction_id : String , action : MatchActionType , completion :  @escaping (MatchState) -> () ) {
+        matchRep.matchAction(uid: self.uid, transaction_id: transaction_id, action: action, completion: completion)
+    }
+    
+    //DBのstateを確認する
+    func checkMatchState(completion : @escaping (MatchState) -> ()) {
+        matchRep.checkMatchState(uid: self.uid, completion : completion)
+    }
     
     //マッチリクエストを送る
     func requestMatch(location: LocationLog , completion : @escaping (RequestMatchResponse) -> ()) {
@@ -61,4 +82,6 @@ class MatchUseCase {
         let state = MatchState.createStateFromStr(str: str)
         return state
     }
+    
+    
 }

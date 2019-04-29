@@ -37,6 +37,9 @@ class MatchModel {
     
     init(state : MatchState) {
         self.state = state
+        self.matchUseCase.checkMatchState() { state in
+            self.state = state
+        }
     }
     
     func loadMatchData() {
@@ -61,5 +64,31 @@ class MatchModel {
     
     func clearMatch() {
         self.matchData = nil
+    }
+    
+    func quitRelationship() {
+        guard let t = self.matchData?.transaction_id else {return}
+        self.matchUseCase.matchAction(transaction_id:t, action: MatchActionType.quit) { state in
+            self.state = state
+        }
+    }
+    
+    func meet() {
+        guard let t = self.matchData?.transaction_id else {return}
+        self.matchUseCase.matchAction(transaction_id: t, action: MatchActionType.meet) { state in
+            //特にやることなし
+        }
+    }
+    
+    func findRequestMatch(location : LocationLog , completion : @escaping (FindRequestMatchResponse) -> () ) {
+        matchUseCase.findRequestMatch(location: location) {res in
+            completion(res)
+        }
+    }
+    
+    func receiveMatch(partner_location_id : String) {
+        self.matchUseCase.receiveMatch(partner_location_id: partner_location_id, completion: {res in
+            self.matching(transaction_id: res.transaction_id, your_location_id: res.your_location_id, partner_location_id: res.partner_location_id)
+        })
     }
 }
