@@ -162,11 +162,16 @@ class MapModel {
     }
     
     //自分の位置情報をfirestoreに送る
-    func sendLocation(matchData : MatchDataModel , coordinate : CLLocationCoordinate2D) {
+    func sendLocation(matchData : MatchDataModel , coordinate : CLLocationCoordinate2D , shareLocation : Bool) {
         let transactionId = matchData.transaction_id
         let location_id = matchData.your_location_id
         let log = LocationLog(coordinate: coordinate, id: location_id)
-        mapFireStore.setLocation(transactionId: transactionId, location: log)
+        if shareLocation {
+            mapFireStore.setLocation(transactionId: transactionId, location: log)
+        } else {
+            mapFireStore.deleteLocation(transactionId: transactionId , location_id : location_id)
+        }
+        
     }
     
     func sendGatherHereLocation(matchData : MatchDataModel? , coordinate : CLLocationCoordinate2D) {

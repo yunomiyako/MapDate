@@ -73,6 +73,12 @@ class MapFireStore {
         )
     }
     
+    func deleteLocation(transactionId : String , location_id : String) {
+        let collection = self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId))
+        lastWriteTime = Date()
+        collection.document(location_id).delete()
+    }
+    
     func setLocation(transactionId : String , location : LocationLog) {
         //書き込み時間制限
         LogDebugTimer("write will start")

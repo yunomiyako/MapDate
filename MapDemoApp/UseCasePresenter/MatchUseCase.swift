@@ -82,6 +82,4 @@ class MatchUseCase {
         let state = MatchState.createStateFromStr(str: str)
         return state
     }
-    
-    
 }

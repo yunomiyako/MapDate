@@ -14,7 +14,6 @@ class ChatUseCase {
     private let chatFireStore = ChatFireStore()
     
     func listenChatMessages(matchData : MatchDataModel , completion : @escaping ([ChatMessage]) -> ()) {
-        //test by kitahara
         let transactionId = matchData.transaction_id
         chatFireStore.readMessage(transactionId: transactionId, handler: {messages in
             completion(messages.sorted{ $0.sentDate < $1.sentDate })
@@ -22,8 +21,6 @@ class ChatUseCase {
     }
     
     func addChatMessage(matchData : MatchDataModel ,text : String , sender : Sender ) {
-        //test by kitahara
-        
         let transactionId = matchData.transaction_id
         let uid = UUID().uuidString
         let message = ChatMessage(text: text, sender: sender, messageId: uid, date: Date())

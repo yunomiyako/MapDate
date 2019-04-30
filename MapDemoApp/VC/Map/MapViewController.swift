@@ -82,9 +82,6 @@ class MapViewController: UIViewController , PopUpShowable {
             .matched : bottomWhenMatchView ,
             .rating : UIView()
         ]
-        
-        //test by kitahara 適切なタイミングに変更
-        self.startUpdatingLocation()
     }
     
     
@@ -235,8 +232,8 @@ class MapViewController: UIViewController , PopUpShowable {
     }
     
     //位置情報をリアルタイムに取得する
-    fileprivate func startUpdatingLocation() {
-        self.mapView.startUpdatingLocation()
+    fileprivate func startUpdatingLocation(on : Bool) {
+        self.mapView.startUpdatingLocation(on : on)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -268,12 +265,19 @@ extension MapViewController : MapBottomViewDelegate {
     }
     
     func onToggleShareLocation(on : Bool) {
+        LogDebug("toggle on = \(on)")
+        LogDebug("toggle didConfirmShareLocation = \(matchModel.didConfirmShareLocation)")
         if on && !matchModel.didConfirmShareLocation {
             self.bottomWhenMatchView.toggleShareLocation(on : false)
             self.showOKCancelPopup(NSLocalizedString("ShareLocationMessage", tableName: "MapStrings", comment: ""), completionHandler: {
-                self.bottomWhenMatchView.toggleShareLocation(on:true)
+                self.startUpdatingLocation(on: true)
                 self.matchModel.didConfirmShareLocation = true
+                self.matchModel.shareLocation = true
+                self.bottomWhenMatchView.toggleShareLocation(on:true)
             })
+        } else {
+            self.matchModel.shareLocation = on
+            self.startUpdatingLocation(on: on)
         }
     }
     
@@ -320,6 +324,11 @@ extension MapViewController : MapBottomViewDelegate {
 }
 
 extension MapViewController : MapViewDelegate , ChatViewControllerDelegate {
+    
+    func getShareLocation() -> Bool {
+        return self.matchModel.shareLocation
+    }
+    
     func getMatchData() -> MatchDataModel? {
         return self.matchModel.matchData
     }
@@ -401,7 +410,7 @@ extension MapViewController : MatchModelDelegate {
     }
     
     func foundRequestMatch(partner_location_ids: [String]) {
-        //test by kitahara 本来はビューを表示
+        //test by kitahara 本来は通知ビューを表示
         if partner_location_ids.count > 0 {
             self.receiveMatch(partner_location_id: partner_location_ids[0])
         }

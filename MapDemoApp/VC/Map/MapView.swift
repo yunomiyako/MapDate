@@ -16,6 +16,7 @@ protocol MapViewDelegate : class {
     func canDrawPartnerLocation() -> Bool
     func isNear(near : Bool)
     func getMatchData() -> MatchDataModel?
+    func getShareLocation() -> Bool
     
 }
 
@@ -53,7 +54,9 @@ class MapView: UIView {
     }
     
     func matchUpdate(matchData : MatchDataModel) {
+        LogDebug("matchUpdate called Location")
         self.mapModel?.receivePartnerLocation(matchData: matchData, handler: {log in
+            LogDebug("receivePartnerLocation log come in")
             if self.delegate?.canDrawPartnerLocation() ?? false == false {return}
             let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
             self.showAnotherUserLocation(id: log.id , location: location)
@@ -175,9 +178,11 @@ class MapView: UIView {
         return mapView.userLocation.coordinate
     }
     
-    func startUpdatingLocation() {
-        if CLLocationManager.locationServicesEnabled() {
+    func startUpdatingLocation(on : Bool) {
+        if CLLocationManager.locationServicesEnabled() && on {
             locationManager!.startUpdatingLocation()
+        } else {
+            locationManager!.stopUpdatingLocation()
         }
     }
     
@@ -266,7 +271,8 @@ extension MapView :CLLocationManagerDelegate {
             return
         }
         let matchData = self.delegate?.getMatchData()
+        guard let shareLocation = self.delegate?.getShareLocation() else {return}
         guard let m = matchData else {return}
-        self.mapModel?.sendLocation(matchData: m, coordinate: newLocation.coordinate)
+        self.mapModel?.sendLocation(matchData: m, coordinate: newLocation.coordinate , shareLocation : shareLocation)
     }
 }

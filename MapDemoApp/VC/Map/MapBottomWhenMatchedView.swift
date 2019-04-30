@@ -18,6 +18,7 @@ class MapBottomWhenMatchedView: UIView {
         let view = RAMPaperSwitch(view: self.baseView , color: UIColor.mainPink())
         view.tintColor = UIColor.mainPink()
         view.animationDidStartClosure = { _ in
+            LogDebug("toggle animationDidStartClosure")
             self.delegate?.onToggleShareLocation(on : view.isOn)
         }
         return view

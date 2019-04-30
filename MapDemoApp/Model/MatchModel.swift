@@ -23,22 +23,26 @@ class MatchModel {
     var discoveryRadius : Double = 3000
     var discoveryCenter : CLLocationCoordinate2D? = nil
     var didConfirmShareLocation = false
-    
+    var shareLocation = false
     var stateToBottom : [MatchState : UIView]  = [:]
+    
     var state : MatchState = .initial  {
         willSet {
             if newValue != state {
                 self.delegate?.whenStateWillChange(newValue: newValue, value: state)
             }
-            
         }
+        
         didSet {
+            if state == .initial {
+                self.initializeShareSetting()
+            }
+            
             if oldValue != state {
                 LogDebugTimer(state.str())
                 self.matchUseCase.setSyncMatchState(state: state)
                 self.delegate?.whenStateDidChange(oldValue: oldValue, value: state)
             }
-            
         }
     }
     
@@ -51,8 +55,12 @@ class MatchModel {
         self.matchUseCase.checkMatchState() { state in
             self.state = state
         }
-        
         startConstantCheck()
+    }
+    
+    private func initializeShareSetting() {
+        self.didConfirmShareLocation = false
+        self.shareLocation = false
     }
     
     func loadMatchData() {
