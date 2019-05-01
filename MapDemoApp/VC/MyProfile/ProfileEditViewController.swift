@@ -34,6 +34,10 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate,UITe
     let genderField = PickerTextField()
     var charNumLabel = UILabel()
     var photoNum = 0
+    let cfuncs = CommonFuncs()
+    private let profUseCase = ProfUseCase()
+    let userDefaultRep = UserDefaultsRepository.sharedInstance
+    private let firebaseUseCase = FirebaseUseCase()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +74,31 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate,UITe
                                      action: #selector(photoPick(sender:)),
                                      for: .touchUpInside)
             profimgBtns[i].tag = i
+        }
+        
+        if let srts = userDefaultRep.get(forKey: "imgStrs") as! [String]?{
+            
+            
+            for (index,str) in srts.enumerated(){
+                
+                let img = cfuncs.String2Image(imageString: str)
+                
+                profimgs[index].image = img
+                
+                profimgBtns[index].setImage(UIImage(named:"delete.png"), for: UIControl.State.normal)
+                profimgBtns[index].removeTarget(self,
+                                                   action: #selector(photoPick(sender:)),
+                                                   for: .touchUpInside)
+                
+                profimgBtns[index].addTarget(self,
+                                                action: #selector(deleteimg(sender:)),
+                                                for: .touchUpInside)
+                
+                photoNum += 1
+                
+            }
+        
+            
         }
         
         nameField.backgroundColor = .white
@@ -117,6 +146,8 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate,UITe
         charNumLabel.textColor = UIColor.gray
         self.scrview.addSubview(charNumLabel)
         
+        
+        loadDataFromUD()
         
         
     }
@@ -251,10 +282,84 @@ final class EditProfileViewController: UIViewController, UITextViewDelegate,UITe
             
             self.present(alert, animated: true, completion: nil)
         }else{
+            
+            postImgToDB()
+            postProfToDB()
             doneButtonTapHandler?(textEditer.text)
             dismiss(animated: true, completion: nil)
         }
     }
+    
+    func loadDataFromUD(){
+        
+        
+        let decodedData = cfuncs.decoder(key: "profData")
+        
+        if let data = decodedData{
+            textEditer.text = data.intro
+            jobTitleField.text = data.job
+            ageField.text = data.age
+            if data.is_man{
+                genderField.text = "man"
+            }else{
+                genderField.text = "woman"
+            }
+        }
+        
+    }
+    
+    func postImgToDB(){
+        
+        var strs = [String?]()
+        
+        for i in 0 ..< photoNum{
+        
+            strs.append(cfuncs.Image2String(image: profimgs[i].image!))
+            
+        }
+        
+        userDefaultRep.set(strs, forKey: "imgStrs")
+        
+        
+        
+    }
+    
+    func postProfToDB() {
+        var is_man = true
+        
+        if genderField.text == "woman"{
+                is_man = false
+        }
+        
+        storeUD(is_man: is_man)
+        
+        self.profUseCase.postData(name:nameField.text ?? "",age:ageField.text ?? "",job:jobTitleField.text ?? "",intro:textEditer.text,is_man:is_man,is_woman:!is_man){response in
+            self.finishPostProf(response : response)
+        }
+    }
+    
+    func finishPostProf(response : RequestProfPostResponse){
+        let result = response.result
+        if result == "success" {
+            LogDebug("プロフPOST成功")
+        } else if result == "fail" {
+            LogDebug("プロフPOST失敗")
+        } else {
+            LogDebug("レスポンスの形がおかしい")
+        }
+    }
+    
+    func storeUD(is_man:Bool){
+        
+        let user = firebaseUseCase.getCurrentUser()
+        guard let uid = user.uid else {return}
+        let data = profData(uid:uid,name:nameField.text ?? "",age:ageField.text ?? "",job:jobTitleField.text ?? "",intro:textEditer.text,is_man:is_man,is_woman:!is_man)
+        
+        cfuncs.encoder(data: data, key: "profData")
+        
+    }
+    
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }

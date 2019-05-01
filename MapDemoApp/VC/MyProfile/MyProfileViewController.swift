@@ -17,7 +17,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     var backBtn:UIButton!
     let scrollView = UIScrollView()
     let textView = UITextView()
-    let numberOfPage: Int = 9
+    var numberOfPage: Int = 9
     let pageControl = FlexiblePageControl()
     let baceScrview = UIScrollView()
     let alphaView = UIView()
@@ -27,13 +27,23 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     let jobLabel = UILabel()
     let rangeLabel = UILabel()
     let line = UILabel()
+    private let profUseCase = ProfUseCase()
+    var name = String()
     var state = "No Info"
     var job = "No Info"
     var distance = "5"
-    var age = "24"
+    var age = ""
+    let userDefaultRep = UserDefaultsRepository.sharedInstance
+    var allImg = [UIImage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getUserDataFromUserDefault()
+        getUserDataFromDB()
+        getPhotsFromUD()
+        numberOfPage = allImg.count
+        
         self.view.backgroundColor = UIColor.black
         
         baceScrview.backgroundColor = UIColor.white
@@ -116,6 +126,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
             let _index = index % 10
             let imageNamed = NSString(format: "image%02d.jpg", _index)
             var img = UIImage(named: imageNamed as String)
+            //var i
             img = cfuncs.resize(image: img!, width: Double(self.view.frame.width))
             let view = UIImageView(frame: CGRect(x: CGFloat(index) * (self.view.frame.width), y: 0, width: self.view.frame.width, height: (img?.size.height)!))
             view.isUserInteractionEnabled = true
@@ -159,7 +170,70 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
         baceScrview.contentSize = CGSize(width:0, height: baceHeight)
     }
     
+    func getPhotsFromUD(){
+        
+        if let srts = userDefaultRep.get(forKey: "imgStrs") as! [String]?{
+            
+            for str in srts{
+                
+                if let img = cfuncs.String2Image(imageString: str) {
+                    allImg.append(img)
+                }
+            }
+        }
+    }
     
+    func getUserDataFromUserDefault(){
+        
+        let decodedData = cfuncs.decoder(key: "profData")
+        
+        if let data = decodedData{
+            
+            if data.name == ""{
+                name = user.displayName ?? "NO NAME"
+            }else{
+                name = data.name
+            }
+            
+            if data.job == ""{
+                job = "No Info"
+            }else{
+                job = data.job
+            }
+            
+            state = data.intro
+            age = data.age
+            
+        }else{
+            name = user.displayName ?? "NO NAME"
+            state = "No Info"
+            job = "No Info"
+            age = ""
+            
+        }
+        
+    }
+    
+    func getUserDataFromDB() {
+        
+        self.profUseCase.getData (completion: {response in
+            self.finishLoadProfData(response : response)
+        })
+    }
+    
+    func finishLoadProfData(response : RequestProfGetResponse){
+        let result = response.result
+        if result == "success" {
+            state = response.intro ?? state
+            job = response.job ?? job
+            age = response.age ?? age
+        
+        } else if result == "fail" {
+            LogDebug("プロフ読み込み失敗")
+        } else {
+            LogDebug("レスポンスの形がおかしい")
+        }
+    }
     
     @objc func imageViewTapped(_ sender: UITapGestureRecognizer){
         
@@ -168,11 +242,16 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     @objc func editProfile(sender : AnyObject) {
         let vc = EditProfileViewController()
         vc.state = self.state
-        vc.nameField.text = user.displayName ?? "NO NAME"
+        if user.displayName ?? "NO NAME" == name{
+            vc.nameField.text = user.displayName ?? "NO NAME"
+        }else{
+            vc.nameField.text = name
+        }
         vc.ageField.text = age
         vc.jobTitleField.text = job
         vc.doneButtonTapHandler = { [weak self] state in
-            self!.state = state
+            //self!.state = state
+            self!.getUserDataFromUserDefault()
             self!.loadData()
             self!.textView.frame = CGRect(x:self!.view.frame.width*0.025, y: self!.scrollView.frame.maxY+self!.view.frame.height * 0.18, width: self!.view.frame.width*0.95, height: self!.textView.contentSize.height)
             let baceInfoH = self!.nameAgeLabel.frame.height + self!.jobLabel.frame.height + self!.rangeLabel.frame.height
@@ -189,7 +268,7 @@ class MyProfileViewController: UIViewController , UIScrollViewDelegate{
     
     private func loadData() {
         
-        let nameStr = "  \(user.displayName ?? "NO NAME")"
+        let nameStr = "  \(name)"
         let ageStr = "  \(age)"
         let strs = nameStr + ageStr
         let attrText = NSMutableAttributedString(string: strs)
