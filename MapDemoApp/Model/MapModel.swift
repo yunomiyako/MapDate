@@ -10,14 +10,12 @@ import Foundation
 import MapKit
 class MapModel {
     private let mapView : MKMapView
-    
     private var gatherHereAnnotation : MKPointAnnotation? = nil
     private var circleOverlay : CustomMKCircle? = nil
     private var timer : Timer? = nil
     
     //test by kitahara あとで別のファイルに移す？
     private let NEAR_METER : Double = 300
-    fileprivate var mapFireStore = MapFireStore()
     
     init(mapView : MKMapView ) {
         self.mapView = mapView
@@ -140,6 +138,10 @@ class MapModel {
         }
     }
     
+    func removeAllAnnotations() {
+        self.mapView.removeAnnotations(self.mapView.annotations)
+    }
+    
     func removeAllOverlays() {
         self.mapView.removeOverlays(self.mapView.overlays)
     }
@@ -160,45 +162,7 @@ class MapModel {
         self.removeCustomAnnotation(id: id)
         self.mapView.addAnnotation(customAnno)
     }
-    
-    //自分の位置情報をfirestoreに送る
-    func sendLocation(matchData : MatchDataModel , coordinate : CLLocationCoordinate2D , shareLocation : Bool) {
-        let transactionId = matchData.transaction_id
-        let location_id = matchData.your_location_id
-        let log = LocationLog(coordinate: coordinate, id: location_id)
-        if shareLocation {
-            mapFireStore.setLocation(transactionId: transactionId, location: log)
-        } else {
-            mapFireStore.deleteLocation(transactionId: transactionId , location_id : location_id)
-        }
-        
-    }
-    
-    func sendGatherHereLocation(matchData : MatchDataModel? , coordinate : CLLocationCoordinate2D) {
-        guard let _matchData = matchData else {return}
-        let transactionId = _matchData.transaction_id
-        let log = LocationLog(coordinate: coordinate, id: "gather here")
-        mapFireStore.sendGatherHereLocation(transactionId: transactionId, location: log)
-    }
-    
-    //相手の位置情報をfirestoreから受け取る
-    func receivePartnerLocation(matchData : MatchDataModel , handler : @escaping (LocationLog) -> ()) {
-        let transactionId = matchData.transaction_id
-        let partner_location_id = matchData.partner_location_id
-        
-        mapFireStore.getLocation(transactionId: transactionId, location_id: partner_location_id, handler: {log in
-            handler(log)
-        })
-    }
-    
-    //相手の位置情報をfirestoreから受け取る
-    func receiveGatherHereLocation(matchData : MatchDataModel , handler : @escaping (LocationLog) -> ()) {
-        let transactionId = matchData.transaction_id
-        mapFireStore.getGatherHereLocation(transactionId: transactionId, handler: {log in
-            handler(log)
-        })
-    }
-    
+
     //円をtimerでアニメートする
     func startCircleAnimation(location : CLLocationCoordinate2D , radius : Double) {
         if self.timer != nil {
@@ -244,12 +208,12 @@ class MapModel {
         else if gestureRecognizer.state == .ended {
             let tapPoint = gestureRecognizer.location(in: mapView)
             let center = mapView.convert(tapPoint, toCoordinateFrom: mapView)
-            self.sendGatherHereLocation(matchData: matchData, coordinate : center)
-            
             // 現在地と目的地のMKPlacemarkを生成(ここいる？)
             let fromPlacemark = MKPlacemark(coordinate:mapView.userLocation.coordinate, addressDictionary:nil)
             let toPlacemark   = MKPlacemark(coordinate:center, addressDictionary:nil)
             self.showRoute(from: fromPlacemark, to: toPlacemark)
+            
+            //test by kitahara ここでdelegteして場所をサーバに送る必要あり
         }
     }
     
@@ -268,10 +232,8 @@ class MapModel {
     }
     
     func calculateDistanceMeter(x : CLLocationCoordinate2D , y : CLLocationCoordinate2D) -> Double {
-        
         let loc_x = CLLocation(latitude: x.latitude, longitude: x.longitude)
         let loc_y = CLLocation(latitude: y.latitude, longitude: y.longitude)
-        
         let distance_m = loc_x.distance(from: loc_y)
         return distance_m
     }

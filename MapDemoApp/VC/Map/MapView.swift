@@ -27,6 +27,7 @@ class MapView: UIView {
     
     private var locationManager : CLLocationManager?
     private var mapModel : MapModel? = nil
+    private var locationExchange = LocationExchange()
     weak var delegate : MapViewDelegate? = nil
     
 
@@ -54,8 +55,7 @@ class MapView: UIView {
     }
     
     func matchUpdate(matchData : MatchDataModel) {
-        LogDebug("matchUpdate called Location")
-        self.mapModel?.receivePartnerLocation(matchData: matchData, handler: {log in
+        self.locationExchange.receivePartnerLocation(matchData: matchData, handler: {log in
             LogDebug("receivePartnerLocation log come in")
             if self.delegate?.canDrawPartnerLocation() ?? false == false {return}
             let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
@@ -66,7 +66,7 @@ class MapView: UIView {
             self.delegate?.isNear(near : isNear)
         })
         
-        self.mapModel?.receiveGatherHereLocation(matchData: matchData, handler : {log in
+        self.locationExchange.receiveGatherHereLocation(matchData: matchData, handler : {log in
             if self.delegate?.canDrawGatherHere() ?? false == false {return}
             let location = CLLocationCoordinate2D(latitude: log.latitude, longitude: log.longitude)
             self.addAnnotation(center: location, title: "Gather Here")
@@ -97,6 +97,10 @@ class MapView: UIView {
     //state変わった時に
     func removeAllOverlays() {
         self.mapModel?.removeAllOverlays()
+    }
+    
+    func removeAllAnnotations() {
+        self.mapModel?.removeAllAnnotations()
     }
     
     override func layoutSubviews() {
@@ -273,6 +277,6 @@ extension MapView :CLLocationManagerDelegate {
         let matchData = self.delegate?.getMatchData()
         guard let shareLocation = self.delegate?.getShareLocation() else {return}
         guard let m = matchData else {return}
-        self.mapModel?.sendLocation(matchData: m, coordinate: newLocation.coordinate , shareLocation : shareLocation)
+        self.locationExchange.sendLocation(matchData: m, coordinate: newLocation.coordinate , shareLocation : shareLocation)
     }
 }

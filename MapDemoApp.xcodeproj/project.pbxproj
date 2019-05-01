@@ -32,6 +32,7 @@
 		35401891223AA4DA0002BCF2 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401890223AA4DA0002BCF2 /* APIClient.swift */; };
 		35401893223AA50A0002BCF2 /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401892223AA50A0002BCF2 /* RequestProtocol.swift */; };
 		35401895223AA84A0002BCF2 /* GetNearPeopleNumberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401894223AA84A0002BCF2 /* GetNearPeopleNumberRequest.swift */; };
+		35598A4A2279A650002891E7 /* LocationExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35598A492279A650002891E7 /* LocationExchange.swift */; };
 		355D718A224CCB8C00C3CAC1 /* RateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355D7189224CCB8C00C3CAC1 /* RateUserViewController.swift */; };
 		355D7192224F3D6100C3CAC1 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355D7191224F3D6000C3CAC1 /* ModalPresentationController.swift */; };
 		356A4AA8224717B80080DD9A /* CustomPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356A4AA7224717B80080DD9A /* CustomPresentationController.swift */; };
@@ -129,6 +130,7 @@
 		35401890223AA4DA0002BCF2 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		35401892223AA50A0002BCF2 /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
 		35401894223AA84A0002BCF2 /* GetNearPeopleNumberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNearPeopleNumberRequest.swift; sourceTree = "<group>"; };
+		35598A492279A650002891E7 /* LocationExchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationExchange.swift; sourceTree = "<group>"; };
 		355D7189224CCB8C00C3CAC1 /* RateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUserViewController.swift; sourceTree = "<group>"; };
 		355D7191224F3D6000C3CAC1 /* ModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
 		356A4AA7224717B80080DD9A /* CustomPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPresentationController.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 			children = (
 				353D908E22367453004BB44C /* MapModel.swift */,
 				351F4062225F547300BBD30C /* MatchModel.swift */,
+				35598A492279A650002891E7 /* LocationExchange.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -850,6 +853,7 @@
 				356D38E2224535D60024F97E /* CustomMKCircle.swift in Sources */,
 				35CB411F2243605200D7F23C /* AnimationUtils.swift in Sources */,
 				3583CEC02234C99F00621F1F /* CommonUtils.swift in Sources */,
+				35598A4A2279A650002891E7 /* LocationExchange.swift in Sources */,
 				D8FAA06B224B27AB00F0BA8A /* firebaceProc.swift in Sources */,
 				35068EF322429F1D00DDC7D5 /* ChatContainerViewController.swift in Sources */,
 				35D32F4122412C5E00A83141 /* MapBottomWhenMatchedView.swift in Sources */,
