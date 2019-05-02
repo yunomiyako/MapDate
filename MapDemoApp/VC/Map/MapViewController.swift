@@ -162,10 +162,6 @@ class MapViewController: UIViewController , PopUpShowable {
         //navigationBarの色を透明にする
         navBar.setBackgroundImage(UIImage(), for: .default)
         navBar.shadowImage = UIImage()
-        //        navItem.rightBarButtonItem = UIBarButtonItem(
-        //            barButtonSystemItem: .done,
-        //            target: self,
-        //            action: #selector(returnView))
         navItem.hidesBackButton = true
         goProf.setIcon(icon: .ionicons(.iosContact), iconSize: 30, color: .orange, cgRect: CGRect(x: 0, y: 0, width: 30, height: 30), target: self, action: #selector(goToProfile(sender:)))
         navItem.leftBarButtonItem = goProf
@@ -240,6 +236,16 @@ class MapViewController: UIViewController , PopUpShowable {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+
+    
+    fileprivate func popUpNotificationViews(users : [MatchRequestUserModel]) {
+        //test by kitahara
+        if users.count > 0 {
+        }
+    }
+    
+
+
 }
 
 extension MapViewController : DiscoverySettingViewControllerDelegate {
@@ -403,18 +409,19 @@ extension MapViewController : RateuserViewControllerDelegate {
 }
 
 extension MapViewController : MatchModelDelegate {
+    func foundRequestMatch(foundUsers: [MatchRequestUserModel]) {
+        //test by kitahara 本来は通知ビューを表示
+        if foundUsers.count > 0 {
+            self.popUpNotificationViews(users : foundUsers)
+            //self.receiveMatch(partner_location_id: foundUsers[0].partner_location_id)
+        }
+    }
+    
     func getNowUserLocation() -> LocationLog {
         let coord = self.mapView.getUserLocation()
         return LocationLog(coordinate: coord, id: "") //test by kitahara : ここid必要？
     }
-    
-    func foundRequestMatch(partner_location_ids: [String]) {
-        //test by kitahara 本来は通知ビューを表示
-        if partner_location_ids.count > 0 {
-            self.receiveMatch(partner_location_id: partner_location_ids[0])
-        }
-    }
-    
+
     func whenStateWillChange(newValue: MatchState, value: MatchState) {
         if newValue == .initial {
             self.circleRange()

@@ -28,5 +28,14 @@ struct FindRequestMatchRequest : RequestProtocol {
 }
 
 class FindRequestMatchResponse : ResponseProtocol {
-    var partner_location_ids : [ String ]
+    var partnersUsers : [ MatchRequestUserModel ]
+    
+}
+
+class MatchRequestUserModel : Decodable {
+    var partner_location_id : String
+    var name : String?
+    var headImageUrl : String?
+    var rate : Double?
+    var intro : String?
 }

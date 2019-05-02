@@ -13,7 +13,7 @@ protocol MatchModelDelegate : class {
     func whenStateWillChange(newValue : MatchState , value : MatchState)
     func whenStateDidChange(oldValue : MatchState , value : MatchState)
     func getNowUserLocation() -> LocationLog
-    func foundRequestMatch(partner_location_ids : [String])
+    func foundRequestMatch(foundUsers : [MatchRequestUserModel])
 }
 
 class MatchModel {
@@ -122,9 +122,9 @@ class MatchModel {
     
     private func intialConstantCheck() {
         self.findRequestMatch(completion: {res in
-            let ids = res.partner_location_ids
-            if ids.count > 0 {
-                self.delegate?.foundRequestMatch(partner_location_ids : ids)
+            let users = res.partnersUsers
+            if users.count > 0 {
+                self.delegate?.foundRequestMatch(foundUsers : users)
             }
         })
     }
