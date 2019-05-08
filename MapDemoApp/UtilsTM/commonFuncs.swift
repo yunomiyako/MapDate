@@ -9,6 +9,8 @@ import UIKit
 
 class CommonFuncs {
     
+     let userDefaultRep = UserDefaultsRepository.sharedInstance
+    
     func resize(image: UIImage, width: Double) -> UIImage {
         
         // オリジナル画像のサイズからアスペクト比を計算
@@ -25,6 +27,77 @@ class CommonFuncs {
         
         return resizedImage!
     }
+    
+    //UIImageをデータベースに格納できるStringに変換する
+    func Image2String(image:UIImage) -> String? {
+        
+        //画像をDataに変換
+        let data:Data? = image.pngData()
+        
+        //NSDataへの変換が成功していたら
+        if let pngData = data {
+            
+            //BASE64のStringに変換する
+            let encodeString:String =
+                pngData.base64EncodedString(options: NSData.Base64EncodingOptions.lineLength64Characters) as String
+            
+            return encodeString
+            
+        }
+        
+        return nil
+        
+    }
+    
+    //StringをUIImageに変換する
+    func String2Image(imageString:String) -> UIImage?{
+        
+        //空白を+に変換する
+        let base64String = imageString.replacingOccurrences(of: " ", with: "+")
+        
+        //BASE64の文字列をデコードしてNSDataを生成
+        let decodeBase64:Data? = Data(base64Encoded: base64String, options: Data.Base64DecodingOptions.ignoreUnknownCharacters)
+        
+        //Dataの生成が成功していたら
+        if let decodeSuccess = decodeBase64 {
+            
+            //NSDataからUIImageを生成
+            let img = UIImage(data: decodeSuccess)
+            
+            //結果を返却
+            return img
+        }
+        
+        return nil
+        
+    }
+    
+    
+    func encoder (data: profData,key: String){
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(data) {
+            userDefaultRep.set(encoded, forKey: key)
+        }
+    }
+    
+    
+    func decoder (key: String)->profData?{
+        let decoder = JSONDecoder()
+        var ret:profData?
+        
+        
+        if let encoded = userDefaultRep.get(forKey: key),
+            let data = try? decoder.decode(profData.self, from: encoded as! Data) {
+            
+            ret = data
+        }
+        
+        
+        return ret
+    }
+
+    
+    
 }
 
 extension UIScrollView {

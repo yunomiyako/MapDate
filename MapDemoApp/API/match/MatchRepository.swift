@@ -56,7 +56,7 @@ class MatchRepository {
             //test by kitahara こんなコードはバックエンドで解決すべき
             if res.partner_location_id == nil {
                 completion(RequestMatchResponse())
-                return 
+                return
             }
             
             completion(res)
