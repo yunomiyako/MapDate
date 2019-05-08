@@ -48,7 +48,9 @@ class MapViewController: UIViewController , PopUpShowable {
     
     init?(matchModel : MatchModel) {
         super.init(nibName: nil, bundle: nil)
+        matchModel.delegate = self
         self.matchModel = matchModel
+        self.matchModel.loadMatchData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -68,7 +70,6 @@ class MapViewController: UIViewController , PopUpShowable {
         self.baceView.addSubview(mapView)
         self.view.addSubview(bottomView)
         self.view.addSubview(bottomWhenMatchView)
-        matchModel.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,7 +90,7 @@ class MapViewController: UIViewController , PopUpShowable {
         let result = response.result
         if result == "success" {
             LogDebug("マッチしました")
-            self.onMatch()
+            self.onMatch(response : response)
         } else if result == "fail" {
             LogDebug("マッチしませんでした")
             self.mapView.stopCircleAnimation()
@@ -161,10 +162,6 @@ class MapViewController: UIViewController , PopUpShowable {
         //navigationBarの色を透明にする
         navBar.setBackgroundImage(UIImage(), for: .default)
         navBar.shadowImage = UIImage()
-        //        navItem.rightBarButtonItem = UIBarButtonItem(
-        //            barButtonSystemItem: .done,
-        //            target: self,
-        //            action: #selector(returnView))
         navItem.hidesBackButton = true
         goProf.setIcon(icon: .ionicons(.iosContact), iconSize: 30, color: .orange, cgRect: CGRect(x: 0, y: 0, width: 30, height: 30), target: self, action: #selector(goToProfile(sender:)))
         navItem.leftBarButtonItem = goProf
@@ -239,6 +236,16 @@ class MapViewController: UIViewController , PopUpShowable {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+
+    
+    fileprivate func popUpNotificationViews(users : [MatchRequestUserModel]) {
+        //test by kitahara
+        if users.count > 0 {
+        }
+    }
+    
+
+
 }
 
 extension MapViewController : DiscoverySettingViewControllerDelegate {
@@ -265,8 +272,6 @@ extension MapViewController : MapBottomViewDelegate {
     }
     
     func onToggleShareLocation(on : Bool) {
-        LogDebug("toggle on = \(on)")
-        LogDebug("toggle didConfirmShareLocation = \(matchModel.didConfirmShareLocation)")
         if on && !matchModel.didConfirmShareLocation {
             self.bottomWhenMatchView.toggleShareLocation(on : false)
             self.showOKCancelPopup(NSLocalizedString("ShareLocationMessage", tableName: "MapStrings", comment: ""), completionHandler: {
@@ -295,10 +300,10 @@ extension MapViewController : MapBottomViewDelegate {
         self.openDiscoverySettingPage()
     }
     
-    private func onMatch() {
+    private func onMatch(response : RequestMatchResponse ) {
         self.mapView.stopCircleAnimation()
         self.bottomView.buttonLoading(bool : false)
-        matchModel.state = .matched
+        matchModel.matching(transaction_id: response.transaction_id, your_location_id: response.your_location_id, partner_location_id: response.partner_location_id)
         let vc = MatchPopupViewController()
         vc.setButtonListener(handler : {
             self.onClickChatButton()
@@ -404,18 +409,19 @@ extension MapViewController : RateuserViewControllerDelegate {
 }
 
 extension MapViewController : MatchModelDelegate {
+    func foundRequestMatch(foundUsers: [MatchRequestUserModel]) {
+        //test by kitahara 本来は通知ビューを表示
+        if foundUsers.count > 0 {
+            self.popUpNotificationViews(users : foundUsers)
+            //self.receiveMatch(partner_location_id: foundUsers[0].partner_location_id)
+        }
+    }
+    
     func getNowUserLocation() -> LocationLog {
         let coord = self.mapView.getUserLocation()
         return LocationLog(coordinate: coord, id: "") //test by kitahara : ここid必要？
     }
-    
-    func foundRequestMatch(partner_location_ids: [String]) {
-        //test by kitahara 本来は通知ビューを表示
-        if partner_location_ids.count > 0 {
-            self.receiveMatch(partner_location_id: partner_location_ids[0])
-        }
-    }
-    
+
     func whenStateWillChange(newValue: MatchState, value: MatchState) {
         if newValue == .initial {
             self.circleRange()
@@ -444,12 +450,18 @@ extension MapViewController : MatchModelDelegate {
     }
     
     func whenStateDidChange(oldValue: MatchState, value: MatchState) {
+        LogDebug("state did changed from \(oldValue) to \(value)")
         if oldValue == .initial {
             self.mapView.stopCircleAnimation()
             self.mapView.removeCircleOverlay()
         }
         
+        if oldValue != .initial && value == .initial {
+            self.mapView.removeAllAnnotations()
+        }
+        
         if value == .matched {
+            self.bottomWhenMatchView.toggleShareLocation(on: self.matchModel.shareLocation)
             let matchData = self.matchModel.matchData
             guard let m = matchData else {
                 LogDebug("matte matchDataがない")

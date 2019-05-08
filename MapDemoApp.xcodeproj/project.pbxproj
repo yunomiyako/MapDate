@@ -34,6 +34,8 @@
 		35401891223AA4DA0002BCF2 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401890223AA4DA0002BCF2 /* APIClient.swift */; };
 		35401893223AA50A0002BCF2 /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401892223AA50A0002BCF2 /* RequestProtocol.swift */; };
 		35401895223AA84A0002BCF2 /* GetNearPeopleNumberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35401894223AA84A0002BCF2 /* GetNearPeopleNumberRequest.swift */; };
+		35598A4C227AD2C0002891E7 /* TinderLikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35598A4B227AD2C0002891E7 /* TinderLikeView.swift */; };
+		35598A4E227AD6CB002891E7 /* TinderSwipingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35598A4D227AD6CB002891E7 /* TinderSwipingViewController.swift */; };
 		355D718A224CCB8C00C3CAC1 /* RateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355D7189224CCB8C00C3CAC1 /* RateUserViewController.swift */; };
 		355D7192224F3D6100C3CAC1 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355D7191224F3D6000C3CAC1 /* ModalPresentationController.swift */; };
 		356A4AA8224717B80080DD9A /* CustomPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356A4AA7224717B80080DD9A /* CustomPresentationController.swift */; };
@@ -72,6 +74,7 @@
 		35BBB359223BE42D00C484AC /* SliderCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35BBB357223BE42D00C484AC /* SliderCellTableViewCell.xib */; };
 		35BBB35D223C0B0B00C484AC /* UserDefaultsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BBB35C223C0B0B00C484AC /* UserDefaultsUseCase.swift */; };
 		35BBB35F223C1BC400C484AC /* setting2.png in Resources */ = {isa = PBXBuildFile; fileRef = 35BBB35E223C1BC400C484AC /* setting2.png */; };
+		35C162A42282F59B00EEE965 /* LocationExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C162A32282F59B00EEE965 /* LocationExchange.swift */; };
 		35CB411F2243605200D7F23C /* AnimationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CB411E2243605200D7F23C /* AnimationUtils.swift */; };
 		35CB4122224374C900D7F23C /* PopupShowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CB4121224374C900D7F23C /* PopupShowable.swift */; };
 		35CB41242243756000D7F23C /* PopupUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CB41232243756000D7F23C /* PopupUtils.swift */; };
@@ -133,6 +136,8 @@
 		35401890223AA4DA0002BCF2 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		35401892223AA50A0002BCF2 /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
 		35401894223AA84A0002BCF2 /* GetNearPeopleNumberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNearPeopleNumberRequest.swift; sourceTree = "<group>"; };
+		35598A4B227AD2C0002891E7 /* TinderLikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinderLikeView.swift; sourceTree = "<group>"; };
+		35598A4D227AD6CB002891E7 /* TinderSwipingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinderSwipingViewController.swift; sourceTree = "<group>"; };
 		355D7189224CCB8C00C3CAC1 /* RateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateUserViewController.swift; sourceTree = "<group>"; };
 		355D7191224F3D6000C3CAC1 /* ModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
 		356A4AA7224717B80080DD9A /* CustomPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPresentationController.swift; sourceTree = "<group>"; };
@@ -174,6 +179,7 @@
 		35BBB357223BE42D00C484AC /* SliderCellTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCellTableViewCell.xib; sourceTree = "<group>"; };
 		35BBB35C223C0B0B00C484AC /* UserDefaultsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsUseCase.swift; sourceTree = "<group>"; };
 		35BBB35E223C1BC400C484AC /* setting2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting2.png; sourceTree = "<group>"; };
+		35C162A32282F59B00EEE965 /* LocationExchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationExchange.swift; sourceTree = "<group>"; };
 		35CB411E2243605200D7F23C /* AnimationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationUtils.swift; sourceTree = "<group>"; };
 		35CB4121224374C900D7F23C /* PopupShowable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupShowable.swift; sourceTree = "<group>"; };
 		35CB41232243756000D7F23C /* PopupUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupUtils.swift; sourceTree = "<group>"; };
@@ -244,6 +250,7 @@
 			children = (
 				353D908E22367453004BB44C /* MapModel.swift */,
 				351F4062225F547300BBD30C /* MatchModel.swift */,
+				35C162A32282F59B00EEE965 /* LocationExchange.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -275,6 +282,7 @@
 				356A4AA7224717B80080DD9A /* CustomPresentationController.swift */,
 				3583CEC62234EF1400621F1F /* MatchPopupViewController.swift */,
 				355D7189224CCB8C00C3CAC1 /* RateUserViewController.swift */,
+				35598A4D227AD6CB002891E7 /* TinderSwipingViewController.swift */,
 			);
 			path = Popup;
 			sourceTree = "<group>";
@@ -494,6 +502,7 @@
 				35CB41252243776F00D7F23C /* AlertView.swift */,
 				356A4AA9224727E80080DD9A /* VerticalProfileView.swift */,
 				356A4AAB224727FD0080DD9A /* VerticalProfileView.xib */,
+				35598A4B227AD2C0002891E7 /* TinderLikeView.swift */,
 			);
 			path = CommonView;
 			sourceTree = "<group>";
@@ -804,12 +813,15 @@
 				35CB41262243777000D7F23C /* AlertView.swift in Sources */,
 				351F4066225F57A600BBD30C /* MatchDataModel.swift in Sources */,
 				355D718A224CCB8C00C3CAC1 /* RateUserViewController.swift in Sources */,
+				35598A4C227AD2C0002891E7 /* TinderLikeView.swift in Sources */,
 				3524987822770F9300F7EE24 /* MatchActionRequest.swift in Sources */,
 				3583CECD2234F7CA00621F1F /* ChatMessage.swift in Sources */,
+				35598A4E227AD6CB002891E7 /* TinderSwipingViewController.swift in Sources */,
 				353D909622369613004BB44C /* UIView extension.swift in Sources */,
 				35AD2F8022342D9400CD86EE /* LocationLog.swift in Sources */,
 				35CB41242243756000D7F23C /* PopupUtils.swift in Sources */,
 				35AD2F8E22343D9100CD86EE /* FloatingRectangleView.swift in Sources */,
+				35C162A42282F59B00EEE965 /* LocationExchange.swift in Sources */,
 				35BBB35D223C0B0B00C484AC /* UserDefaultsUseCase.swift in Sources */,
 				927B79F422369FF3001F8A36 /* MyProfileViewController.swift in Sources */,
 				35401895223AA84A0002BCF2 /* GetNearPeopleNumberRequest.swift in Sources */,

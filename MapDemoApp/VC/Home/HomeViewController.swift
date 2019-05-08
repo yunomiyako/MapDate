@@ -20,7 +20,6 @@ class HomeViewController: UIViewController {
     private func presentMapViewController() {
         let prevState = matchUseCase.getSyncMatchState()
         let matchModel = MatchModel(state : prevState)
-        matchModel.loadMatchData()
         if let vc = MapViewController(matchModel: matchModel) {
             self.present(vc, animated: true)
         }

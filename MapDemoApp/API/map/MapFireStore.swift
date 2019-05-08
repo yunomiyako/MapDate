@@ -22,11 +22,11 @@ class MapFireStorePath {
 class MapFireStore {
     let firestore = Firestore.firestore()
     typealias Ops = ([String : Any]) -> ()
-    var lastWriteTime : Date? = nil
     let pathlib = MapFireStorePath()
     let gatherHereDocumentPath = "gatherHere"
     
     func getGatherHereLocation(transactionId : String , handler : @escaping (LocationLog) -> ()) {
+        self.initializeDocument(transactionId: transactionId, location_id: gatherHereDocumentPath)
         self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId)).document(gatherHereDocumentPath).addSnapshotListener { (snapshot, error) in
             
             if let error = error {
@@ -43,8 +43,16 @@ class MapFireStore {
         }
     }
     
+    private func initializeDocument(transactionId : String , location_id : String) {
+        let isAccessible = self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId)).document(location_id).isAccessibilityElement
+        if !isAccessible {
+            self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId)).document(location_id).setData([:])
+        }
+    }
     
     func getLocation(transactionId : String , location_id : String , handler : @escaping (LocationLog) -> ()) {
+        
+        self.initializeDocument(transactionId: transactionId, location_id: location_id)
         self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId)).document(location_id).addSnapshotListener { (snapshot, error) in
             
             if let error = error {
@@ -57,7 +65,6 @@ class MapFireStore {
                 let log = LocationLog(document: d)
                 handler(log)
             }
-            
         }
     }
     
@@ -75,24 +82,12 @@ class MapFireStore {
     
     func deleteLocation(transactionId : String , location_id : String) {
         let collection = self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId))
-        lastWriteTime = Date()
         collection.document(location_id).delete()
     }
     
     func setLocation(transactionId : String , location : LocationLog) {
-        //書き込み時間制限
-        LogDebugTimer("write will start")
-        if let lastTime = lastWriteTime {
-            let time_diff = location.createdAt.timeIntervalSince1970 - lastTime.timeIntervalSince1970
-            LogDebugTimer("time_diff = " + time_diff.description)
-            if time_diff < 30 {
-                LogDebugTimer("write skip")
-                return
-            }
-        }
-        
+        LogDebug("write location")
         let collection = self.firestore.collection(pathlib.partnerLocation(transactionId: transactionId))
-        lastWriteTime = Date()
         collection.document(location.id).setData(
             [
                 "id" : location.id ,

@@ -13,7 +13,7 @@ protocol MatchModelDelegate : class {
     func whenStateWillChange(newValue : MatchState , value : MatchState)
     func whenStateDidChange(oldValue : MatchState , value : MatchState)
     func getNowUserLocation() -> LocationLog
-    func foundRequestMatch(partner_location_ids : [String])
+    func foundRequestMatch(foundUsers : [MatchRequestUserModel])
 }
 
 class MatchModel {
@@ -25,6 +25,7 @@ class MatchModel {
     var didConfirmShareLocation = false
     var shareLocation = false
     var stateToBottom : [MatchState : UIView]  = [:]
+    
     
     var state : MatchState = .initial  {
         willSet {
@@ -59,15 +60,20 @@ class MatchModel {
     }
     
     private func initializeShareSetting() {
+        LogDebug("initializeShareSetting is called")
         self.didConfirmShareLocation = false
         self.shareLocation = false
     }
     
+    //起動時にマッチ状況をリストアする
     func loadMatchData() {
         //SQLを探してマッチを探してみる
         self.matchUseCase.restoreMatch(completion: { res in
             if res.result == "success" {
                 self.matching(transaction_id: res.transaction_id, your_location_id: res.your_location_id, partner_location_id: res.partner_location_id)
+                LogDebug("call whenStateDidChange")
+                LogDebug("matchdata is not nil = \(self.matchData != nil)")
+                self.delegate?.whenStateDidChange(oldValue: .initial, value: .matched)
             } else {
                 //ratingかどうかを取得
                 
@@ -116,9 +122,9 @@ class MatchModel {
     
     private func intialConstantCheck() {
         self.findRequestMatch(completion: {res in
-            let ids = res.partner_location_ids
-            if ids.count > 0 {
-                self.delegate?.foundRequestMatch(partner_location_ids : ids)
+            let users = res.partnersUsers
+            if users.count > 0 {
+                self.delegate?.foundRequestMatch(foundUsers : users)
             }
         })
     }
@@ -140,7 +146,7 @@ class MatchModel {
         }
     }
     
-    //円をtimerでアニメートする
+    //constantに実行する関数
     private func startConstantCheck() {
         if self.timer != nil {
             self.timer?.invalidate()
